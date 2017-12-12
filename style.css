@@ -1,0 +1,102 @@
+@charset "utf-8";
+
+div{
+	font-size: 12px;
+}
+
+
+p.button_dec{
+	position: absolute;
+	right: 5px;
+	bottom: 5px;
+}
+
+button.button_sg{
+	display: inline-block;
+    padding: 0.3em 1em;
+    text-decoration: none;
+    color: #67c5ff;
+    border: solid 2px #67c5ff;
+    border-radius: 3px;
+    transition: 0.4s;
+    font-size: 0.7em
+}
+
+button.button_sg:hover {
+	background: #3366cc;
+    color: white;
+    border-color: #3366cc;
+}
+
+button.button_blue{
+	font-size: 1.0em;
+	padding: 7px 10px;
+	border-color: #00008b;
+	border-width: 3px;
+	box-shadow: 2px 2px 3px 1px #666;
+	box-shadow: 2px 2px 3px 1px #666;
+	-webkit-box-shadow: 2px 2px 3px 1px #666;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	background-color: #f0f8ff;
+}
+
+button.button_blue:hover {
+	font-size: 1.1em;  
+}
+
+
+button.button_yellow{
+	font-size: 1.0em;
+	padding: 7px 10px;
+	border-color: #ffd700;
+	border-width:3px;
+	box-shadow: 2px 2px 3px 1px #666;
+	box-shadow: 2px 2px 3px 1px #666;
+	-webkit-box-shadow: 2px 2px 3px 1px #666;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	background-color: #ffffc6;
+}
+button.button_yellow:hover {
+	font-size: 1.1em;
+	text-align: center;
+}
+
+button.button_green{
+	font-size: 1.0em;
+	padding: 7px 10px;
+	border-color: #008000;
+	border-width:3px;
+	box-shadow: 2px 2px 3px 1px #666;
+	box-shadow: 2px 2px 3px 1px #666;
+	-webkit-box-shadow: 2px 2px 3px 1px #666;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	background-color: #ccffcc;
+}
+
+button.button_green:hover {
+	font-size: 1.1em;  
+}
+
+button.button_purple{
+	font-size: 1.0em;
+	padding: 7px 10px;
+	border-color: #d1a3ff;
+	border-width: 3px;
+	box-shadow: 2px 2px 3px 1px #666;
+	box-shadow: 2px 2px 3px 1px #666;
+	-webkit-box-shadow: 2px 2px 3px 1px #666;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	background-color: #f2e5ff;
+}
+
+button.button_purple:hover {
+	font-size: 1.1em;  
+}
