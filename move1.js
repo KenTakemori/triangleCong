@@ -1,8 +1,3 @@
-window.onbeforeunload = function(e) {
-    var t='ちょっと待ってくださいよ。まだダメですよ。';
-    return t;
-};
-
 var beforeX =212.5; //ボタンを押した時点でここにX座標を入れて次のボタンとの結線に使う
 var beforeY =500; //ボタンを押した時点でここにY座標を入れて次のボタンとの結線に使う
 
@@ -11,7 +6,7 @@ var diag_history;
 var congboolean=false;
 var kateiboolean=false;
 var keturonboolean=false;
-var alllog="question2,,,,/";
+var alllog;
 var lognumber=1;
 var account="";
 var element;
@@ -47,11 +42,11 @@ function start(){
 				</div>\
 			</div>'
 		account=document.student_ID.elements[1].value;
-		alllog="question2,生徒ID:,"+account+",,/"
-		document.getElementById("title").innerHTML='三角形合同証明問題 問題2'
+		alllog="question1,生徒ID:,"+account+",,/"
+		document.getElementById("title").innerHTML='三角形合同証明問題 問題1'
 		}
 	}else{
-		document.getElementById("title").innerHTML='三角形合同証明問題 問題2　　<button type="button" class="button_sg" value="start" onclick= "start()">始める</button>　<input type="text" name="student_ID" size="30" value="生徒IDが違います。半角で正しく入れましょう。">'
+		document.getElementById("title").innerHTML='三角形合同証明問題 問題1　　<button type="button" class="button_sg" value="start" onclick= "start()">始める</button>　<input type="text" name="student_ID" size="30" value="生徒IDが違います。半角で正しく入れましょう。">'
 	}
 }
 //ヒントを押したことをログに残す関数
@@ -489,16 +484,12 @@ function fromPic(){
 
 	}
 }
-//共通な角限定の関数
-function fromPic_fb(){
-	function q2_fromPic_tf(answ1,answ2){
-		return kaku_cor(answ1,answ2,"DAE","DAE")||kaku_cor(answ1,answ2,"DAE","BAE")||kaku_cor(answ1,answ2,"DAE","DAC")||kaku_cor(answ1,answ2,"DAE","BAC")||kaku_cor(answ1,answ2,"BAE","BAE")||kaku_cor(answ1,answ2,"BAE","DAC")||kaku_cor(answ1,answ2,"BAE","BAC")||kaku_cor(answ1,answ2,"DAC","DAC")||kaku_cor(answ1,answ2,"DAC","BAC")||kaku_cor(answ1,answ2,"BAC","BAC");
-	}
 
-	if(form_number==2){
-		if(q2_fromPic_tf(document.form2.elements[0].value,document.form2.elements[1].value)){
+function fromPic_fb(){
+	if(form_number==1){
+		if(hen_cor(document.form1.elements[0].value,document.form1.elements[1].value,"AC","AC")){
 			if(frompic==0){
-				var fb_text='その通りです<br>∠'+document.form2.elements[0].value+'=∠'+document.form2.elements[1].value+'になります。<br>ではなぜでしょう？根拠となることがらを選びましょう。<br><br>\
+				var fb_text='その通りです<br>辺'+document.form1.elements[0].value+'=辺'+document.form1.elements[1].value+'になります。<br>ではなぜでしょう？根拠となることがらを選びましょう。<br><br>\
 					<form name="fromPic_select">\
 						<select name="thing">\
 							<option value="1">仮定だから</option>\
@@ -515,9 +506,9 @@ function fromPic_fb(){
 				div_fb.id = "fb";
 				document.getElementById("diag").appendChild(div_fb);
 				document.getElementById("fb").innerHTML= fb_text;
-				write_log("ans","f",document.form2.elements[0].value,document.form2.elements[1].value,"t");
+				write_log("ans","f",document.form1.elements[0].value,document.form1.elements[1].value,"t");
 			}else{
-				alert('∠'+document.form2.elements[0].value+'=∠'+document.form2.elements[1].value+'は入力済みです。')
+				alert('辺'+document.form1.elements[0].value+'=辺'+document.form1.elements[1].value+'は入力済みです。')
 			}
 		}else{
 			var fb_text='残念ながら、そのことは図の性質からは言えません。<br>図形の性質から言えることがもうなかったり、わからない場合は後ろからも考えてみましょう。'
@@ -525,7 +516,7 @@ function fromPic_fb(){
 			div_fb.id = "fb";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb").innerHTML= fb_text;
-			write_log("ans","f",document.form2.elements[0].value,document.form2.elements[1].value,"f");
+			write_log("ans","f",document.form1.elements[0].value,document.form1.elements[1].value,"f");
 		}
 	}else{
 		var fb_text='残念ながら、そのことは図の性質からは言えません。<br>図形の性質から言えることがもうなかったり、わからない場合は後ろからも考えてみましょう。'
@@ -546,18 +537,18 @@ function fromPic_fb2(){
 		document.getElementById("fb2").innerHTML= fb_text;
 		frompic=1;
 		forcong++;
-		frompicText='∠'+document.form2.elements[0].value+'=∠'+document.form2.elements[1].value;
+		frompicText='辺'+document.form1.elements[0].value+'=辺'+document.form1.elements[1].value
 		makeButton("frompic1",290,80,"green",'共通','')
 		beforeXY("div_frompic1")
-		makeButton("frompic2",250,150,"yellow",frompicText,"ques4_pic()")
+		makeButton("frompic2",280,150,"yellow",frompicText,"ques4_pic()")
 		if(ques1_count==0){
-			document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_A.jpg" alt="問題図" style="width: 345px">';
+			document.getElementById("pic").innerHTML='<img src="q1_image/pic_q1_AC.jpg" alt="問題図" style="width: 345px">';
 		}else if(ques1_count==2){
-			document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_all.jpg" alt="問題図" style="width: 345px">';
-		}else if(ques1_left=="AE=AD"){
-			document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_ADEA.jpg" alt="問題図" style="width: 345px">';
-		}else if(ques1_left=="AB=AC"){
-			document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_ABCA.jpg" alt="問題図" style="width: 345px">';
+			document.getElementById("pic").innerHTML='<img src="q1_image/pic_q1_all.jpg" alt="問題図" style="width: 345px">';
+		}else if(ques1_left=="AB=AD"){
+			document.getElementById("pic").innerHTML='<img src="q1_image/pic_q1_ABDAC.jpg" alt="問題図" style="width: 345px">';
+		}else if(ques1_left=="BC=DC"){
+			document.getElementById("pic").innerHTML='<img src="q1_image/pic_q1_BCDAC.jpg" alt="問題図" style="width: 345px">';
 		}else{
 		}
 		write_log("ans","f","共通",'',"t")
@@ -568,23 +559,23 @@ function fromPic_fb2(){
 		document.getElementById("diag").appendChild(div_fb2);
 		document.getElementById("fb2").innerHTML= fb_text;
 		if(ques1_count==0){
-			document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_A.jpg" alt="問題図" style="width: 345px">';
+			document.getElementById("pic").innerHTML='<img src="q1_image/pic_q1_AC.jpg" alt="問題図" style="width: 345px">';
 		}else if(ques1_count==2){
-			document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_all.jpg" alt="問題図" style="width: 345px">';
-		}else if(ques1_left=="AE=AD"){
-			document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_ADEA.jpg" alt="問題図" style="width: 345px">';
-		}else if(ques1_left=="AB=AC"){
-			document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_ABCA.jpg" alt="問題図" style="width: 345px">';
+			document.getElementById("pic").innerHTML='<img src="q1_image/pic_q1_all.jpg" alt="問題図" style="width: 345px">';
+		}else if(ques1_left=="AB=AD"){
+			document.getElementById("pic").innerHTML='<img src="q1_image/pic_q1_ABDAC.jpg" alt="問題図" style="width: 345px">';
+		}else if(ques1_left=="BC=DC"){
+			document.getElementById("pic").innerHTML='<img src="q1_image/pic_q1_BCDAC.jpg" alt="問題図" style="width: 345px">';
 		}else{
 		}
 	}else{}
-	write_log("ans","f",'図形の性質',document.fromPic_select.elements[0].value,"f");
+	write_log("ans","f",document.fromPic_select.elements[0].value,'',"f");
 }
 
 //////////question1【前】「仮定はなんですか？」////////////////////
 var ques1_count=0;
-var ques1_left="";//AE=ADorAB=ACを入れる
-var ques1_right="";//AE=ADorAB=ACを入れる
+var ques1_left="";//AB=ADorBC=DCを入れる
+var ques1_right="";//AB=ADorBC=DCを入れる
 var katei1Text="";//後で使うためにとっとく
 var katei2Text="";//後で使うためにとっとく
 
@@ -607,8 +598,8 @@ function ques1_fb(){
 	if(form_number==1){
 		var hen1=document.form1.elements[0].value;
 		var hen2=document.form1.elements[1].value;
-		if(hen_cor(hen1,hen2,"AE","AD")){
-			if(ques1_left!=="AE=AD"&&ques1_right!=="AE=AD"){
+		if(hen_cor(hen1,hen2,"AB","AD")){
+			if(ques1_left!=="AB=AD"&&ques1_right!=="AB=AD"){
 				var fb_text='正解です！<br>'+hen1+'='+hen2+'であることは「仮定」です。<br>左の構造図に'+hen1+'='+hen2+'が表示され、図にも長さが等しいことを表す記号が追加されました。<br>他にも仮定があれば、もう一度「仮定を整理する」のボタンを押してから記入しましょう。'
 				var div_fb = document.createElement("div");
 				div_fb.id = "fb";
@@ -618,17 +609,17 @@ function ques1_fb(){
 					makeButton("katei1",10,90,"yellow",hen1+'='+hen2,"ques4_1()");
 					katei1Text=hen1+'='+hen2;
 					forcong++;
-					ques1_left="AE=AD"
+					ques1_left="AB=AD"
 					//問題図の変更
-					if(frompic==0){document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_ADE.jpg" alt="問題図" style="width: 345px;">'}
-					else if(frompic==1){document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_ADEA.jpg" alt="問題図" style="width: 345px;">'}else{}
+					if(frompic==0){document.getElementById("pic").innerHTML='<img src="q1_image/pic_q1_ABD.jpg" alt="問題図" style="width: 345px;">'}
+					else if(frompic==1){document.getElementById("pic").innerHTML='<img src="q1_image/pic_q1_ABDAC.jpg" alt="問題図" style="width: 345px;">'}else{}
 				}else if(ques1_count==1){
 					makeButton("katei2",100,90,"yellow",hen1+'='+hen2,"ques4_2");
 					katei2Text=hen1+'='+hen2;
 					forcong++;
-					ques1_right="AE=AD"
-					if(frompic==0){document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_ABCADE.jpg" alt="問題図" style="width: 345px;">'}
-					else if(frompic==1){document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_all.jpg" alt="問題図" style="width: 345px;">'}else{}
+					ques1_right="AB=AD"
+					if(frompic==0){document.getElementById("pic").innerHTML='<img src="q1_image/pic_q1_ABDBCD.jpg" alt="問題図" style="width: 345px;">'}
+					else if(frompic==1){document.getElementById("pic").innerHTML='<img src="q1_image/pic_q1_all.jpg" alt="問題図" style="width: 345px;">'}else{}
 				}else{
 				}
 				write_log("ans","f",hen1,hen2,"t");
@@ -636,8 +627,8 @@ function ques1_fb(){
 			}else{
 				alert(hen1+'='+hen2+'は入力済みです。')
 			}
-		}else if(hen_cor(hen1,hen2,"AB","AC")){
-			if(ques1_left!=="AB=AC"&&ques1_right!=="AB=AC"){
+		}else if(hen_cor(hen1,hen2,"BC","DC")){
+			if(ques1_left!=="BC=DC"&&ques1_right!=="BC=DC"){
 				var fb_text='正解です！<br>'+hen1+'='+hen2+'であることは「仮定」です。<br>左の構造図に'+hen1+'='+hen2+'が表示され、図にも長さが等しいことを表す記号が追加されました。<br>他にも仮定があれば、もう一度「仮定を整理する」のボタンを押してから記入しましょう。'
 				var div_fb = document.createElement("div");
 				div_fb.id = "fb";
@@ -647,16 +638,16 @@ function ques1_fb(){
 					makeButton("katei1",10,90,"yellow",hen1+'='+hen2,"ques4_1()");
 					katei1Text=hen1+'='+hen2;
 					forcong++;
-					ques1_left="AB=AC";
-					if(frompic==0){document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_ABC.jpg" alt="問題図" style="width: 345px;">'}
-					else if(frompic==1){document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_ABCA.jpg" alt="問題図" style="width: 345px;">'}else{}
+					ques1_left="BC=DC";
+					if(frompic==0){document.getElementById("pic").innerHTML='<img src="q1_image/pic_q1_BCD.jpg" alt="問題図" style="width: 345px;">'}
+					else if(frompic==1){document.getElementById("pic").innerHTML='<img src="q1_image/pic_q1_BCDAC.jpg" alt="問題図" style="width: 345px;">'}else{}
 				}else if(ques1_count==1){
 					makeButton("katei2",100,90,"yellow",hen1+'='+hen2,"ques4_2()");
 					katei2Text=hen1+'='+hen2;
 					forcong++;
-					ques1_right="AB=AC";
-					if(frompic==0){document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_ABCADE.jpg" alt="問題図" style="width: 345px;">'}
-					else if(frompic==1){document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_all.jpg" alt="問題図" style="width: 345px;">'}else{}
+					ques1_right="BC=DC";
+					if(frompic==0){document.getElementById("pic").innerHTML='<img src="q1_image/pic_q1_ABDBCD.jpg" alt="問題図" style="width: 345px;">'}
+					else if(frompic==1){document.getElementById("pic").innerHTML='<img src="q1_image/pic_q1_all.jpg" alt="問題図" style="width: 345px;">'}else{}
 				}else{
 				}
 				write_log("ans","f",hen1,hen2,"t");
@@ -697,16 +688,14 @@ function ques2(){
 
 	}
 }
-var keturon_text;
 
 function ques2_fb(){
 	if(form_number==23){
 		var rec1=document.form23.elements[0].value;
 		var rec2=document.form23.elements[1].value;
-		if(tri_cor(rec1,rec2,"ABE","ACD")==0){
-			keturon_text="△"+rec1+"≡△"+rec2;
-			document.getElementById("diag").innerHTML="正解です！<br>左の構造図に"+keturon_text+"が表示されました。";
-			makeButton("ketu",160,390,"blue",keturon_text,"ques3()");
+		if(tri_cor(rec1,rec2,"ABC","ADC")==0){
+			document.getElementById("diag").innerHTML="正解です！<br>「△ABC≡△ADC」を言うことが結論です．<br>左の構造図に△ABC≡△ADCが表示されました。";
+			makeButton("△ABC≡△ADC",160,390,"blue","△ABC≡△ADC","ques3()");
 			keturonboolean=true;
 			write_log("ans","b",rec1,rec2,"t");
 		}else{
@@ -821,13 +810,13 @@ function ques3_fb(){
 					</form><br>'
 		document.getElementById("diag").innerHTML=fb_text;
 		beforeXY("div_katei1");
-		makeButton("congCond1",120,320,"green",'____________がそれぞれ等しい',"");
+		makeButton("congCond1",140,320,"green",'____________がそれぞれ等しい',"");
 		beforeXY("div_katei2");
-		makeButton("congCond2",120,320,"green",'____________がそれぞれ等しい',"");
+		makeButton("congCond2",140,320,"green",'____________がそれぞれ等しい',"");
 		beforeXY("div_frompic2");
-		makeButton("congCond3",120,320,"green",'____________がそれぞれ等しい',"");
+		makeButton("congCond3",140,320,"green",'____________がそれぞれ等しい',"");
 		beforeXY("div_congCond1");
-		makeButton("ketu2",160,390,"blue",keturon_text,"ques3()");
+		makeButton("△ABC≡△ADC2",160,390,"blue","△ABC≡△ADC","ques3()");
 	}else{
 		diag_history=document.getElementById("diag").innerHTML;
 		document.getElementById("diag").innerHTML='まだ合同を言えるだけの条件を選択しきれていません。合同を言うための条件は3つは必要だったはずです。<br><p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
@@ -968,7 +957,7 @@ function ques4_fb(){
 	if(form_number==23){
 		var rec1=document.form23.elements[0].value;
 		var rec2=document.form23.elements[1].value;
-		var boolnum=tri_cor(rec1,rec2,"ABE","ACD");
+		var boolnum=tri_cor(rec1,rec2,"ABC","ADC");
 		if(boolnum==0){//正解
 			if(forcong==3){
 				var firsttxt;
@@ -978,7 +967,7 @@ function ques4_fb(){
 				forcong=4;
 				mode="cong";
 				congboolean=true;
-				makeButton("congCond",120,320,"green",'____________がそれぞれ等しい',"");
+				makeButton("congCond",140,320,"green",'____________がそれぞれ等しい',"");
 				beforeXY("div_congCond");
 				makeButton("cong",160,390,"blue",'△'+rec1+'≡△'+rec2,"ques3()");
 				write_log("ans","f","△"+rec1,"△"+rec2,"t");
@@ -1044,31 +1033,31 @@ function ques4_fb2(){
 					</form><br>'
 		document.getElementById("diag").innerHTML=fb_text;
 		beforeXY("div_katei1");
-		makeButton("congCond1",120,320,"green",'____________がそれぞれ等しい',"");
+		makeButton("congCond1",140,320,"green",'____________がそれぞれ等しい',"");
 		beforeXY("div_katei2");
-		makeButton("congCond2",120,320,"green",'____________がそれぞれ等しい',"");
+		makeButton("congCond2",140,320,"green",'____________がそれぞれ等しい',"");
 		beforeXY("div_frompic2");
-		makeButton("congCond3",120,320,"green",'____________がそれぞれ等しい',"");
+		makeButton("congCond3",140,320,"green",'____________がそれぞれ等しい',"");
 		beforeXY("div_congCond1");
-		makeButton("ketu2",160,390,"blue",keturon_text,"ques3()");
+		makeButton("△ABC≡△ADC2",160,390,"blue","△ABC≡△ADC","ques3()");
 	}else if(k<=2){
 		diag_history=document.getElementById("diag").innerHTML;
-		var fb_text='まだ現時点では，'+k+'つしか合同を言うための条件が指定されていません。<br>どの合同条件も３つの条件を必要としたはずです。<br>条件と照らし合わせながらもう一度考えてみましょう。<br><p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
+		var fb_text='まだ現時点では，'+toString(k)+'つしか合同を言うための条件が指定されていません。<br>どの合同条件も３つの条件を必要としたはずです。<br>条件と照らし合わせながらもう一度考えてみましょう。<br><p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
 		document.getElementById("diag").innerHTML=fb_text;
 	}
 }
 
 //合同条件を選んだ後の動作
 function ques4_fb3(){
-	if(document.ques4_fb2_select.elements[0].value==2){
+	if(document.ques4_fb2_select.elements[0].value==1){
 		document.getElementById("diag").innerHTML='正解です！<br>しっかりと図を見て合同条件を選べています。<br>構造図に合同条件が表示されました。<br><br>これで「前向き推論」と「後ろ向き推論」が繋がりましたね。<br>なので構造図作成は終了です。時間に余裕があれば証明を記述してみましょう。<br><p style="text-align:right"><button type="button" value="output" style="" onclick= "output()">終了</button> </p> <a id="download" target="_blank">ダウンロード（IEでは、右クリック＞対象をファイルに保存）</a>'
 		mode="normal";
 		document.getElementById("div_congCond1").innerHTML='';
 		document.getElementById("div_congCond2").innerHTML='';
 		document.getElementById("div_congCond3").innerHTML='';
-		beforeX=120;
+		beforeX=140;
 		beforeY=320;
-		makeButton("congCond",120,320,"green",'二組の辺とその間の角がそれぞれ等しい',"");
+		makeButton("congCond",140,320,"green",'三組の辺がそれぞれ等しい',"");
 	}else{
 		diag_history=document.getElementById("diag").innerHTML;
 		document.getElementById("diag").innerHTML='残念ながら違います。問題図、その下の合同な図形を取り出す欄も使いながら考え直してみましょう。<br><p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
@@ -1086,9 +1075,9 @@ function seppicback(){
 function takeout0(){
 	var rec1=document.seppic.elements[0].value;
 	var rec2=document.seppic.elements[1].value;
-	var boolnum=tri_cor(rec1,rec2,"ABE","ACD");
+	var boolnum=tri_cor(rec1,rec2,"ABC","ADC");
 	if(boolnum==0){
-		document.getElementById("div_seppic").innerHTML='<img src="q2_image/pic_q2_sep.jpg" alt="問題図" style="width: 330px;">'
+		document.getElementById("div_seppic").innerHTML='<img src="q1_image/pic_q1_sep.jpg" alt="問題図" style="width: 330px;">'
 		document.getElementById("button_seppic").innerHTML='<button type="button" class="button_sg" value="katei" onclick= "mark()">現在わかっているところまで印をつける</button><br>'
 		write_log("sep","f",'△'+rec1,'△'+rec2,"t");
 	}else if(boolnum==1){
@@ -1104,27 +1093,27 @@ function takeout0(){
 }
 
 function mark(){
-	if(frompic==1&&(ques1_left=="AE=AD"||ques1_right=="AE=AD")&&(ques1_left=="AB=AC"||ques1_right=="AB=AC")){
+	if(frompic==1&&(ques1_left=="AB=AD"||ques1_right=="AB=AD")&&(ques1_left=="BC=DC"||ques1_right=="BC=DC")){
 		//全揃い
-		document.getElementById("div_seppic").innerHTML='<img src="q2_image/pic_q2_sep_all.jpg" alt="問題図" style="width: 330px;">'
-	}else if((ques1_left=="AE=AD"||ques1_right=="AE=AD")&&(ques1_left=="AB=AC"||ques1_right=="AB=AC")){
+		document.getElementById("div_seppic").innerHTML='<img src="q1_image/pic_q1_sep_all.jpg" alt="問題図" style="width: 330px;">'
+	}else if((ques1_left=="AB=AD"||ques1_right=="AB=AD")&&(ques1_left=="BC=DC"||ques1_right=="BC=DC")){
 		//Mが足りない
-		document.getElementById("div_seppic").innerHTML='<img src="q2_image/pic_q2_sep_ABCADE.jpg" alt="問題図" style="width: 330px;">'
-	}else if(frompic==1&&(ques1_left=="AB=AC"||ques1_right=="AB=AC")){
+		document.getElementById("div_seppic").innerHTML='<img src="q1_image/pic_q1_sep_ABDBCD.jpg" alt="問題図" style="width: 330px;">'
+	}else if(frompic==1&&(ques1_left=="BC=DC"||ques1_right=="BC=DC")){
 		//ABが足りない
-		document.getElementById("div_seppic").innerHTML='<img src="q2_image/pic_q2_sep_ABCA.jpg" alt="問題図" style="width: 330px;">'
-	}else if(frompic==1&&(ques1_left=="AE=AD"||ques1_right=="AE=AD")){
+		document.getElementById("div_seppic").innerHTML='<img src="q1_image/pic_q1_sep_BCDAC.jpg" alt="問題図" style="width: 330px;">'
+	}else if(frompic==1&&(ques1_left=="AB=AD"||ques1_right=="AB=AD")){
 		//PQが足りない
-		document.getElementById("div_seppic").innerHTML='<img src="q2_image/pic_q2_sep_ADEA.jpg" alt="問題図" style="width: 330px;">'
+		document.getElementById("div_seppic").innerHTML='<img src="q1_image/pic_q1_sep_ABDAC.jpg" alt="問題図" style="width: 330px;">'
 	}else if(frompic==1){
 		//Mしかない
-		document.getElementById("div_seppic").innerHTML='<img src="q2_image/pic_q2_sep_A.jpg" alt="問題図" style="width: 330px;">'
-	}else if(ques1_left=="AE=AD"||ques1_right=="AE=AD"){
+		document.getElementById("div_seppic").innerHTML='<img src="q1_image/pic_q1_sep_AC.jpg" alt="問題図" style="width: 330px;">'
+	}else if(ques1_left=="AB=AD"||ques1_right=="AB=AD"){
 		//ABしかない
-		document.getElementById("div_seppic").innerHTML='<img src="q2_image/pic_q2_sep_ADE.jpg" alt="問題図" style="width: 330px;">'
-	}else if(ques1_left=="AB=AC"||ques1_right=="AB=AC"){
+		document.getElementById("div_seppic").innerHTML='<img src="q1_image/pic_q1_sep_ABD.jpg" alt="問題図" style="width: 330px;">'
+	}else if(ques1_left=="BC=DC"||ques1_right=="BC=DC"){
 		//PQしかない
-		document.getElementById("div_seppic").innerHTML='<img src="q2_image/pic_q2_sep_ABC.jpg" alt="問題図" style="width: 330px;">'
+		document.getElementById("div_seppic").innerHTML='<img src="q1_image/pic_q1_sep_BCD.jpg" alt="問題図" style="width: 330px;">'
 	}else{
 
 	}
