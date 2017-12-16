@@ -42,7 +42,7 @@ function start(){
 				</div>\
 			</div>'
 		account=document.student_ID.elements[1].value;
-		alllog="question1,生徒ID:,"+account+",,/"
+		alllog="question2,0,start,,,生徒ID:"+account+",,/"
 		document.getElementById("title").innerHTML='三角形合同証明問題 問題1'
 		}
 	}else{
@@ -51,25 +51,25 @@ function start(){
 }
 //ヒントを押したことをログに残す関数
 function hint_katei(){
-	write_log("hint",'','仮定とは？','','');
+	write_log("hint",'','仮定とは？','','','');
 }
 function hint_katei(){
-	write_log("hint",'','辺を言うには','','');
+	write_log("hint",'','辺を言うには','','','');
 }
 function hint_tricong(){
-	write_log("hint",'','三角形の合同条件？','','');
+	write_log("hint",'','三角形の合同条件？','','','');
 }
 function hint_nitohen(){
-	write_log("hint",'','二等辺三角形','','');
+	write_log("hint",'','二等辺三角形','','','');
 }
 function hint_keturon(){
-	write_log("hint",'','結論とは？','','');
+	write_log("hint",'','結論とは？','','','');
 }
 function hint_kaku(){
-	write_log("hint",'','角を言うには','','');
+	write_log("hint",'','角を言うには','','','');
 }
 function hint_heiko(){
-	write_log("hint",'','平行','','');
+	write_log("hint",'','平行','','','');
 }
 
 function time(){
@@ -83,16 +83,49 @@ function time(){
 	alllog=alllog+elapsed_time+",";
 }
 
-function write_log(act,vec,inp1,inp2,tf){
+function write_log(act,vec,inp1,inp2,tf,inp3){
 	alllog=alllog+lognumber+",";
 	time();
-	alllog=alllog+act+","+vec+","+inp1+","+inp2+","+tf+"/";
+	alllog=alllog+act+","+vec+","+tf+","+inp1+","+inp2+","+inp3+"/";
 	lognumber++;
 }
 
 function output(){
 
 	setBlobUrl("download",alllog);
+	finish();
+}
+
+//name(div_??)と(x,y)を引数にとってボタンを移動する関数
+function div_move(name,x,y){
+	var div_name="div_"+name;
+	var style_text="position: absolute; left: "+x+"px; top:"+y+"px;";
+	var k = document.getElementById(div_name);
+	k.style=style_text;
+}
+
+function div_clear(name){
+	var div_name="div_"+name;
+	document.getElementById(div_name).innerHTML="";
+}
+
+//要素を並べる(問題ごとに作成)
+function finish(){
+	var canvas = document.getElementById("st_d_canvas").getContext("2d");
+	canvas.clearRect(0,0,425,510);
+	div_clear("katei");
+	div_clear("fromPic");
+	div_clear("keturon");
+	beforeX=210;
+	beforeY=20;
+	makeButton("_katei",200,10,"green","仮定","");
+	div_move("katei1","10","10");
+	div_move("katei2","10","60");
+	div_move("frompic2","10","110")
+	div_move("△ABC≡△ADC","10","160");
+	div_move("△ABC≡△ADC2","10","160");
+	div_move("frompic1","200","60");
+	div_move("congCond","200","110");
 }
 
 function setBlobUrl(id, content) {
@@ -159,14 +192,6 @@ function triangle(x1,y1,x2,y2){
 		context2.closePath();
 		context2.fill();
 	}
-	console.log(x);
-	console.log(y);
-	console.log(_x1);
-	console.log(_y1);
-	console.log(_x2);
-	console.log(_y2);
-	console.log(sinTh);
-	console.log(cosTh);
 }
 
 
@@ -213,7 +238,7 @@ function makeButton(name,x,y,clr,cnt,next_func){
 	cX=div1.clientWidth/2;
 	cY=div1.clientHeight/2;
 	stLine(beforeX,beforeY,x+cX,y+cY);
-	write_log('mkbtn','',cnt,'','t');
+	write_log('mkbtn','',cnt,'','t','');
 }
 
 function backHistory(){
@@ -475,7 +500,7 @@ function fromPic(){
 		question_number=0;
 		beforeXY("div_fromPic");
 		makeSelect("図形の性質から言えることはなんでしょうか？<br>選んだ後、根拠となることがら(理由)を聞きます。<br>")
-		write_log("psbtn","f","frompic()",'','');
+		write_log("psbtn","f","frompic()",'','','');
 	}else if(mode=="cong"){
 
 	}else if(mode=="use_prosp"){
@@ -506,7 +531,7 @@ function fromPic_fb(){
 				div_fb.id = "fb";
 				document.getElementById("diag").appendChild(div_fb);
 				document.getElementById("fb").innerHTML= fb_text;
-				write_log("ans","f",document.form1.elements[0].value,document.form1.elements[1].value,"t");
+				write_log("ans","f",document.form1.elements[0].value,document.form1.elements[1].value,'t','');
 			}else{
 				alert('辺'+document.form1.elements[0].value+'=辺'+document.form1.elements[1].value+'は入力済みです。')
 			}
@@ -516,7 +541,7 @@ function fromPic_fb(){
 			div_fb.id = "fb";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb").innerHTML= fb_text;
-			write_log("ans","f",document.form1.elements[0].value,document.form1.elements[1].value,"f");
+			write_log("ans","f",document.form1.elements[0].value,document.form1.elements[1].value,'f','');
 		}
 	}else{
 		var fb_text='残念ながら、そのことは図の性質からは言えません。<br>図形の性質から言えることがもうなかったり、わからない場合は後ろからも考えてみましょう。'
@@ -524,7 +549,7 @@ function fromPic_fb(){
 		div_fb.id = "fb";
 		document.getElementById("diag").appendChild(div_fb);
 		document.getElementById("fb").innerHTML= fb_text;
-		write_log("ans","f",'','',"f");
+		write_log("ans","f",'','','f','');
 	}
 }
 
@@ -538,7 +563,7 @@ function fromPic_fb2(){
 		frompic=1;
 		forcong++;
 		frompicText='辺'+document.form1.elements[0].value+'=辺'+document.form1.elements[1].value
-		makeButton("frompic1",290,80,"green",'共通','')
+		makeButton("frompic1",290,80,"green",'共通','','')
 		beforeXY("div_frompic1")
 		makeButton("frompic2",280,150,"yellow",frompicText,"ques4_pic()")
 		if(ques1_count==0){
@@ -551,7 +576,7 @@ function fromPic_fb2(){
 			document.getElementById("pic").innerHTML='<img src="q1_image/pic_q1_BCDAC.jpg" alt="問題図" style="width: 345px">';
 		}else{
 		}
-		write_log("ans","f","共通",'',"t")
+		write_log("ans","f","共通",'','t','')
 	}else if(frompic==0){
 		var fb_text='残念ながら違います。図の該当する辺に印をつけました。どのような状態になっているか考えてみましょう。'
 		var div_fb2 = document.createElement("div");
@@ -569,7 +594,7 @@ function fromPic_fb2(){
 		}else{
 		}
 	}else{}
-	write_log("ans","f",document.fromPic_select.elements[0].value,'',"f");
+	write_log("ans","f",document.fromPic_select.elements[0].value,'','f','');
 }
 
 //////////question1【前】「仮定はなんですか？」////////////////////
@@ -584,7 +609,7 @@ function ques1(){
 		question_number = 1;
 		beforeXY("div_katei");
 		makeSelect("この問題における「仮定」はなんでしょう？<br>「仮定」の意味が分からない場合は下のリンクをクリックしよう。<br>");
-		write_log("psbtn","f","ques1()",'','');
+		write_log("psbtn","f","ques1()",'','','');
 	}else if(mode=="cong"){
 		
 	}else if(mode=="use_prosp"){
@@ -622,7 +647,7 @@ function ques1_fb(){
 					else if(frompic==1){document.getElementById("pic").innerHTML='<img src="q1_image/pic_q1_all.jpg" alt="問題図" style="width: 345px;">'}else{}
 				}else{
 				}
-				write_log("ans","f",hen1,hen2,"t");
+				write_log("ans","f",hen1,hen2,'t','');
 				ques1_count++;
 			}else{
 				alert(hen1+'='+hen2+'は入力済みです。')
@@ -650,7 +675,7 @@ function ques1_fb(){
 					else if(frompic==1){document.getElementById("pic").innerHTML='<img src="q1_image/pic_q1_all.jpg" alt="問題図" style="width: 345px;">'}else{}
 				}else{
 				}
-				write_log("ans","f",hen1,hen2,"t");
+				write_log("ans","f",hen1,hen2,'t','');
 				ques1_count++;
 			}else{
 				alert(hen1+'='+hen2+'は入力済みです。')
@@ -661,7 +686,7 @@ function ques1_fb(){
 			div_fb.id = "fb";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb").innerHTML= fb_text;
-			write_log("ans","f",hen1,hen2,"f");
+			write_log("ans","f",hen1,hen2,'f','');
 		}
 	}else{
 		var fb_text='残念ながら違います。問題文と見比べてもう一度見てみましょう。「仮定」がわからないときは下のリンクをクリックして復習しましょう。'
@@ -669,7 +694,7 @@ function ques1_fb(){
 		div_fb.id = "fb";
 		document.getElementById("diag").appendChild(div_fb);
 		document.getElementById("fb").innerHTML= fb_text;
-		write_log("ans","f",'','',"f");
+		write_log("ans","f",'','','f','');
 	}
 }
 
@@ -679,7 +704,7 @@ function ques2(){
 		question_number = 2;
 		beforeXY("div_keturon");
 		makeSelect("この問題における「結論」はなんでしょう？<br>「結論」の意味が分からない場合は下のリンクをクリックしよう。<br>");
-		write_log("psbtn","b","ques2()",'','');
+		write_log("psbtn","b","ques2()",'','','');
 	}else if(mode=="cong"){
 		
 	}else if(mode=="use_prosp"){
@@ -697,14 +722,14 @@ function ques2_fb(){
 			document.getElementById("diag").innerHTML="正解です！<br>「△ABC≡△ADC」を言うことが結論です．<br>左の構造図に△ABC≡△ADCが表示されました。";
 			makeButton("△ABC≡△ADC",160,390,"blue","△ABC≡△ADC","ques3()");
 			keturonboolean=true;
-			write_log("ans","b",rec1,rec2,"t");
+			write_log("ans","b",rec1,rec2,'t','');
 		}else{
 			var fb_text="三角形が合同であることを示すのが結論ですが、△"+document.form23.elements[0].value+"≡△"+document.form23.elements[1].value+"ではありません。<br>もしかすると、打ち間違いかもしれません。問題文と見比べてみましょう。<br>対応順にも気をつけましょう。";
 			var div_fb = document.createElement("div");
 			div_fb.id = "fb";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb").innerHTML= fb_text;
-			write_log("ans","b",document.form23.elements[0].value,document.form23.elements[1].value,"f");
+			write_log("ans","b",document.form23.elements[0].value,document.form23.elements[1].value,'f','');
 		}
 	}else{
 			var fb_text="残念ながらそれは結論ではありません。「結論」が何か分からない場合には下記リンクをクリックして復習をしましょう。";
@@ -712,7 +737,7 @@ function ques2_fb(){
 			div_fb.id = "fb";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb").innerHTML= fb_text;
-			write_log("ans","b",'','',"f");
+			write_log("ans","b",'','','f','');
 	}
 }
 
@@ -739,7 +764,7 @@ function ques3(){
 			var fb_text="まだ仮定を全て書き出せていません。まずは結論と仮定を全て書き出すところからスタートでしたね。";
 			document.getElementById("diag").innerHTML=fb_text;
 		}
-		write_log("psbtn","b","ques3()",'','');
+		write_log("psbtn","b","ques3()",'','','');
 	}else if(mode=="backcong"){
 
 	}
@@ -757,23 +782,23 @@ function ques3_2(){
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb").innerHTML= fb_text;
 			k1=0;k2=0;fp=0;
-			write_log("ans","b","合同言える",'',"t");
+			write_log("ans","b","合同言える",'','t','');
 		}else{
 			//言えると回答したが現段階ではまだ言えていないので、前向き推論を促す
 			diag_history=document.getElementById("diag").innerHTML;
 			document.getElementById("diag").innerHTML='この三角形の合同が言えると回答しましたが、本当にそうでしょうか。<br>残念ながら現時点では条件が足りません。「前向き推論を進めてみる」か「あと何が必要か考える」ことをしてみましょう。<p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
-			write_log("ans","b","合同言える",'',"f");
+			write_log("ans","b","合同言える",'','f','');
 		}
 	}else if(answer==2){
 		if(forcong==3){
 			//もう言えるのに「言えない」と回答した時
 			diag_history=document.getElementById("diag").innerHTML;
 			document.getElementById("diag").innerHTML='本当にまだこの三角形の合同は言えないでしょうか。<br>左の「合同になりそうな三角形を取り出す」機能も使いながら合同が言えているかを考えてみましょう。<br><p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
-			write_log("ans","b","合同言えない",'',"f");
+			write_log("ans","b","合同言えない",'','f','');
 		}else{
 			//言えないと回答して言えない時
 			document.getElementById("diag").innerHTML='そうですね。現時点では条件が足りないのでこの三角形の合同は言うことができません。よく現状が把握できています。<br>前向き推論を進めましょう。'
-			write_log("ans","b","合同言えない",'',"t");
+			write_log("ans","b","合同言えない",'','t','');
 		}
 	}else if(answer==3){
 		if(forcong==3){
@@ -792,7 +817,7 @@ function ques3_2(){
 			diag_history=document.getElementById("diag").innerHTML;
 			document.getElementById("diag").innerHTML='現時点では条件が足りません。前向き推論で言えるところがないか考えてみましょう。<br>「仮定」「図形の性質から言えること」で言えていないことがあります。<br>左の「合同になりそうな三角形を取り出す」機能も使いながら合同が言えているかを考えてみましょう。<br><p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'			
 		}
-	write_log("ans","b","合同言えるかわからない",'','');
+	write_log("ans","b","合同言えるかわからない",'','','');
 	}
 }
 
@@ -841,15 +866,15 @@ function ques4_1(){
 			k1=1;
 			k2=0;
 			fp=0;
-			write_log("psbtn","f","ques4()_1",'','');
+			write_log("psbtn","f","ques4()_1",'','','');
 		}else if(keturonboolean==true){
 			var fb_text="まだ仮定を全て明らかにできていません。まずは仮定と結論を全て書き出すところからスタートでしたね。";
 			document.getElementById("diag").innerHTML=fb_text;
-			write_log("psbtn","f","ques4_1()","結論まだ",'');
+			write_log("psbtn","f","ques4_1()","結論まだ",'','');
 		}else{
 			var fb_text="まだ結論が何か明らかにできていません。まずは仮定と結論を全て書き出すところからスタートでしたね。";
 			document.getElementById("diag").innerHTML=fb_text;
-			write_log("psbtn","f","ques4_1()","結論まだ",'');
+			write_log("psbtn","f","ques4_1()","結論まだ",'','');
 		}
 	}else if(mode=="cong"){
 		if(k1==0){
@@ -881,15 +906,15 @@ function ques4_2(){
 			k1=0;
 			k2=1;
 			fp=0;
-			write_log("psbtn","f","ques4_2()",'','');
+			write_log("psbtn","f","ques4_2()",'','','');
 		}else if(keturonboolean==true){
 			var fb_text="まだ仮定を全て明らかにできていません。まずは仮定と結論を全て書き出すところからスタートでしたね。";
 			document.getElementById("diag").innerHTML=fb_text;
-			write_log("psbtn","f","ques4_2()","結論まだ",'');
+			write_log("psbtn","f","ques4_2()","結論まだ",'','');
 		}else{
 			var fb_text="まだ結論が何か明らかにできていません。まずは仮定と結論を全て書き出すところからスタートでしたね。";
 			document.getElementById("diag").innerHTML=fb_text;
-			write_log("psbtn","f","ques4_2()","結論まだ",'');
+			write_log("psbtn","f","ques4_2()","結論まだ",'','');
 		}
 	}else if(mode=="cong"){
 		if(k2==0){
@@ -921,15 +946,15 @@ function ques4_pic(){
 			k1=0;
 			k2=0;
 			fp=1;
-			write_log("psbtn","f","ques4_pic()",'','');
+			write_log("psbtn","f","ques4_pic()",'','','');
 		}else if(keturonboolean==true){
 			var fb_text="まだ仮定を全て明らかにできていません。まずは仮定と結論を全て書き出すところからスタートでしたね。";
 			document.getElementById("diag").innerHTML=fb_text;
-			write_log("psbtn","f","ques4_pic()","結論まだ",'');
+			write_log("psbtn","f","ques4_pic()","結論まだ",'','');
 		}else{
 			var fb_text="まだ結論が何か明らかにできていません。まずは仮定と結論を全て書き出すところからスタートでしたね。";
 			document.getElementById("diag").innerHTML=fb_text;
-			write_log("psbtn","f","ques4_pic()","結論まだ",'');
+			write_log("psbtn","f","ques4_pic()","結論まだ",'','');
 		}
 		
 	}else if(mode=="cong"){
@@ -970,14 +995,14 @@ function ques4_fb(){
 				makeButton("congCond",140,320,"green",'____________がそれぞれ等しい',"");
 				beforeXY("div_congCond");
 				makeButton("cong",160,390,"blue",'△'+rec1+'≡△'+rec2,"ques3()");
-				write_log("ans","f","△"+rec1,"△"+rec2,"t");
+				write_log("ans","f","△"+rec1,"△"+rec2,'t','');
 			}else{
 				var fb_text='△'+rec1+'≡△'+rec2+'を言いたいのはいい方向性だと思います。<br>しかし、現時点では'+forcong+'つしか条件がないので三角形の合同を言うことはできません。'
 				var div_fb = document.createElement("div");
 				div_fb.id = "fb";
 				document.getElementById("diag").appendChild(div_fb);
 				document.getElementById("fb").innerHTML= fb_text;
-				write_log("ans","f","△"+rec1,"△"+rec2,"f");				
+				write_log("ans","f","△"+rec1,"△"+rec2,'f','');				
 			}
 		}else if(boolnum==1){
 			if(forcong==3){
@@ -986,14 +1011,14 @@ function ques4_fb(){
 				div_fb.id = "fb";
 				document.getElementById("diag").appendChild(div_fb);
 				document.getElementById("fb").innerHTML= fb_text;
-				write_log("ans","f","△"+rec1,"△"+rec2,"f");
+				write_log("ans","f","△"+rec1,"△"+rec2,'f','');
 			}else{
 				var fb_text='△'+rec1+'と△'+rec2+'に目をつけたのはいい方向性だと思います。<br>しかし、現時点では'+forcong+'つしか条件がないので三角形の合同を言うことはできません。加えて「対応順」が違っています。<br>対応順については分からない場合は下記リンクで「合同」について確認しましょう。';
 				var div_fb = document.createElement("div");
 				div_fb.id = "fb";
 				document.getElementById("diag").appendChild(div_fb);
 				document.getElementById("fb").innerHTML= fb_text;
-				write_log("ans","f","△"+rec1,"△"+rec2,"f");
+				write_log("ans","f","△"+rec1,"△"+rec2,'f','');
 			}
 		}else{
 			var fb_text='残念ながら△'+rec1+'≡△'+rec2+'を言うことはできません。<br>「合同であることを使いたい」という方針そのものは正しいです。<br>対応順についても注意しながら打ち間違いの無いよう入力しましょう。';
@@ -1001,7 +1026,7 @@ function ques4_fb(){
 			div_fb.id = "fb";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb").innerHTML= fb_text;
-			write_log("ans","f","△"+rec1,"△"+rec2,"f");
+			write_log("ans","f","△"+rec1,"△"+rec2,'f','');
 		}
 	}else{
 		if(forcong==3){
@@ -1009,7 +1034,7 @@ function ques4_fb(){
 		}else{
 			var fb_text='残念ながらそのことを言うことはできません。<br>「仮定の整理」や「図形の性質から言えること」が他にないかも確認してみましょう。'
 		}
-		write_log("ans","f",'','',"f");
+		write_log("ans","f",'','','f','');
 		var div_fb = document.createElement("div");
 		div_fb.id = "fb";
 		document.getElementById("diag").appendChild(div_fb);
@@ -1050,7 +1075,7 @@ function ques4_fb2(){
 //合同条件を選んだ後の動作
 function ques4_fb3(){
 	if(document.ques4_fb2_select.elements[0].value==1){
-		document.getElementById("diag").innerHTML='正解です！<br>しっかりと図を見て合同条件を選べています。<br>構造図に合同条件が表示されました。<br><br>これで「前向き推論」と「後ろ向き推論」が繋がりましたね。<br>なので構造図作成は終了です。時間に余裕があれば証明を記述してみましょう。<br><p style="text-align:right"><button type="button" value="output" style="" onclick= "output()">終了</button> </p> <a id="download" target="_blank">ダウンロード（IEでは、右クリック＞対象をファイルに保存）</a>'
+		document.getElementById("diag").innerHTML='正解です！<br>しっかりと図を見て合同条件を選べています。<br>構造図に合同条件が表示されました。<br><br>これで「前向き推論」と「後ろ向き推論」が繋がりましたね。<br>構造図作成は終了です。終了ボタンを押して担当の人を呼びましょう。<br><p style="text-align:right"><button type="button" value="output" style="" onclick= "output()">終了</button> </p> <a id="download" target="_blank">ダウンロード（右クリック＞対象をファイルに保存）</a>'
 		mode="normal";
 		document.getElementById("div_congCond1").innerHTML='';
 		document.getElementById("div_congCond2").innerHTML='';
@@ -1079,15 +1104,15 @@ function takeout0(){
 	if(boolnum==0){
 		document.getElementById("div_seppic").innerHTML='<img src="q1_image/pic_q1_sep.jpg" alt="問題図" style="width: 330px;">'
 		document.getElementById("button_seppic").innerHTML='<button type="button" class="button_sg" value="katei" onclick= "mark()">現在わかっているところまで印をつける</button><br>'
-		write_log("sep","f",'△'+rec1,'△'+rec2,"t");
+		write_log("sep","f",'△'+rec1,'△'+rec2,'t','');
 	}else if(boolnum==1){
 		fb_text='△'+rec1+'と△'+rec2+'の合同について考えたのは適切です。<br>しかし、「対応順」が違っています。<input type="button" value="戻る" onclick="seppicback()">';
 		document.getElementById("button_seppic").innerHTML=fb_text;
-		write_log("sep","f",'△'+rec1,'△'+rec2,"f");
+		write_log("sep","f",'△'+rec1,'△'+rec2,'f','');
 	}else{
 		var fb_text='残念ながらその三角形は合同ではありません。もう一度図を確認しながら打ち間違いの無いように入力しましょう。<input type="button" value="戻る" onclick="seppicback()">';
 		document.getElementById("button_seppic").innerHTML=fb_text;
-		write_log("sep","f",'△'+rec1,'△'+rec2,"f");
+		write_log("sep","f",'△'+rec1,'△'+rec2,'f','');
 
 		}
 }
@@ -1117,5 +1142,5 @@ function mark(){
 	}else{
 
 	}
-	write_log("mark","f",'','','');
+	write_log("mark","f",'','','','');
 }
