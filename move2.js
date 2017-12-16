@@ -1,5 +1,5 @@
 window.onbeforeunload = function(e) {
-    var t='ちょっと待ってくださいよ。まだダメですよ。';
+    var t='戻るボタンと更新ボタンは終了まで押さないでください！';
     return t;
 };
 
@@ -246,8 +246,9 @@ function makeButton(name,x,y,clr,cnt,next_func){
 		var contents_text = '<button type="button" class="button_green" value="' + name +'" onclick= "'+ next_func +'"" >' + cnt +'</button>';
 	}
 	var id_text = "div_" + name;
-	div1.id = id_text;
-	div1.style = style_text;
+	div1.setAttribute("id",id_text);
+	div1.setAttribute("style",style_text);
+	console.log(style_text);
 	document.getElementById("st_d").appendChild(div1);
 	document.getElementById(id_text).innerHTML= contents_text;
 	cX=div1.clientWidth/2;
