@@ -27,8 +27,8 @@ function start(){
 		<div id="div_katei" style="position: absolute; left:10px; top:10px;"><button type="button" class="button_yellow" value="katei" onclick= "ques1()">仮定を整理する</button></div>\
 		<div id="div_fromPic" style="position: absolute; left:230px; top:10px;"><button type="button" class="button_yellow" value="katei" onclick= "fromPic()">図形の性質から言えること</button></div>\
 		<div id="div_keturon" style="position: absolute; left:160px; top:460px;"><button type="button" class="button_blue" value="keturon" onclick= "ques2()">結論を整理する</button></div>';
-		document.getElementById("hint_flame").innerHTML='<img src="img/hint.jpg" alt="ヒント" style="width: 345px;">\
-		<div id="hint" style="width: 345px; height: 150px; overflow-y: scroll; ">\
+		document.getElementById("hint_flame").innerHTML='<img src="img/hint.jpg" alt="ヒント" style="width: 390px;">\
+		<div id="hint" style="width: 395px; height: 150px; overflow-y: scroll; ">\
 				<div id="hint1" style="width: 160px; padding: 5px;  float: left; position: relative;">\
 					<a href="hint/katei.html" target="_blank" onclick="hint_katei()">仮定とは？</a><br><br>\
 					<a href="hint/tohenequal.html" target="_blank" onclick="hint_hen()"">辺の長さが等しいことを言うためには？</a><br><br>\
