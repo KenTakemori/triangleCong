@@ -1,3 +1,7 @@
+window.onbeforeunload = function(e) {
+    var t='戻るボタンと更新ボタンは終了まで押さないでください！';
+    return t;
+};
 var beforeX =212.5; //ボタンを押した時点でここにX座標を入れて次のボタンとの結線に使う
 var beforeY =500; //ボタンを押した時点でここにY座標を入れて次のボタンとの結線に使う
 
