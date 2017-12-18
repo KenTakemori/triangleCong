@@ -29,11 +29,11 @@ function start(){
 	if(document.getElementById){
 			document.getElementById("button_seppic").innerHTML='<br><form name="seppic">△<input type="text" name="kaku1" size="4" value=""> ≡ △<input type="text" name="kaku1" size="4" value=""> </form><br> <button type="button" class="button_sg" value="katei" onclick= "takeout0()">合同になりそうな三角形を書き出す</button>';
 			document.getElementById("st_d").innerHTML='<canvas id="st_d_canvas" style="position: absolute; margin: 5px;" width=425px; height=510px; ></canvas>\
-		<div id="div_katei" style="position: absolute; left:10px; top:10px;"><button type="button" class="button_yellow" value="katei" onclick= "ques1()">仮定を整理する</button></div>\
-		<div id="div_fromPic" style="position: absolute; left:230px; top:10px;"><button type="button" class="button_yellow" value="katei" onclick= "fromPic()">図形の性質から言えること</button></div>\
-		<div id="div_keturon" style="position: absolute; left:160px; top:460px;"><button type="button" class="button_blue" value="keturon" onclick= "ques2()">結論を整理する</button></div>';
+		<div id="div_katei" style="position: absolute; left:10px; top:10px;"><button type="button" class="button_yellow" id="katei" value="katei" onclick= "ques1()">仮定を整理する</button></div>\
+		<div id="div_frompic" style="position: absolute; left:230px; top:10px;"><button type="button" class="button_yellow" id="frompic" value="frompic" onclick= "fromPic()">図形の性質から言えること</button></div>\
+		<div id="div_keturon" style="position: absolute; left:160px; top:460px;"><button type="button" class="button_blue" id="keturon" value="keturon" onclick= "ques2()">結論を整理する</button></div>';
 		document.getElementById("hint_flame").innerHTML='<img src="img/hint.jpg" alt="ヒント" style="width: 390px;">\
-		<div id="hint" style="width: 395px; height: 150px; overflow-y: scroll; ">\
+		<div id="hint" style="width: 395px; height: 145px; overflow-y: scroll; ">\
 				<div id="hint1" style="width: 160px; padding: 5px;  float: left; position: relative;">\
 					<a href="hint/katei.html" target="_blank" onclick="hint_katei()">仮定とは？</a><br><br>\
 					<a href="hint/tohenequal.html" target="_blank" onclick="hint_hen()"">辺の長さが等しいことを言うためには？</a><br><br>\
@@ -51,7 +51,7 @@ function start(){
 		document.getElementById("title").innerHTML='三角形合同証明問題 問題2'
 		}
 	}else{
-		document.getElementById("title").innerHTML='三角形合同証明問題 問題2　　<button type="button" class="button_sg" value="start" onclick= "start()">始める</button>　<input type="text" name="student_ID" size="30" value="生徒IDが違います。半角で正しく入れましょう。">'
+		document.getElementById("title").innerHTML='三角形合同証明問題 問題2　　<button type="button" class="button_sg" value="start" onclick= "start()">始める</button>　<input type="tel" name="student_IDbox" placeholder="生徒IDが違います。">'
 	}
 }
 //ヒントを押したことをログに残す関数
@@ -87,6 +87,22 @@ function time(){
 	elapsed_time=elapsed_time/1000;
 	alllog=alllog+elapsed_time+",";
 }
+//押した奴が赤くなり元のやつは元の色に戻る関数
+var lastid = "";
+var lastbgcolor="";
+var lastbdcolor="";
+
+function btnclr_change(e) {
+	if (lastid.length) {
+		document.getElementById(lastid).style.backgroundColor = lastbgcolor;
+		document.getElementById(lastid).style.borderColor = lastbdcolor;
+	}
+	lastbgcolor = e.style.backgroundColor;
+	lastbdcolor = e.style.borderColor;
+	e.style.backgroundColor = "#ffdbdb";
+	e.style.border = "solid 3px red"; 
+	lastid = e.id;
+}
 
 function write_log(act,vec,inp1,inp2,tf,inp3){
 	alllog=alllog+lognumber+",";
@@ -119,19 +135,30 @@ function finish(){
 	var canvas = document.getElementById("st_d_canvas").getContext("2d");
 	canvas.clearRect(0,0,425,510);
 	div_clear("katei");
-	div_clear("fromPic");
+	div_clear("frompic");
 	div_clear("keturon");
 	beforeX=210;
 	beforeY=20;
 	makeButton("_katei",160,10,"green","仮定","");
 	div_move("katei1","10","10");
 	div_move("katei2","10","60");
-	div_move("frompic2","10","110")
-	div_move("ketu","10","160");
-	div_move("ketu2","10","160");
-	div_move("ketu3","10","160");
 	div_move("frompic1","160","60");
+	div_move("frompic2","10","110")
+	if(document.getElementById("div_ketu")){
+		div_move("ketu","10","160");
+	}
+	if(document.getElementById("div_ketu2")){
+		div_move("ketu2","10","160");
+	}
+	if(document.getElementById("div_ketu3")){
+		div_move("ketu3","10","160");
+	}
 	div_move("congCond","160","110");
+
+	if (lastid.length) {
+		document.getElementById(lastid).style.backgroundColor = lastbgcolor;
+		document.getElementById(lastid).style.borderColor = lastbdcolor;
+	}
 }
 
 
@@ -239,11 +266,11 @@ function makeButton(name,x,y,clr,cnt,next_func){
 	var style_text = "position: absolute; left:" + x +"px; top:" + y + "px;";
 	//色判定
 	if(clr=="blue"){
-		var contents_text = '<button type="button" class="button_blue" value="' + name +'" onclick= "'+ next_func +'"" >' + cnt +'</button>';
+		var contents_text = '<button type="button" class="button_blue" id="'+name+'" value="' + name +'" onclick= "'+ next_func +'"" >' + cnt +'</button>';
 	}else if(clr=="yellow"){
-		var contents_text = '<button type="button" class="button_yellow" value="' + name +'" onclick= "'+ next_func +'"" >' + cnt +'</button>';
+		var contents_text = '<button type="button" class="button_yellow" id="'+name+'" value="' + name +'" onclick= "'+ next_func +'"" >' + cnt +'</button>';
 	}else{
-		var contents_text = '<button type="button" class="button_green" value="' + name +'" onclick= "'+ next_func +'"" >' + cnt +'</button>';
+		var contents_text = '<button type="button" class="button_green" id="'+name+'" value="' + name +'" onclick= "'+ next_func +'"" >' + cnt +'</button>';
 	}
 	var id_text = "div_" + name;
 	div1.setAttribute("id",id_text);
@@ -514,9 +541,10 @@ var frompicText="";//後で表示するためにとっておく
 function fromPic(){
 	if(mode=="normal"){
 		question_number=0;
-		beforeXY("div_fromPic");
+		beforeXY("div_frompic");
 		makeSelect("図形の性質から言えることはなんでしょうか？<br>選んだ後、根拠となることがら(理由)を聞きます。<br>")
 		write_log("psbtn","f","frompic()",'','','');
+		btnclr_change(document.getElementById("frompic"));
 	}else if(mode=="cong"){
 
 	}else if(mode=="use_prosp"){
@@ -630,6 +658,7 @@ function ques1(){
 		beforeXY("div_katei");
 		makeSelect("この問題における「仮定」はなんでしょう？<br>「仮定」の意味が分からない場合は下のリンクをクリックしよう。<br>");
 		write_log("psbtn","f","ques1()",'','','');
+		btnclr_change(document.getElementById("katei"));
 	}else if(mode=="cong"){
 		
 	}else if(mode=="use_prosp"){
@@ -725,6 +754,7 @@ function ques2(){
 		beforeXY("div_keturon");
 		makeSelect("この問題における「結論」はなんでしょう？<br>「結論」の意味が分からない場合は下のリンクをクリックしよう。<br>");
 		write_log("psbtn","b","ques2()",'','','');
+		btnclr_change(document.getElementById("keturon"));
 	}else if(mode=="cong"){
 		
 	}else if(mode=="use_prosp"){
@@ -787,6 +817,7 @@ function ques3(){
 			document.getElementById("diag").innerHTML=fb_text;
 		}
 		write_log("psbtn","b","ques3()",'','','');
+		btnclr_change(document.getElementById("ketu"));
 	}else if(mode=="backcong"){
 
 	}
@@ -898,6 +929,7 @@ function ques4_1(){
 			document.getElementById("diag").innerHTML=fb_text;
 			write_log("psbtn","f","ques4_1()","結論まだ",'','');
 		}
+		btnclr_change(document.getElementById("katei1"));
 	}else if(mode=="cong"){
 		if(k1==0){
 			k1=1;
@@ -938,6 +970,7 @@ function ques4_2(){
 			document.getElementById("diag").innerHTML=fb_text;
 			write_log("psbtn","f","ques4_2()","結論まだ",'','');
 		}
+		btnclr_change(document.getElementById("katei2"));
 	}else if(mode=="cong"){
 		if(k2==0){
 			k2=1;
@@ -978,7 +1011,7 @@ function ques4_pic(){
 			document.getElementById("diag").innerHTML=fb_text;
 			write_log("psbtn","f","ques4_pic()","結論まだ",'','');
 		}
-		
+		btnclr_change(document.getElementById("frompic2"));
 	}else if(mode=="cong"){
 		if(fp==0){
 			fp=1;
@@ -1014,7 +1047,7 @@ function ques4_fb(){
 				forcong=4;
 				mode="cong";
 				congboolean=true;
-				makeButton("congCond",120,320,"green",'____________がそれぞれ等しい',"");
+				makeButton("congCond0",120,320,"green",'____________がそれぞれ等しい',"");
 				beforeXY("div_congCond");
 				makeButton("ketu2",160,390,"blue",'△'+rec1+'≡△'+rec2,"ques3()");
 				write_log("ans","f","△"+rec1,"△"+rec2,'t','');
@@ -1098,7 +1131,9 @@ function ques4_fb2(){
 function ques4_fb3(){
 	if(document.ques4_fb2_select.elements[0].value==2){
 		document.getElementById("diag").innerHTML='正解です！<br>しっかりと図を見て合同条件を選べています。<br>構造図に合同条件が表示されました。<br><br>これで「前向き推論」と「後ろ向き推論」が繋がりましたね。<br>なので構造図作成は終了です。終了ボタンを押して担当の人を呼びましょう。<br><p style="text-align:right"><button type="button" value="output" style="" onclick= "output()">終了</button> </p> <a id="download" target="_blank">ダウンロード（IEでは、右クリック＞対象をファイルに保存）</a>'
-		mode="normal";
+		if(document.getElementById("div_congCond0")){
+			document.getElementById("div_congCond0").innerHTML='';
+		}
 		document.getElementById("div_congCond1").innerHTML='';
 		document.getElementById("div_congCond2").innerHTML='';
 		document.getElementById("div_congCond3").innerHTML='';
