@@ -640,7 +640,7 @@ function ques1_fb(){
 					if(frompic==0){document.getElementById("pic").innerHTML='<img src="q1_image/pic_q1_ABD.jpg" alt="問題図" style="width: 345px;">'}
 					else if(frompic==1){document.getElementById("pic").innerHTML='<img src="q1_image/pic_q1_ABDAC.jpg" alt="問題図" style="width: 345px;">'}else{}
 				}else if(ques1_count==1){
-					makeButton("katei2",100,90,"yellow",hen1+'='+hen2,"ques4_2");
+					makeButton("katei2",100,90,"yellow",hen1+'='+hen2,"ques4_2()");
 					katei2Text=hen1+'='+hen2;
 					forcong++;
 					ques1_right="AB=AD"
