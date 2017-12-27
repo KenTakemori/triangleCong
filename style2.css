@@ -1,0 +1,57 @@
+.center{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  margin: auto;
+  width: 300px;
+  height: 150px;
+}
+
+a.dateselection{
+  display: block;
+  position: relative;
+  text-decoration: none;
+  height:35px;
+  width: 200px;
+  line-height: 37px;
+  text-align: center;
+  color: #fff;
+  border:solid 1px #fff;
+  overflow: hidden;
+  z-index: 1;
+  margin-right: auto;
+  margin-left: auto;
+}
+a.dateselection:after{
+  content:"";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 0;
+  width: 100%;
+  background : #fff;
+  opacity: 0;
+  -webkit-transform: translateX(-50%) translateY(-50%) rotate(45deg);
+  -moz-transform: translateX(-50%) translateY(-50%) rotate(45deg);
+  -ms-transform: translateX(-50%) translateY(-50%) rotate(45deg);
+  transform: translateX(-50%) translateY(-50%) rotate(45deg);
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -o-transition: 0.3s;
+  -ms-transition: 0.3s;
+  transition: 0.3s;
+  z-index: -1;
+}
+a.dateselection:hover{
+  color: #42a5f5;
+}
+a.dateselection:hover:after{
+  height: 250%;
+  opacity: 1;
+}
+a.dateselection:active:after{
+  height: 350%;
+  opacity: 1;
+}
