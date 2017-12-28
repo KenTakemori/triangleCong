@@ -1,3 +1,7 @@
+window.onbeforeunload = function(e) {
+    var t='戻るボタンや更新ボタンは押さないでください。「このページに止まるを押して続けましょう。」';
+    return t;
+};
 var beforeX =212.5; //ボタンを押した時点でここにX座標を入れて次のボタンとの結線に使う
 var beforeY =500; //ボタンを押した時点でここにY座標を入れて次のボタンとの結線に使う
 
@@ -24,9 +28,9 @@ function start(){
 	if(document.getElementById){
 			document.getElementById("button_seppic").innerHTML='<br><form name="seppic">△<input type="text" name="kaku1" size="4" value=""> ≡ △<input type="text" name="kaku1" size="4" value=""> </form><br> <button type="button" class="button_sg" value="katei" onclick= "takeout0()">合同になりそうな三角形を書き出す</button>';
 			document.getElementById("st_d").innerHTML='<canvas id="st_d_canvas" style="position: absolute; margin: 5px;" width=425px; height=510px; ></canvas>\
-		<div id="div_katei" style="position: absolute; left:10px; top:10px;"><button type="button" class="button_yellow" value="katei" onclick= "ques1()">仮定を整理する</button></div>\
-		<div id="div_fromPic" style="position: absolute; left:230px; top:10px;"><button type="button" class="button_yellow" value="katei" onclick= "fromPic()">図形の性質から言えること</button></div>\
-		<div id="div_keturon" style="position: absolute; left:160px; top:460px;"><button type="button" class="button_blue" value="keturon" onclick= "ques2()">結論を整理する</button></div>';
+		<div id="div_katei" style="position: absolute; left:10px; top:10px;"><button type="button" class="button_yellow" id="katei" value="katei" onclick= "ques1()">仮定を整理する</button></div>\
+		<div id="div_frompic" style="position: absolute; left:230px; top:10px;"><button type="button" class="button_yellow" id="frompic" value="katei" onclick= "fromPic()">図形の性質から言えること</button></div>\
+		<div id="div_keturon" style="position: absolute; left:160px; top:460px;"><button type="button" class="button_blue" id="keturon" value="keturon" onclick= "ques2()">結論を整理する</button></div>';
 		document.getElementById("hint_flame").innerHTML='<img src="img/hint.jpg" alt="ヒント" style="width: 345px;">\
 		<div id="hint" style="width: 345px; height: 150px; overflow-y: scroll; ">\
 				<div id="hint1" style="width: 160px; padding: 5px;  float: left; position: relative;">\
@@ -83,6 +87,23 @@ function time(){
 	alllog=alllog+elapsed_time+",";
 }
 
+//押した奴が赤くなり元のやつは元の色に戻る関数
+var lastid = "";
+var lastbgcolor="";
+var lastbdcolor="";
+
+function btnclr_change(e) {
+	if (lastid.length) {
+		document.getElementById(lastid).style.backgroundColor = lastbgcolor;
+		document.getElementById(lastid).style.borderColor = lastbdcolor;
+	}
+	lastbgcolor = e.style.backgroundColor;
+	lastbdcolor = e.style.borderColor;
+	e.style.backgroundColor = "#ffdbdb";
+	e.style.border = "solid 3px red"; 
+	lastid = e.id;
+}
+
 function write_log(act,vec,inp1,inp2,tf,inp3){
 	alllog=alllog+lognumber+",";
 	time();
@@ -114,7 +135,7 @@ function finish(){
 	var canvas = document.getElementById("st_d_canvas").getContext("2d");
 	canvas.clearRect(0,0,425,510);
 	div_clear("katei");
-	div_clear("fromPic");
+	div_clear("frompic");
 	div_clear("keturon");
 	beforeX=210;
 	beforeY=20;
@@ -233,11 +254,11 @@ function makeButton(name,x,y,clr,cnt,next_func){
 	var style_text = "position: absolute; left:" + x +"px; top:" + y + "px;";
 	//色判定
 	if(clr=="blue"){
-		var contents_text = '<button type="button" class="button_blue" value="' + name +'" onclick= "'+ next_func +'"" >' + cnt +'</button>';
+		var contents_text = '<button type="button" class="button_blue" id="'+name+'" value="' + name +'" onclick= "'+ next_func +'"" >' + cnt +'</button>';
 	}else if(clr=="yellow"){
-		var contents_text = '<button type="button" class="button_yellow" value="' + name +'" onclick= "'+ next_func +'"" >' + cnt +'</button>';
+		var contents_text = '<button type="button" class="button_yellow" id="'+name+'" value="' + name +'" onclick= "'+ next_func +'"" >' + cnt +'</button>';
 	}else{
-		var contents_text = '<button type="button" class="button_green" value="' + name +'" onclick= "'+ next_func +'"" >' + cnt +'</button>';
+		var contents_text = '<button type="button" class="button_green" id="'+name+'" value="' + name +'" onclick= "'+ next_func +'"" >' + cnt +'</button>';
 	}
 	var id_text = "div_" + name;
 	div1.id = id_text;
@@ -517,8 +538,9 @@ var frompicText="";//後で表示するためにとっておく
 function fromPic(){
 	if(mode=="normal"){
 		question_number=0;
-		beforeXY("div_fromPic");
+		beforeXY("div_frompic");
 		makeSelect("図形の性質から言えることはなんでしょうか？<br>選んだ後、その理由を聞きます。<br>")
+		btnclr_change(document.getElementById("frompic"));
 	}else if(mode=="cong"){
 
 	}else if(mode=="use_prosp"){
@@ -625,6 +647,7 @@ function ques1(){
 		question_number = 1;
 		beforeXY("div_katei");
 		makeSelect("この問題における「仮定」はなんでしょう？<br>「仮定」の意味が分からない場合は下のリンクをクリックしよう。<br>");
+		btnclr_change(document.getElementById("katei"));
 	}else if(mode=="cong"){
 		
 	}else if(mode=="use_prosp"){
@@ -734,6 +757,7 @@ function ques2(){
 		question_number = 2;
 		beforeXY("div_keturon");
 		makeSelect("この問題における「結論」はなんでしょう？<br>「結論」の意味が分からない場合は下のリンクをクリックしよう。<br>");
+		btnclr_change(document.getElementById("keturon"));
 	}else if(mode=="cong"){
 		
 	}else if(mode=="use_prosp"){
@@ -780,6 +804,7 @@ function ques4(){
 			var fb_text="まだ仮定を全て書き出せていません。まずは結論と仮定を全て書き出すところからスタートでしたね。";
 			document.getElementById("diag").innerHTML=fb_text;
 		}
+		btnclr_change(document.getElementById("AQ//BP"));
 	}else if(mode=="cong"){
 		diag_history=document.getElementById("diag").innerHTML;
 		document.getElementById("diag").innerHTML='これは結論です。<br>「後ろ向き推論」によって書いた構造図(青)を「前向き推論」の中で使うことはできません。<br>「正しいこと」で作られている「前向き推論」に、「まだ正しいかは分からないこと」で作られている「後ろ向き推論」を混ぜてはいけません。<br>前向き推論,後ろ向き推論がよく分からない人は下記リンクをクリックして復習しましょう。<br> <p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
@@ -821,6 +846,7 @@ function ques5_sakaku(){
 	if(mode=="normal"){
 		beforeXY("div_sakaku");
 		document.getElementById("diag").innerHTML='ではこの「錯角」は今回の問題ではどの部分にあたるでしょうか？<br>(半角大文字アルファベットで入力してください)<br><form name="res5"><p><select><option value="錯角">錯角</option></select>∠<input type="text" name="kaku1" size="10" value="">=∠<input type="text" name="kaku2" size="10" value=""><br></p></form><p style="position: absolute;right: 130px;bottom: 5px"><input type="button" value="決定" onclick="ques5_conti()"></p><p class="button_dec" ><input type="button" value="もうないので次に進む" onclick="ques5_fini()"></p>'
+		btnclr_change(document.getElementById("sakaku"));
 	}else if(mode=="cong"){
 		
 	}else if(mode=="use_prosp"){
@@ -833,6 +859,7 @@ function ques5_sakaku(){
 function ques5_douikaku(){
 	if(mode=="normal"){
 		document.getElementById("diag").innerHTML='ではこの「同位角」は今回の問題ではどの部分にあたるでしょうか？<br>(半角大文字アルファベットで入力してください)<br><form name="res5"><p><select><option value="同位角">同位角</option></select>∠<input type="text" name="kaku1" size="10" value="">=∠<input type="text" name="kaku2" size="10" value=""><br></p></form><p style="position: absolute;right: 130px;bottom: 5px"><input type="button" value="決定" onclick="ques5_conti()"></p><p class="button_dec" ><input type="button" value="もうないので次に進む" onclick="ques5_fini()"></p>'
+		btnclr_change(document.getElementById("douikaku"));
 	}else if(mode=="cong"){
 		
 	}else if(mode=="use_prosp"){
@@ -940,11 +967,13 @@ function ques5_fini(){
 function ques6_before1(){
 	beforeXY("div_kaku_1");
 	ques6();
+	btnclr_change(document.getElementById("kaku_1"));
 }
 
 function ques6_before2(){
 	beforeXY("div_kaku_2");
 	ques6();
+	btnclr_change(document.getElementById("kaku_2"));
 }	
 
 
@@ -1080,6 +1109,7 @@ function ques7_1(){
 		if(keturonboolean==true){
 		question_number = 7;
 		beforeXY("div_katei1");
+		btnclr_change(document.getElementById("katei1"));
 		makeSelect("これらから言えることはあるでしょうか？<br>図も参考にしながら考えてみましょう。<br>ない場合は「仮定」や「図の性質から言えること」などの、<br>言えること=正しいと分かっていること　が他にないか確認してみましょう。<br>")
 		k1=1;
 		k2=0;
@@ -1117,6 +1147,7 @@ function ques7_2(){
 		if(keturonboolean==true){
 		question_number = 7;
 		beforeXY("div_katei2");
+		btnclr_change(document.getElementById("katei2"));
 		makeSelect("これらから言えることはあるでしょうか？<br>図も参考にしながら考えてみましょう。<br>ない場合は「仮定」や「図の性質から言えること」などの、<br>言えること=正しいと分かっていること　が他にないか確認してみましょう。<br>")
 		k1=0;
 		k2=1;
@@ -1155,6 +1186,7 @@ function ques7_pic(){
 		if(keturonboolean==true){
 		question_number = 7;
 		beforeXY("div_frompic2");
+		btnclr_change(document.getElementById("frompic2"));
 		makeSelect("これらから言えることはあるでしょうか？<br>図も参考にしながら考えてみましょう。<br>ない場合は「仮定」や「図の性質から言えること」などの、<br>言えること=正しいと分かっていること　が他にないか確認してみましょう。<br>")
 		k1=0;
 		k2=0;
@@ -1303,6 +1335,7 @@ function ques8(){
 													</select>\
 												<input type="button" value="決定" onclick="ques8_fb()">\
 											</form><br>'
+	btnclr_change(document.getElementById("cong"));
 }
 }
 function ques8_fb(){
@@ -1415,6 +1448,7 @@ function ques9(){
 		}else{
 			document.getElementById("diag").innerHTML='合同な三角形の対応する辺や角は等しいことが分かります。<br>現時点ではこれを使うのか、また使うとすればどこに使うのかが分からないので後ろ向き推論を進めましょう。'
 		}
+		btnclr_change(document.getElementById("cong"));
 	}else if(mode=="use_prosp"){
 		document.getElementById("diag").innerHTML='そうですね！合同な図形の対応する角は等しいですね！<br>さてこれで、仮定側からの前向き推論と結論からの後ろ向き推論が繋がりました。<br>時間に余裕があれば証明を記述しましょう。'
 		stLine(beforeX+40,beforeY+10,160+40,230+10);

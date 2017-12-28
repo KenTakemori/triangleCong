@@ -1,5 +1,5 @@
 window.onbeforeunload = function(e) {
-    var t='ちょっと待ってくださいよ。まだダメですよ。';
+    var t='戻るボタンや更新ボタンは押さないでください。「このページに止まるを押して続けましょう。」';
     return t;
 };
 
