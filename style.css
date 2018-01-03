@@ -11,6 +11,10 @@ p.button_dec{
 	bottom: 5px;
 }
 
+p.right{
+	text-align: right;
+}
+
 button.button_sg{
 	display: inline-block;
     padding: 0.3em 1em;
