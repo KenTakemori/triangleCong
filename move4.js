@@ -324,14 +324,12 @@ function whichFB(){
 		fromPic_fb();
 	}else if(question_number==7){
 		ques7_fb();
-	}else if(question_number==6 && congboolean==false){
-		ques6_fb();
-	}else if(question_number==6 && congboolean==true){
-		ques6_3_fb();
 	}else if(question_number==4){
 		ques4_fb();
 	}else if(question_number==3){
 		ques3_fb()
+	}else if(question_number==6){
+		ques6_fb();
 	}
 }
 
@@ -611,13 +609,13 @@ function fromPic_fb2(){
 		beforeXY("div_frompic1")
 		makeButton("frompic2",260,150,"yellow",frompicText,"ques4_pic()")
 		if(ques1_count==0){
-			document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_A.jpg" alt="問題図" style="width: 345px">';
+			document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_E.jpg" alt="問題図" style="width: 345px">';
 		}else if(ques1_count==2){
-			document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_all.jpg" alt="問題図" style="width: 345px">';
-		}else if(ques1_left=="AE=AD"){
-			document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_ADEA.jpg" alt="問題図" style="width: 345px">';
-		}else if(ques1_left=="AB=AC"){
-			document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_ABCA.jpg" alt="問題図" style="width: 345px">';
+			document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_all.jpg" alt="問題図" style="width: 345px">';
+		}else if(ques1_left=="CE=BE"){
+			document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_CEBEE.jpg" alt="問題図" style="width: 345px">';
+		}else if(ques1_left=="ACE=DBE"){
+			document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_CBE.jpg" alt="問題図" style="width: 345px">';
 		}else{
 		}
 		write_log("ans","f","対頂角",'','t','')
@@ -628,13 +626,13 @@ function fromPic_fb2(){
 		document.getElementById("diag").appendChild(div_fb2);
 		document.getElementById("fb2").innerHTML= fb_text;
 		if(ques1_count==0){
-			document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_A.jpg" alt="問題図" style="width: 345px">';
+			document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_E.jpg" alt="問題図" style="width: 345px">';
 		}else if(ques1_count==2){
-			document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_all.jpg" alt="問題図" style="width: 345px">';
-		}else if(ques1_left=="AE=AD"){
-			document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_ADEA.jpg" alt="問題図" style="width: 345px">';
-		}else if(ques1_left=="AB=AC"){
-			document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_ABCA.jpg" alt="問題図" style="width: 345px">';
+			document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_all.jpg" alt="問題図" style="width: 345px">';
+		}else if(ques1_left=="CE=BE"){
+			document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_CEBEE.jpg" alt="問題図" style="width: 345px">';
+		}else if(ques1_left=="ACE=DBE"){
+			document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_CBE.jpg" alt="問題図" style="width: 345px">';
 		}else{
 		}
 	}else{}
@@ -681,15 +679,15 @@ function ques1_fb(){
 					forcong++;
 					ques1_left="CE=BE"
 					//問題図の変更
-					if(frompic==0){document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_ADE.jpg" alt="問題図" style="width: 345px;">'}
-					else if(frompic==1){document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_ADEA.jpg" alt="問題図" style="width: 345px;">'}else{}
+					if(frompic==0){document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_CEBE.jpg" alt="問題図" style="width: 345px;">'}
+					else if(frompic==1){document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_CEBEE.jpg" alt="問題図" style="width: 345px;">'}else{}
 				}else if(ques1_count==1){
 					katei2Text=hen1+'='+hen2;
 					makeButton("katei2",100,80,"yellow",katei2Text,"ques4_2()");
 					forcong++;
 					ques1_right="CE=BE"
-					if(frompic==0){document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_ABCADE.jpg" alt="問題図" style="width: 345px;">'}
-					else if(frompic==1){document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_all.jpg" alt="問題図" style="width: 345px;">'}else{}
+					if(frompic==0){document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_CEBECB.jpg" alt="問題図" style="width: 345px;">'}
+					else if(frompic==1){document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_all.jpg" alt="問題図" style="width: 345px;">'}else{}
 				}else{
 				}
 				write_log("ans","f",hen1,hen2,'t','');
@@ -721,15 +719,15 @@ function ques1_fb(){
 					forcong++;
 					ques1_left="ACE=DBE"
 					//問題図の変更
-					if(frompic==0){document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_ADE.jpg" alt="問題図" style="width: 345px;">'}
-					else if(frompic==1){document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_ADEA.jpg" alt="問題図" style="width: 345px;">'}else{}
+					if(frompic==0){document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_CB.jpg" alt="問題図" style="width: 345px;">'}
+					else if(frompic==1){document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_CBE.jpg" alt="問題図" style="width: 345px;">'}else{}
 				}else if(ques1_count==1){
 					katei2Text='∠'+kaku1+'=∠'+kaku2;
 					makeButton("katei2",100,80,"yellow",katei2Text,"ques4_2()");
 					forcong++;
 					ques1_right="ACE=DBE"
-					if(frompic==0){document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_ABCADE.jpg" alt="問題図" style="width: 345px;">'}
-					else if(frompic==1){document.getElementById("pic").innerHTML='<img src="q2_image/pic_q2_all.jpg" alt="問題図" style="width: 345px;">'}else{}
+					if(frompic==0){document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_CEBECB.jpg" alt="問題図" style="width: 345px;">'}
+					else if(frompic==1){document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_all.jpg" alt="問題図" style="width: 345px;">'}else{}
 				}else{
 				}
 				write_log("ans","f",hen1,hen2,'t','');
@@ -1272,6 +1270,7 @@ function ques6_fb(){
 			makeButton("ketu3",180,400,"blue",keturon_text,"");
 			keturonboolean=true;
 			write_log("ans","b",rec1,rec2,'t','');
+			mode="finish";
 		}else{
 			var fb_text="残念ながらそのことを言うことはできません。";
 			var div_fb = document.createElement("div");
@@ -1300,9 +1299,9 @@ function seppicback(){
 function takeout0(){
 	var rec1=document.seppic.elements[0].value;
 	var rec2=document.seppic.elements[1].value;
-	var boolnum=tri_cor(rec1,rec2,"ABE","ACD");
+	var boolnum=tri_cor(rec1,rec2,"ACE","DBE");
 	if(boolnum==0){
-		document.getElementById("div_seppic").innerHTML='<img src="q2_image/pic_q2_sep.jpg" alt="問題図" style="width: 330px;">'
+		document.getElementById("div_seppic").innerHTML='<img src="q4_image/pic_q4_sep.jpg" alt="問題図" style="width: 330px;">'
 		document.getElementById("button_seppic").innerHTML='<button type="button" class="button_sg" value="katei" onclick= "mark()">現在わかっているところまで印をつける</button><br>'
 		write_log("sep","f",'△'+rec1,'△'+rec2,'t','');
 	}else if(boolnum==1){
@@ -1318,27 +1317,27 @@ function takeout0(){
 }
 
 function mark(){
-	if(frompic==1&&(ques1_left=="AE=AD"||ques1_right=="AE=AD")&&(ques1_left=="AB=AC"||ques1_right=="AB=AC")){
+	if(frompic==1&&(ques1_left=="CE=BE"||ques1_right=="CE=BE")&&(ques1_left=="ACE=DBE"||ques1_right=="ACE=DBE")){
 		//全揃い
-		document.getElementById("div_seppic").innerHTML='<img src="q2_image/pic_q2_sep_all.jpg" alt="問題図" style="width: 330px;">'
-	}else if((ques1_left=="AE=AD"||ques1_right=="AE=AD")&&(ques1_left=="AB=AC"||ques1_right=="AB=AC")){
-		//Mが足りない
-		document.getElementById("div_seppic").innerHTML='<img src="q2_image/pic_q2_sep_ABCADE.jpg" alt="問題図" style="width: 330px;">'
-	}else if(frompic==1&&(ques1_left=="AB=AC"||ques1_right=="AB=AC")){
-		//ABが足りない
-		document.getElementById("div_seppic").innerHTML='<img src="q2_image/pic_q2_sep_ABCA.jpg" alt="問題図" style="width: 330px;">'
-	}else if(frompic==1&&(ques1_left=="AE=AD"||ques1_right=="AE=AD")){
-		//PQが足りない
-		document.getElementById("div_seppic").innerHTML='<img src="q2_image/pic_q2_sep_ADEA.jpg" alt="問題図" style="width: 330px;">'
+		document.getElementById("div_seppic").innerHTML='<img src="q4_image/pic_q4_sep_all.jpg" alt="問題図" style="width: 330px;">'
+	}else if((ques1_left=="CE=BE"||ques1_right=="CE=BE")&&(ques1_left=="ACE=DBE"||ques1_right=="ACE=DBE")){
+		//Aが足りない
+		document.getElementById("div_seppic").innerHTML='<img src="q4_image/pic_q4_sep_CEBECB.jpg" alt="問題図" style="width: 330px;">'
+	}else if(frompic==1&&(ques1_left=="ACE=DBE"||ques1_right=="ACE=DBE")){
+		//CE=BEが足りない
+		document.getElementById("div_seppic").innerHTML='<img src="q4_image/pic_q4_sep_CBE.jpg" alt="問題図" style="width: 330px;">'
+	}else if(frompic==1&&(ques1_left=="CE=BE"||ques1_right=="CE=BE")){
+		//ACE=DBEが足りない
+		document.getElementById("div_seppic").innerHTML='<img src="q4_image/pic_q4_sep_CEBEE.jpg" alt="問題図" style="width: 330px;">'
 	}else if(frompic==1){
-		//Mしかない
-		document.getElementById("div_seppic").innerHTML='<img src="q2_image/pic_q2_sep_A.jpg" alt="問題図" style="width: 330px;">'
-	}else if(ques1_left=="AE=AD"||ques1_right=="AE=AD"){
-		//ABしかない
-		document.getElementById("div_seppic").innerHTML='<img src="q2_image/pic_q2_sep_ADE.jpg" alt="問題図" style="width: 330px;">'
-	}else if(ques1_left=="AB=AC"||ques1_right=="AB=AC"){
-		//PQしかない
-		document.getElementById("div_seppic").innerHTML='<img src="q2_image/pic_q2_sep_ABC.jpg" alt="問題図" style="width: 330px;">'
+		//Eしかない
+		document.getElementById("div_seppic").innerHTML='<img src="q4_image/pic_q4_sep_E.jpg" alt="問題図" style="width: 330px;">'
+	}else if(ques1_left=="CE=BE"||ques1_right=="CE=BE"){
+		//CE=BEしかない
+		document.getElementById("div_seppic").innerHTML='<img src="q4_image/pic_q4_sep_CEBE.jpg" alt="問題図" style="width: 330px;">'
+	}else if(ques1_left=="ACE=DBE"||ques1_right=="ACE=DBE"){
+		//ACE=DBEしかない
+		document.getElementById("div_seppic").innerHTML='<img src="q4_image/pic_q4_sep_CB.jpg" alt="問題図" style="width: 330px;">'
 	}else{
 
 	}
