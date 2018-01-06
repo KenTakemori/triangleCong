@@ -48,10 +48,10 @@ function start(){
 			</div>'
 		account=document.student_ID.elements[1].value;
 		alllog="question2,0,start,,,生徒ID:"+account+",,/"
-		document.getElementById("title").innerHTML='三角形合同証明問題 問題4'
+		document.getElementById("title").innerHTML='三角形合同証明問題 問題5'
 		}
 	}else{
-		document.getElementById("title").innerHTML='三角形合同証明問題 問題4　　<button type="button" class="button_sg" value="start" onclick= "start()">始める</button>　<input type="text" name="student_ID" size="30" placeholder="生徒IDが間違っています。">'
+		document.getElementById("title").innerHTML='三角形合同証明問題 問題5　　<button type="button" class="button_sg" value="start" onclick= "start()">始める</button>　<input type="text" name="student_ID" size="30" placeholder="生徒IDが間違っています。">'
 	}
 }
 //ヒントを押したことをログに残す関数
@@ -147,12 +147,13 @@ function finish(){
 	beforeY=20;
 	makeButton("_katei",160,10,"green","仮定","");
 	div_move("katei1","10","10");
-	div_move("katei2","10","60");
-	div_move("frompic2","10","110")
+	div_move("katei3","10","60");
+	div_move("katei4","10","110")
 	div_move("cong","10","160")	
 	div_move("ketu","10","210");
-	div_move("frompic1","160","60");
+	div_move("katei2","160","60");
 	div_move("congCond","160","110");
+	div_move("taiokaku","160","160")
 
 	if (lastid.length) {
 		document.getElementById(lastid).style.backgroundColor = lastbgcolor;
@@ -308,7 +309,9 @@ function valueToJap(val){
 	else if(val=='center'){return '〇〇の中点である'}
 	else if(val=='divi'){return '二等分される'}
 	else if(val=='val'){return '◯(値)である'}
-	else{}
+	else if(val=="eqtri"){return '正三角形である'}
+	else if(val=="nitouhen"){return '二等辺三角形である'}
+	else if(val=="suq"){return '正方形である'}
 }
 
 var question_number=1; //今何番のquestionについて考えているかを入れておくグローバル変数
@@ -330,6 +333,8 @@ function whichFB(){
 		ques3_fb()
 	}else if(question_number==6){
 		ques6_fb();
+	}else if(question_number==11){
+		ques1_2_fb();
 	}
 }
 
@@ -413,10 +418,16 @@ function makeForm(){
 	}else if(ans[1]=="cong"){
 		var txt = '<br>「' + valueToJap(ans[0]) + 'が合同」ということはありません。「合同」という言葉は図形(特に三角形)が一致する時に使います。三角形の合同について書きたい時は「三角形が合同」を選びましょう。' ;
 		document.getElementById("_form").innerHTML = txt;
-	}else if(ans[0]=="tri"){
-		var txt = '<br>「三角形が'+ valueToJap(ans[1])+ '」ということはありません。「何」が「'+valueToJap(ans[1])+'」なのかもう一度考えてフォームを選んでみましょう。'
+	}else if(ans[0]=="tri"&&ans[1]=="eqtri"){
+		form_number = 24;
+		document.getElementById("_form").innerHTML = '<br><form name="form24">△<input type="text" name="kaku1" size="4" value="">が正三角形である。<input type="button" value="決定" onclick="whichFB()"><br></p></form>';
+	}else if(ans[0]=="tri"&&ans[1]=="hitohen"){
+		form_number = 25;
+		document.getElementById("_form").innerHTML = '<br><form name="form25">△<input type="text" name="kaku1" size="4" value="">が二等辺三角形である。<input type="button" value="決定" onclick="whichFB()"><br></p></form>';
+	}else{
+		var txt = '<br>「'+valueToJap(ans[0])+'が'+ valueToJap(ans[1])+ '」ということはありません。「何」が「どう」なっているのかもう一度考えてフォームを選んでみましょう。'
 		document.getElementById("_form").innerHTML = txt;
-	}else{}
+	}
 }
 
 //入力フォーム選択を出す関数。引数は("フォームの前の言葉")
@@ -438,6 +449,9 @@ function makeSelect(cnt1){
 					<option value="center">〇〇の中点である</option>\
 					<option value="divi">二等分される</option>\
 					<option value="val">◯(値)である</option>\
+					<option value="eqtri">正三角形</option>\
+					<option value="hitohen">二等辺三角形</option>\
+					<option value="suq">正方形</option>\
 				</select>\
 				<input type="button" value="入力用フォームを表示" onclick="makeForm()">\
 			</form>';
@@ -551,100 +565,61 @@ function fromPic(){
 
 	}
 }
-//共通な角限定の関数
+
 function fromPic_fb(){
-	if(form_number==2){
-		if(kaku_cor(document.form2.elements[0].value,document.form2.elements[1].value,"AEC","DEB")){
-			if(frompic==0){
-				var fb_text='その通りです<br>∠'+document.form2.elements[0].value+'=∠'+document.form2.elements[1].value+'になります。<br>ではなぜでしょう？根拠となることがらを選びましょう。<br><br>\
-					<form name="fromPic_select">\
-						<select name="thing">\
-							<option value="1">仮定だから</option>\
-							<option value="2">二等辺三角形だから</option>\
-							<option value="3">AQ//BPだから</option>\
-							<option value="4">対頂角だから</option>\
-							<option value="5">合同だから</option>\
-							<option value="6">共通だから</option>\
-							<option value="7">平行線の錯角だから</option>\
-						</select>\
-						<input type="button" value="決定" onclick="fromPic_fb2()">\
-					</form><br>'
-				var div_fb = document.createElement("div");
-				div_fb.id = "fb";
-				document.getElementById("diag").appendChild(div_fb);
-				document.getElementById("fb").innerHTML= fb_text;
-				write_log("ans","f",document.form2.elements[0].value,document.form2.elements[1].value,'t','');
-			}else{
-				alert('∠'+document.form2.elements[0].value+'=∠'+document.form2.elements[1].value+'は入力済みです。')
-			}
+	if(form_number==1){
+		var hen1=document.form1.elements[0].value;
+		var hen2=document.form1.elements[1].value;
+		if(hen_cor(hen1,hen2,"AB","BC")||hen_cor(hen1,hen2,"AB","CA")||hen_cor(hen1,hen2,"CA","BC")){
+			var fb_text='確かに'+hen1+'='+hen2+'であることが仮定から間接的に言えます。仮定としてどのようなことが書いてあったことで'+hen1+'='+hen2+'だと考えたのでしょうか？それを仮定に入力し、そのボタンを押して入力しましょう。'
+			var div_fb = document.createElement("div");
+			div_fb.id = "fb";
+			document.getElementById("diag").appendChild(div_fb);
+			document.getElementById("fb").innerHTML= fb_text;
 		}else{
 			var fb_text='残念ながら、そのことは図の性質からは言えません。<br>図形の性質から言えることがもうなかったり、わからない場合は後ろからも考えてみましょう。'
 			var div_fb = document.createElement("div");
 			div_fb.id = "fb";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb").innerHTML= fb_text;
-			write_log("ans","f",document.form2.elements[0].value,document.form2.elements[1].value,'f','');
+			write_log("ans","f",hen1,hen2,'f','');
+		}
+	}else if(form_number==2){
+		var kaku1=document.form2.elements[0].value;
+		var kaku2=document.form2.elements[1].value;
+		if(kaku_cor(kaku1,kaku2,"ABD","BCA")||kaku_cor(kaku1,kaku2,"ABD","DCA")||kaku_cor(kaku1,kaku2,"ABD","BCE")||kaku_cor(kaku1,kaku2,"ABD","DCE")||kaku_cor(kaku1,kaku2,"ABC","BCA")||kaku_cor(kaku1,kaku2,"ABC","DCA")||kaku_cor(kaku1,kaku2,"ABC","BCE")||kaku_cor(kaku1,kaku2,"ABC","DCE")||kaku_cor(kaku1,kaku2,"CAB","BCA")||kaku_cor(kaku1,kaku2,"CAB","DCA")||kaku_cor(kaku1,kaku2,"CAB","BCE")||kaku_cor(kaku1,kaku2,"CAB","DCE")||kaku_cor(kaku1,kaku2,"EAB"," BCA")||kaku_cor(kaku1,kaku2,"EAB","DCA")||kaku_cor(kaku1,kaku2,"EAB","BCE")||kaku_cor(kaku1,kaku2,"EAB","DCE")||kaku_cor(kaku1,kaku2,"ABD","CAB")||kaku_cor(kaku1,kaku2,"ABD","EAB")||kaku_cor(kaku1,kaku2,"ABC","CAB")||kaku_cor(kaku1,kaku2,"ABC","EAB")){
+			var fb_text='確かに∠'+kaku1+'=∠'+kaku2+'であることは仮定から間接的に言えます。仮定としてどのようなことが書いてあったことで∠'+kaku1+'=∠'+kaku2+'だと考えたのでしょうか？それを仮定に入力し、そのボタンを押して入力しましょう。'
+			var div_fb = document.createElement("div");
+			div_fb.id = "fb";
+			document.getElementById("diag").appendChild(div_fb);
+			document.getElementById("fb").innerHTML= fb_text;
+		}else{
+			var fb_text='残念ながら、そのことは図の性質からは言えません。<br>図形の性質から言えることがもうなかったり、わからない場合は後ろからも考えてみましょう。'
+			var div_fb = document.createElement("div");
+			div_fb.id = "fb";
+			document.getElementById("diag").appendChild(div_fb);
+			document.getElementById("fb").innerHTML= fb_text;
+			write_log("ans","f",kaku1,kaku2,'f','');
 		}
 	}else{
 		var fb_text='残念ながら、そのことは図の性質からは言えません。<br>図形の性質から言えることがもうなかったり、わからない場合は後ろからも考えてみましょう。'
-		var div_fb = document.createElement("div");
-		div_fb.id = "fb";
-		document.getElementById("diag").appendChild(div_fb);
-		document.getElementById("fb").innerHTML= fb_text;
-		write_log("ans","f",'','','f','');
+			var div_fb = document.createElement("div");
+			div_fb.id = "fb";
+			document.getElementById("diag").appendChild(div_fb);
+			document.getElementById("fb").innerHTML= fb_text;
+			write_log("ans","f",'','','f','');
 	}
 }
 
-function fromPic_fb2(){
-	if(document.fromPic_select.elements[0].value==4 && frompic==0){
-		var fb_text='正解です！ そのことが構造図に表示され、問題図にも角の大きさが等しいことを表す記号が表示されました。もし、他にも図形の性質から言えることがあればもう一度「図形の性質から言えること」のボタンを押してから記入しましょう。'
-		var div_fb2 = document.createElement("div");
-		div_fb2.id = "fb2";
-		document.getElementById("diag").appendChild(div_fb2);
-		document.getElementById("fb2").innerHTML= fb_text;
-		frompic=1;
-		forcong++;
-		frompicText='∠'+document.form2.elements[0].value+'=∠'+document.form2.elements[1].value;
-		makeButton("frompic1",280,80,"green",'対頂角','','')
-		beforeXY("div_frompic1")
-		makeButton("frompic2",260,150,"yellow",frompicText,"ques4_pic()")
-		if(ques1_count==0){
-			document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_E.jpg" alt="問題図" style="width: 345px">';
-		}else if(ques1_count==2){
-			document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_all.jpg" alt="問題図" style="width: 345px">';
-		}else if(ques1_left=="CE=BE"){
-			document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_CEBEE.jpg" alt="問題図" style="width: 345px">';
-		}else if(ques1_left=="ACE=DBE"){
-			document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_CBE.jpg" alt="問題図" style="width: 345px">';
-		}else{
-		}
-		write_log("ans","f","対頂角",'','t','')
-	}else if(frompic==0){
-		var fb_text='残念ながら違います。図の該当する辺に印をつけました。どのような状態になっているか考えてみましょう。'
-		var div_fb2 = document.createElement("div");
-		div_fb2.id = "fb2";
-		document.getElementById("diag").appendChild(div_fb2);
-		document.getElementById("fb2").innerHTML= fb_text;
-		if(ques1_count==0){
-			document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_E.jpg" alt="問題図" style="width: 345px">';
-		}else if(ques1_count==2){
-			document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_all.jpg" alt="問題図" style="width: 345px">';
-		}else if(ques1_left=="CE=BE"){
-			document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_CEBEE.jpg" alt="問題図" style="width: 345px">';
-		}else if(ques1_left=="ACE=DBE"){
-			document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_CBE.jpg" alt="問題図" style="width: 345px">';
-		}else{
-		}
-	}else{}
-	write_log("ans","f",'図形の性質',document.fromPic_select.elements[0].value,'f','');
-}
 
 //////////question1【前】「仮定はなんですか？」////////////////////
 var ques1_count=0;
-var ques1_left="";//CE=BE or ACE=DBEを入れる
-var ques1_right="";//CE=BE or ACE=DBEを入れる
+var ques1_left="";//hen or kakuを入れる
+var ques1_right="";//hen or kakuを入れる
 var katei1Text="";//後で使うためにとっとく
 var katei2Text="";//後で使うためにとっとく
+var katei3Text="";
+var katei4Text="";
 
 function ques1(){
 	if(mode=="normal"){
@@ -666,35 +641,29 @@ function ques1_fb(){
 	if(form_number==1){
 		var hen1=document.form1.elements[0].value;
 		var hen2=document.form1.elements[1].value;
-		if(hen_cor(hen1,hen2,"CE","BE")){
-			if(ques1_left!=="CE=BE" && ques1_right!=="CE=BE"){
+		if(hen_cor(hen1,hen2,"BD","CE")){
+			if(katei1Text==""){
 				var fb_text='正解です！<br>'+hen1+'='+hen2+'であることは「仮定」です。<br>左の構造図に'+hen1+'='+hen2+'が表示され、図にも長さが等しいことを表す記号が追加されました。<br>他にも仮定があれば、もう一度「仮定を整理する」のボタンを押してから記入しましょう。'
 				var div_fb = document.createElement("div");
 				div_fb.id = "fb";
 				document.getElementById("diag").appendChild(div_fb);
 				document.getElementById("fb").innerHTML= fb_text;
-				if(ques1_count==0){
-					katei1Text=hen1+'='+hen2;
-					makeButton("katei1",10,80,"yellow",katei1Text,"ques4_1()");
-					forcong++;
-					ques1_left="CE=BE"
-					//問題図の変更
-					if(frompic==0){document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_CEBE.jpg" alt="問題図" style="width: 345px;">'}
-					else if(frompic==1){document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_CEBEE.jpg" alt="問題図" style="width: 345px;">'}else{}
-				}else if(ques1_count==1){
-					katei2Text=hen1+'='+hen2;
-					makeButton("katei2",100,80,"yellow",katei2Text,"ques4_2()");
-					forcong++;
-					ques1_right="CE=BE"
-					if(frompic==0){document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_CEBECB.jpg" alt="問題図" style="width: 345px;">'}
-					else if(frompic==1){document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_all.jpg" alt="問題図" style="width: 345px;">'}else{}
-				}else{
-				}
+				katei1Text=hen1+'='+hen2;
+				makeButton("katei1",10,80,"yellow",katei1Text,"ques4_1()");
+				forcong++;
+				//問題図の変更
+				document.getElementById("pic").innerHTML='<img src="q5_image/pic_q5_BDCE.jpg" alt="問題図" style="width: 345px;">'
 				write_log("ans","f",hen1,hen2,'t','');
 				ques1_count++;
 			}else{
 				alert(hen1+'='+hen2+'は入力済みです。')
 			}
+		}else if(hen_cor(hen1,hen2,"AB","BC")||hen_cor(hen1,hen2,"AB","CA")||hen_cor(hen1,hen2,"CA","BC")){
+			var fb_text='確かに'+hen1+'='+hen2+'であることは「仮定」から間接的に言えます。仮定として直接的にはどのようなことが書いてあったことで'+hen1+'='+hen2+'だと考えたのでしょうか？それを入力しましょう。'
+			var div_fb = document.createElement("div");
+			div_fb.id = "fb";
+			document.getElementById("diag").appendChild(div_fb);
+			document.getElementById("fb").innerHTML= fb_text;
 		}else{
 			var fb_text='残念ながら違います。問題文と見比べてもう一度見てみましょう。「仮定」がわからないときは下のリンクをクリックして復習しましょう。'
 			var div_fb = document.createElement("div");
@@ -706,38 +675,180 @@ function ques1_fb(){
 	}else if(form_number==2){
 		var kaku1=document.form2.elements[0].value;
 		var kaku2=document.form2.elements[1].value;
-		if(kaku_cor(kaku1,kaku2,"ACE","DBE")||kaku_cor(kaku1,kaku2,"ACD","DBE")||kaku_cor(kaku1,kaku2,"ACE","DBA")||kaku_cor(kaku1,kaku2,"ACD","DBA")){
-			if(ques1_left!=="ACE=DBE"&&ques1_right!=="ACE=DBE"){
-				var fb_text='正解です！<br>∠'+kaku1+'=∠'+kaku2+'であることは「仮定」です。<br>左の構造図に∠'+kaku1+'=∠'+kaku2+'が表示され、図にも角の大きさが等しいことを表す記号が追加されました。<br>他にも仮定があれば、もう一度「仮定を整理する」のボタンを押してから記入しましょう。'
+		if(kaku_cor(kaku1,kaku2,"ABD","BCA")||kaku_cor(kaku1,kaku2,"ABD","DCA")||kaku_cor(kaku1,kaku2,"ABD","BCE")||kaku_cor(kaku1,kaku2,"ABD","DCE")||kaku_cor(kaku1,kaku2,"ABC","BCA")||kaku_cor(kaku1,kaku2,"ABC","DCA")||kaku_cor(kaku1,kaku2,"ABC","BCE")||kaku_cor(kaku1,kaku2,"ABC","DCE")||kaku_cor(kaku1,kaku2,"CAB","BCA")||kaku_cor(kaku1,kaku2,"CAB","DCA")||kaku_cor(kaku1,kaku2,"CAB","BCE")||kaku_cor(kaku1,kaku2,"CAB","DCE")||kaku_cor(kaku1,kaku2,"EAB"," BCA")||kaku_cor(kaku1,kaku2,"EAB","DCA")||kaku_cor(kaku1,kaku2,"EAB","BCE")||kaku_cor(kaku1,kaku2,"EAB","DCE")||kaku_cor(kaku1,kaku2,"ABD","CAB")||kaku_cor(kaku1,kaku2,"ABD","EAB")||kaku_cor(kaku1,kaku2,"ABC","CAB")||kaku_cor(kaku1,kaku2,"ABC","EAB")){
+			var fb_text='確かに∠'+kaku1+'=∠'+kaku2+'であることは「仮定」から間接的に言えます。仮定として直接的にはどのようなことが書いてあったことで∠'+kaku1+'=∠'+kaku2+'だと考えたのでしょうか？それを入力しましょう。'
+			var div_fb = document.createElement("div");
+			div_fb.id = "fb";
+			document.getElementById("diag").appendChild(div_fb);
+			document.getElementById("fb").innerHTML= fb_text;
+		}else{
+			var fb_text='残念ながら違います。問題文と見比べてもう一度見てみましょう。「仮定」がわからないときは下のリンクをクリックして復習しましょう。'
+			var div_fb = document.createElement("div");
+			div_fb.id = "fb";
+			document.getElementById("diag").appendChild(div_fb);
+			document.getElementById("fb").innerHTML= fb_text;
+			write_log("ans","f",kaku1,kaku2,'f','');
+		}
+	}else if(form_number==24){
+		rec=document.form24.elements[0].value
+		if(rec=="ABC"||rec=="BCA"||rec=="CAB"||rec=="ACB"||rec=="CBA"||rec=="BAC"){
+			if(katei2Text==""){
+				var fb_text='正解です！<br>△'+rec+'は正三角形です。<br>他にも仮定があれば、もう一度「仮定を整理する」のボタンを押してから記入しましょう。'
 				var div_fb = document.createElement("div");
 				div_fb.id = "fb";
 				document.getElementById("diag").appendChild(div_fb);
 				document.getElementById("fb").innerHTML= fb_text;
-				if(ques1_count==0){
-					katei1Text='∠'+kaku1+'=∠'+kaku2;
-					makeButton("katei1",10,80,"yellow",katei1Text,"ques4_1()");
-					forcong++;
-					ques1_left="ACE=DBE"
-					//問題図の変更
-					if(frompic==0){document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_CB.jpg" alt="問題図" style="width: 345px;">'}
-					else if(frompic==1){document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_CBE.jpg" alt="問題図" style="width: 345px;">'}else{}
-				}else if(ques1_count==1){
-					katei2Text='∠'+kaku1+'=∠'+kaku2;
-					makeButton("katei2",100,80,"yellow",katei2Text,"ques4_2()");
-					forcong++;
-					ques1_right="ACE=DBE"
-					if(frompic==0){document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_CEBECB.jpg" alt="問題図" style="width: 345px;">'}
-					else if(frompic==1){document.getElementById("pic").innerHTML='<img src="q4_image/pic_q4_all.jpg" alt="問題図" style="width: 345px;">'}else{}
-				}else{
-				}
-				write_log("ans","f",hen1,hen2,'t','');
+				katei2Text='△'+rec+'は正三角形'
+				makeButton("katei2",100,80,"green",katei2Text,"ques1_2()");
+				write_log("ans","f",rec,'','t','');
 				ques1_count++;
 			}else{
-				alert('∠'+kaku1+'=∠'+kaku2+'は入力済みです。')
+				alert('△'+rec+'は正三角形である、は入力済みです。')
 			}
+		}else{
+			var fb_text='残念ながら違います。問題文と見比べてもう一度見てみましょう。「仮定」がわからないときは下のリンクをクリックして復習しましょう。'
+			var div_fb = document.createElement("div");
+			div_fb.id = "fb";
+			document.getElementById("diag").appendChild(div_fb);
+			document.getElementById("fb").innerHTML= fb_text;
+			write_log("ans","f",'','','f','');
 		}
 	}else{
 		var fb_text='残念ながら違います。問題文と見比べてもう一度見てみましょう。「仮定」がわからないときは下のリンクをクリックして復習しましょう。'
+		var div_fb = document.createElement("div");
+		div_fb.id = "fb";
+		document.getElementById("diag").appendChild(div_fb);
+		document.getElementById("fb").innerHTML= fb_text;
+		write_log("ans","f",'','','f','');
+	}
+}
+
+//△ABCは正三角形である、のボタンを押した時の動作
+function ques1_2(){
+	if(mode=="normal"){
+		btnclr_change(document.getElementById("katei2"));
+		if(ques1_count==2 && keturon_text!==""){
+			if(congboolean==true){
+				question_number = 11;
+				beforeXY("div_katei2");
+				makeSelect("「"+katei2Text+"である」ことからどんなことが言えるか考えてみましょう。<br>言えることは複数ありますが、合同を示したい三角形に関係のある部分について入力しましょう！わからないときは下のヒントを参照しましょう。<br>");
+				write_log("psbtn","f","ques1_2()",'','','');
+			}else if(congboolean==false){
+				var fb_text="「"+katei2Text+"である」ことから言えることはいくつもあります。そのため全てを書き出すのは手間になってしまいます。後ろ向き推論を進め、合同を示す三角形を定めてから必要な箇所だけ構造図を書きましょう。";
+				document.getElementById("diag").innerHTML=fb_text;
+				write_log("psbtn","f","ques1_2()","合同まだ",'','');
+			}
+		}else if(ques1_count==2){
+			var fb_text="まだ結論を全て明らかにできていません。まずは仮定と結論を全て書き出すところからスタートでしたね。";
+			document.getElementById("diag").innerHTML=fb_text;
+			write_log("psbtn","f","ques4_1()","仮定まだ",'','');
+		}else if(keturon_text!==""){
+			var fb_text="まだ仮定を全て明らかにできていません。まずは仮定と結論を全て書き出すところからスタートでしたね。";
+			document.getElementById("diag").innerHTML=fb_text;
+			write_log("psbtn","f","ques4_1()","仮定まだ",'','');
+		}else{
+			var fb_text="まだ仮定や結論を全て明らかにできていません。まずは仮定と結論を全て書き出すところからスタートでしたね。";
+			document.getElementById("diag").innerHTML=fb_text;
+			write_log("psbtn","f","ques4_1()","仮定まだ",'','');
+		}
+	}else if(mode=="cong"){
+		
+	}else if(mode=="use_prosp"){
+		
+	}else if(mode="backcong"){
+
+	}
+}
+
+function ques1_2_fb(){
+	if(form_number==1){
+		var hen1=document.form1.elements[0].value;
+		var hen2=document.form1.elements[1].value;
+		if(hen_cor(hen1,hen2,"AB","BC")){
+			if(ques1_left!=="hen" && ques1_right!=="hen"){
+				var fb_text='正解です！<br>'+hen1+'='+hen2+'であることが言えます。また合同を示したい三角形にも直接関係しています。他にも'+katei2Text+'であることから言えることがあればもう一度'+katei2Text+'のボタンを押してから入力しましょう。'
+				var div_fb = document.createElement("div");
+				div_fb.id = "fb";
+				document.getElementById("diag").appendChild(div_fb);
+				document.getElementById("fb").innerHTML= fb_text;
+				if(katei3Text==""){
+					katei3Text=hen1+'='+hen2;
+					makeButton("katei3",100,150,"yellow",katei3Text,"ques4_3()");
+					ques1_left="hen";
+					forcong++;
+					//問題図の変更
+					document.getElementById("pic").innerHTML='<img src="q5_image/pic_q5_BDCEABBC.jpg" alt="問題図" style="width: 345px;">'
+				}else if(katei3Text){
+					katei4Text=hen1+'='+hen2;
+					makeButton("katei4",230,150,"yellow",katei4Text,"ques4_4()");
+					ques1_right="hen";
+					forcong++;
+					//問題図の変更
+					document.getElementById("pic").innerHTML='<img src="q5_image/pic_q5_all.jpg" alt="問題図" style="width: 345px;">'
+				}
+				write_log("ans","f",hen1,hen2,'t','');
+			}else{
+				alert(hen1+'='+hen2+'は入力済みです。')
+			}
+		}else if(hen_cor(hen1,hen2,"AB","CA")||hen_cor(hen1,hen2,"CA","BC")){
+			var fb_text='確かに'+hen1+'='+hen2+'であることは、'+katei2Text+'であることから言えます。<br>しかし、合同を示したい三角形には直接は関係のない辺についての情報です。<br>合同になりそうな三角形を取り出す機能も使いながら合同に直接関係のある項目について入力しましょう。'
+			var div_fb = document.createElement("div");
+			div_fb.id = "fb";
+			document.getElementById("diag").appendChild(div_fb);
+			document.getElementById("fb").innerHTML= fb_text;
+		}else{
+			var fb_text='残念ながら'+katei2Text+'であることからそのことは言えません。図をよくみながらもう一度考えてみましょう。'
+			var div_fb = document.createElement("div");
+			div_fb.id = "fb";
+			document.getElementById("diag").appendChild(div_fb);
+			document.getElementById("fb").innerHTML= fb_text;
+			write_log("ans","f",hen1,hen2,'f','');
+		}
+	}else if(form_number==2){
+		var kaku1=document.form2.elements[0].value;
+		var kaku2=document.form2.elements[1].value;
+		if(kaku_cor(kaku1,kaku2,"ABD","BCA")||kaku_cor(kaku1,kaku2,"ABD","DCA")||kaku_cor(kaku1,kaku2,"ABD","BCE")||kaku_cor(kaku1,kaku2,"ABD","DCE")||kaku_cor(kaku1,kaku2,"ABC","BCA")||kaku_cor(kaku1,kaku2,"ABC","DCA")||kaku_cor(kaku1,kaku2,"ABC","BCE")||kaku_cor(kaku1,kaku2,"ABC","DCE")){
+			if(ques1_left!=="kaku" && ques1_right!=="kaku"){
+				var fb_text='正解です！<br>∠'+kaku1+'=∠'+kaku2+'であることが言えます。また合同を示したい三角形にも直接関係しています。他にも'+katei2Text+'であることから言えることがあればもう一度'+katei2Text+'のボタンを押してから入力しましょう。'
+				var div_fb = document.createElement("div");
+				div_fb.id = "fb";
+				document.getElementById("diag").appendChild(div_fb);
+				document.getElementById("fb").innerHTML= fb_text;
+				if(katei3Text==""){
+					katei3Text='∠'+kaku1+'=∠'+kaku2;
+					makeButton("katei3",100,150,"yellow",katei3Text,"ques4_3()");
+					ques1_left="kaku";
+					forcong++;
+					//問題図の変更
+					document.getElementById("pic").innerHTML='<img src="q5_image/pic_q5_BDCEBC.jpg" alt="問題図" style="width: 345px;">'
+				}else if(katei3Text){
+					katei4Text='∠'+kaku1+'=∠'+kaku2;
+					makeButton("katei4",230,150,"yellow",katei4Text,"ques4_4()");
+					ques1_right="kaku";
+					forcong++;
+					//問題図の変更
+					document.getElementById("pic").innerHTML='<img src="q5_image/pic_q5_all.jpg" alt="問題図" style="width: 345px;">'
+				}
+				write_log("ans","f",hen1,hen2,'t','');
+			}else{
+				alert(hen1+'='+hen2+'は入力済みです。')
+			}
+		}else if(kaku_cor(kaku1,kaku2,"CAB","BCA")||kaku_cor(kaku1,kaku2,"CAB","DCA")||kaku_cor(kaku1,kaku2,"CAB","BCE")||kaku_cor(kaku1,kaku2,"CAB","DCE")||kaku_cor(kaku1,kaku2,"EAB"," BCA")||kaku_cor(kaku1,kaku2,"EAB","DCA")||kaku_cor(kaku1,kaku2,"EAB","BCE")||kaku_cor(kaku1,kaku2,"EAB","DCE")||kaku_cor(kaku1,kaku2,"ABD","CAB")||kaku_cor(kaku1,kaku2,"ABD","EAB")||kaku_cor(kaku1,kaku2,"ABC","CAB")||kaku_cor(kaku1,kaku2,"ABC","EAB")){
+			var fb_text='確かに∠'+kaku1+'=∠'+kaku2+'であることは、'+katei2Text+'であることから言えます。<br>しかし、合同を示したい三角形には直接は関係のない角についての情報です。<br>合同になりそうな三角形を取り出す機能も使いながら合同に直接関係のある項目について入力しましょう。'
+			var div_fb = document.createElement("div");
+			div_fb.id = "fb";
+			document.getElementById("diag").appendChild(div_fb);
+			document.getElementById("fb").innerHTML= fb_text;
+		}else{
+			var fb_text='残念ながら'+katei2Text+'であることからそのことは言えません。図をよくみながらもう一度考えてみましょう。'
+			var div_fb = document.createElement("div");
+			div_fb.id = "fb";
+			document.getElementById("diag").appendChild(div_fb);
+			document.getElementById("fb").innerHTML= fb_text;
+			write_log("ans","f",hen1,hen2,'f','');
+		}
+	}else{
+		var fb_text='残念ながら違います。わからないときは下のヒント欄も参考にしてみましょう。'
 		var div_fb = document.createElement("div");
 		div_fb.id = "fb";
 		document.getElementById("diag").appendChild(div_fb);
@@ -762,16 +873,16 @@ function ques2(){
 
 	}
 }
-var keturon_text;
+var keturon_text="";
 
 function ques2_fb(){
-	if(form_number==1){
-		var hen1=document.form1.elements[0].value;
-		var hen2=document.form1.elements[1].value;
-		if(hen_cor(hen1,hen2,"AE","DE")){
-			keturon_text=hen1+"="+hen2;
+	if(form_number==2){
+		var kaku1=document.form2.elements[0].value;
+		var kaku2=document.form2.elements[1].value;
+		if(kaku_cor(kaku1,kaku2,"ADB","BEC")){
+			keturon_text="∠"+kaku1+"=∠"+kaku2;
 			document.getElementById("diag").innerHTML="正解です！<br>左の構造図に"+keturon_text+"が表示されました。";
-			makeButton("ketu",180,400,"blue",keturon_text,"ques3()");
+			makeButton("ketu",165,400,"blue",keturon_text,"ques3()");
 			keturonboolean=true;
 			write_log("ans","b",rec1,rec2,'t','');
 		}else{
@@ -795,11 +906,17 @@ function ques2_fb(){
 ///////////question3【後】「それを言うために何が言えたらいいのか？」
 function ques3(){
 	if(mode=="normal"){
-		question_number = 3;
-		beforeXY("div_ketu");
-		makeSelect(keturon_text+"を言うためにはどんなことが言えたらいいでしょうか。<br>わからないときはヒント欄の「辺の長さが等しいことを言うためには？」を参考にしてみましょう。");
-		write_log("psbtn","b","ques3()",'','','');
 		btnclr_change(document.getElementById("ketu"));
+		if(ques1_count==2){
+			question_number = 3;
+			beforeXY("div_ketu");
+			makeSelect(keturon_text+"を言うためにはどんなことが言えたらいいでしょうか。<br>わからないときはヒント欄の「角の大きさが等しいことを言うためには？」を参考にしてみましょう。");
+			write_log("psbtn","b","ques3()",'','','');
+		}else{
+			var fb_text="まだ仮定を全て明らかにできていません。まずは仮定と結論を全て書き出すところからスタートでしたね。";
+			document.getElementById("diag").innerHTML=fb_text;
+			write_log("psbtn","f","ques4_1()","仮定まだ",'','');
+		}
 	}else if(mode=="cong"){
 		
 	}else if(mode=="use_prosp"){
@@ -813,20 +930,14 @@ function ques3_fb(){
 	if(form_number==23){
 		var rec1=document.form23.elements[0].value;
 		var rec2=document.form23.elements[1].value;
-		var boolnum=tri_cor(rec1,rec2,"ACE","DBE");
+		var boolnum=tri_cor(rec1,rec2,"ABD","BCE");
 		if(boolnum==0){
-			if(congboolean==false){
-				var congtext='そうですね！<br>もし△'+rec1+'≡△'+rec2+'が言えたら'+keturon_text+'が言えそうですね！<br>構造図に表示されました。'
-				document.getElementById("diag").innerHTML=congtext;
-				makeButton("cong",160,330,"blue",'△'+rec1+'≡△'+rec2,"ques5()");
-				congboolean=true;
-			}else if(congboolean==true){
-				var congtext='そうですね！<br>△'+rec1+'≡△'+rec2+'が言えることで'+keturon_text+'が言えそうですね！<br>これで前向き推論と後ろ向き推論がつながりました。なので構造図作成は終了です。終了ボタンを押して担当の人を呼びましょう。<br><p style="text-align:right"><button type="button" value="output" style="" onclick= "output()">終了</button> </p> <a id="download" target="_blank">ダウンロード（IEでは、右クリック＞対象をファイルに保存）</a>'
-				document.getElementById("diag").innerHTML=congtext;
-				makeButton("cong",160,330,"yellow",'△'+rec1+'≡△'+rec2,"ques5()");
-				congboolean=true;
-				mode="finish";
-			}
+			var congtext='そうですね！<br>もし△'+rec1+'≡△'+rec2+'が言えたら、合同な図形の対応する角は等しいので'+keturon_text+'が言えそうですね！<br>構造図に表示されました。'
+			document.getElementById("diag").innerHTML=congtext;
+			makeButton("taiokaku",120,345,"green","合同な図形の対応する角は等しい","");
+			beforeXY("div_taiokaku");
+			makeButton("cong",160,290,"blue",'△'+rec1+'≡△'+rec2,"ques5()");
+			congboolean=true;
 		}else if(boolnum==1){
 			diag_history=document.getElementById("diag").innerHTML;
 			var fb_text='△'+rec1+'と△'+rec2+'に目をつけたのはいい方向性だと思います。<br>しかし、「対応順」が違っています。<br>対応順については分からない場合は下記リンクで「合同」について確認しましょう。<p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>';
@@ -857,8 +968,8 @@ function ques3_fb(){
 
 //それぞれのスイッチになる
 var k1=0;
-var k2=0;
-var fp=0;
+var k3=0;
+var k4=0;
 
 function ques4_1(){
 	if(mode=="normal"){
@@ -868,8 +979,8 @@ function ques4_1(){
 			beforeXY("div_katei1");
 			makeSelect("これらから言えることはあるでしょうか？<br>図も参考にしながら考えてみましょう。<br>ない場合は「仮定」や「図の性質から言えること」などの、<br>言えること=正しいと分かっていること　が他にないか確認してみましょう。<br>")
 			k1=1;
-			k2=0;
-			fp=0;
+			k3=0;
+			k4=0;
 			write_log("psbtn","f","ques4_1()",'','','');
 		}else if(keturonboolean==true){
 			var fb_text="まだ仮定を全て明らかにできていません。まずは仮定と結論を全て書き出すところからスタートでしたね。";
@@ -901,39 +1012,39 @@ function ques4_1(){
 	}
 }
 
-function ques4_2(){
+function ques4_3(){
 	if(mode=="normal"){
-		btnclr_change(document.getElementById("katei2"));
+		btnclr_change(document.getElementById("katei3"));
 		if(keturonboolean==true && ques1_count==2){
 			question_number = 4;
-			beforeXY("div_katei2");
+			beforeXY("div_katei3");
 			makeSelect("これらから言えることはあるでしょうか？<br>図も参考にしながら考えてみましょう。<br>ない場合は「仮定」や「図の性質から言えること」などの、<br>言えること=正しいと分かっていること　が他にないか確認してみましょう。<br>")
 			k1=0;
-			k2=1;
-			fp=0;
-			write_log("psbtn","f","ques4_2()",'','','');
+			k3=1;
+			k4=0;
+			write_log("psbtn","f","ques4_3()",'','','');
 		}else if(keturonboolean==true){
 			var fb_text="まだ仮定を全て明らかにできていません。まずは仮定と結論を全て書き出すところからスタートでしたね。";
 			document.getElementById("diag").innerHTML=fb_text;
-			write_log("psbtn","f","ques4_2()","仮定まだ",'','');
+			write_log("psbtn","f","ques4_3()","仮定まだ",'','');
 		}else{
 			var fb_text="まだ結論が何か明らかにできていません。まずは仮定と結論を全て書き出すところからスタートでしたね。";
 			document.getElementById("diag").innerHTML=fb_text;
-			write_log("psbtn","f","ques4_2()","結論まだ",'','');
+			write_log("psbtn","f","ques4_3()","結論まだ",'','');
 		}
 	}else if(mode=="cong"){
-		if(k2==0){
-			k2=1;
-			var fb_text='●　'+katei2Text;
+		if(k3==0){
+			k3=1;
+			var fb_text='●　'+katei3Text;
 			var div_fb = document.createElement("div");
 			div_fb.id = "fb2";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb2").innerHTML= fb_text;
 		}
 	}else if(mode=="backcong"){
-		if(k2==0){
-			k2=1;
-			var fb_text='●　'+katei2Text;
+		if(k3==0){
+			k3=1;
+			var fb_text='●　'+katei3Text;
 			var div_fb = document.createElement("div");
 			div_fb.id = "fb2";
 			document.getElementById("diag").appendChild(div_fb);
@@ -942,40 +1053,40 @@ function ques4_2(){
 	}
 }
 
-function ques4_pic(){
+function ques4_4(){
 	if(mode=="normal"){
-		btnclr_change(document.getElementById("frompic2"));
+		btnclr_change(document.getElementById("katei4"));
 		if(keturonboolean==true && ques1_count==2){
 			question_number = 4;
-			beforeXY("div_frompic2");
+			beforeXY("div_katei4");
 			makeSelect("これらから言えることはあるでしょうか？<br>図も参考にしながら考えてみましょう。<br>ない場合は「仮定」や「図の性質から言えること」などの、<br>言えること=正しいと分かっていること　が他にないか確認してみましょう。<br>")
 			k1=0;
-			k2=0;
-			fp=1;
-			write_log("psbtn","f","ques4_pic()",'','','');
+			k3=0;
+			k4=1;
+			write_log("psbtn","f","ques4_4()",'','','');
 		}else if(keturonboolean==true){
 			var fb_text="まだ仮定を全て明らかにできていません。まずは仮定と結論を全て書き出すところからスタートでしたね。";
 			document.getElementById("diag").innerHTML=fb_text;
-			write_log("psbtn","f","ques4_pic()","仮定まだ",'','');
+			write_log("psbtn","f","ques4_4()","仮定まだ",'','');
 		}else{
 			var fb_text="まだ結論が何か明らかにできていません。まずは仮定と結論を全て書き出すところからスタートでしたね。";
 			document.getElementById("diag").innerHTML=fb_text;
-			write_log("psbtn","f","ques4_pic()","結論まだ",'','');
+			write_log("psbtn","f","ques4_4()","結論まだ",'','');
 		}
 		
 	}else if(mode=="cong"){
-		if(fp==0){
-			fp=1;
-			var fb_text='●　'+frompicText;
+		if(k4==0){
+			k4=1;
+			var fb_text='●　'+katei4Text;
 			var div_fb = document.createElement("div");
 			div_fb.id = "fb3";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb3").innerHTML= fb_text;
 		}
 	}else if(mode=="backcong"){
-		if(fp==0){
-			fp=1;
-			var fb_text='●　'+frompicText;
+		if(k4==0){
+			k4=1;
+			var fb_text='●　'+katei4Text;
 			var div_fb = document.createElement("div");
 			div_fb.id = "fb3";
 			document.getElementById("diag").appendChild(div_fb);
@@ -988,27 +1099,21 @@ function ques4_fb(){
 	if(form_number==23){
 		var rec1=document.form23.elements[0].value;
 		var rec2=document.form23.elements[1].value;
-		var boolnum=tri_cor(rec1,rec2,"ACE","DBE");
+		var boolnum=tri_cor(rec1,rec2,"ABD","BCE");
 		if(boolnum==0){//正解
 			if(forcong==3){
 				var firsttxt;
-				if(k1==1){firsttxt=katei1Text;}else if(k2==1){firsttxt=katei2Text;}else if(fp==1){firsttxt=frompicText;}else{}
+				if(k1==1){firsttxt=katei1Text;}else if(k3==1){firsttxt=katei3Text;}else if(k4==1){firsttxt=katei4Text;}else{}
 				var congtext='そうですね！<br>△'+rec1+'≡△'+rec2+'が言えると思います。<br>それを言うために、他にどの要素を使う必要がありますか？<br>そのボタンをクリックしましょう。(クリックするとこの下に表示されます)<br>全てクリックし終わったらOKを押して先に進みましょう。<br><br>●　'+firsttxt+'<p class="button_dec" ><input type="button" value="OK" onclick="ques4_fb2()"></p>'
 				document.getElementById("diag").innerHTML=congtext;
 				forcong=4;
 				mode="cong";
-				if(congboolean==false){
-					makeButton("congCond0",100,240,"green",'____________がそれぞれ等しい',"");
-					beforeXY("div_congCond0");
-					makeButton("cong2",160,330,"yellow",'△'+rec1+'≡△'+rec2,"ques6()");
-					write_log("ans","f","△"+rec1,"△"+rec2,'t','');
-				}else if(congboolean==true){
-					makeButton("congCond0",100,240,"green",'____________がそれぞれ等しい',"");
-					beforeXY("div_congCond0");
-					makeButton("cong2",160,330,"blue",'△'+rec1+'≡△'+rec2,"");
-					div_clear("cong2");
-					write_log("ans","f","△"+rec1,"△"+rec2,'t','');
-				}
+				makeButton("congCond0",70,220,"green",'____________がそれぞれ等しい',"");
+				beforeXY("div_congCond0");
+				makeButton("cong2",160,290,"blue",'△'+rec1+'≡△'+rec2,"");
+				div_clear("cong2");
+				write_log("ans","f","△"+rec1,"△"+rec2,'t','');
+				
 			}else{
 				var fb_text='△'+rec1+'≡△'+rec2+'を言いたいのはいい方向性だと思います。<br>しかし、現時点では'+forcong+'つしか条件がないので三角形の合同を言うことはできません。合同を言うために、あとどこが言えたらいいのか考えて、そこが図形の性質から言えないかを考えてみましょう。'
 				var div_fb = document.createElement("div");
@@ -1057,7 +1162,7 @@ function ques4_fb(){
 
 //合同を言うのにどの条件が必要かを選んだ後の動作
 function ques4_fb2(){
-	var k=k1+k2+fp;
+	var k=k1+k3+k4;
 	if(k==3){
 		var fb_text='その通りです！正しいものを選択できています。構造図の線が実際につながったと思います。<br>\
 					ではこの合同であることを言うのに使った「合同条件」はどれでしょう？<br><br>\
@@ -1070,12 +1175,11 @@ function ques4_fb2(){
 						<input type="button" value="決定" onclick="ques4_fb3()">\
 					</form><br>'
 		document.getElementById("diag").innerHTML=fb_text;
-		beforeXY("div_katei1");
-		makeButton("congCond1",100,240,"green",'____________がそれぞれ等しい',"");
-		beforeXY("div_katei2");
-		makeButton("congCond2",100,240,"green",'____________がそれぞれ等しい',"");
-		beforeXY("div_frompic2");
-		makeButton("congCond3",100,240,"green",'____________がそれぞれ等しい',"");
+		stLine(20,100,80,230)
+		beforeXY("div_katei3");
+		makeButton("congCond2",70,220,"green",'____________がそれぞれ等しい',"");
+		beforeXY("div_katei4");
+		makeButton("congCond3",70,220,"green",'____________がそれぞれ等しい',"");
 	}else if(k<=2){
 		diag_history=document.getElementById("diag").innerHTML;
 		var fb_text='まだ現時点では，'+k+'つしか合同を言うための条件が指定されていません。<br>どの合同条件も３つの条件を必要としたはずです。<br>条件と照らし合わせながらもう一度考えてみましょう。<br><p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
@@ -1085,30 +1189,17 @@ function ques4_fb2(){
 
 //合同条件を選んだ後の動作
 function ques4_fb3(){
-	if(document.ques4_fb2_select.elements[0].value==3){
-		if(congboolean==true){
-			document.getElementById("diag").innerHTML='正解です！<br>しっかりと図を見て合同条件を選べています。<br>構造図に合同条件が表示されました。<br><br>これで「前向き推論」と「後ろ向き推論」が繋がりましたね。<br>なので構造図作成は終了です。終了ボタンを押して担当の人を呼びましょう。<br><p style="text-align:right"><button type="button" value="output" style="" onclick= "output()">終了</button> </p> <a id="download" target="_blank">ダウンロード（IEでは、右クリック＞対象をファイルに保存）</a>'
-			mode="normal";
-			div_clear("congCond0");
-			div_clear("congCond1");
-			div_clear("congCond2");
-			div_clear("congCond3");
-			beforeX=110;
-			beforeY=250;
-			makeButton("congCond",100,240,"green",'1組の辺とその両端の角がそれぞれ等しい',"");
-			mode="finish";
-		}else if(congboolean==false){
-			document.getElementById("diag").innerHTML='正解です！<br>しっかりと図を見て合同条件を選べています。<br>構造図に合同条件が表示されました。'
-			mode="normal";
-			div_clear("congCond0");
-			div_clear("congCond1");
-			div_clear("congCond2");
-			div_clear("congCond3");
-			beforeX=110;
-			beforeY=250;
-			makeButton("congCond",100,240,"green",'1組の辺とその両端の角がそれぞれ等しい',"");
-			congboolean=true;
-		}
+	if(document.ques4_fb2_select.elements[0].value==2){
+		document.getElementById("diag").innerHTML='正解です！<br>しっかりと図を見て合同条件を選べています。<br>構造図に合同条件が表示されました。<br><br>これで「前向き推論」と「後ろ向き推論」が繋がりましたね。<br>なので構造図作成は終了です。終了ボタンを押して担当の人を呼びましょう。<br><p style="text-align:right"><button type="button" value="output" style="" onclick= "output()">終了</button> </p> <a id="download" target="_blank">ダウンロード（IEでは、右クリック＞対象をファイルに保存）</a>'
+		mode="normal";
+		div_clear("congCond0");
+		div_clear("congCond1");
+		div_clear("congCond2");
+		div_clear("congCond3");
+		beforeX=110;
+		beforeY=250;
+		makeButton("congCond",70,220,"green",'二組の辺とその間の角がそれぞれ等しい',"");
+		mode="finish";
 	}else{
 		diag_history=document.getElementById("diag").innerHTML;
 		document.getElementById("diag").innerHTML='残念ながら違います。問題図、その下の合同な図形を取り出す欄も使いながら考え直してみましょう。<br><p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
@@ -1157,7 +1248,7 @@ function ques5_2(){
 			div_fb.id = "fb";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb").innerHTML= fb_text;
-			k1=0;k2=0;fp=0;
+			k1=0;k3=0;k4=0;
 			write_log("ans","b","合同言える",'','t','');
 		}else{
 			//言えると回答したが現段階ではまだ言えていないので、前向き推論を促す
@@ -1198,7 +1289,7 @@ function ques5_2(){
 }
 
 function ques5_fb(){
-	if(k1==1&&k2==1&fp==1){
+	if(k1==1&&k3==1&k4==1){
 		var fb_text='その通りです！正しいものを選択できています。構造図の線が実際につながったと思います。<br>\
 					ではこの合同に使った「合同条件」はどれでしょう？<br><br>\
 					<form name="ques4_fb2_select">\
@@ -1210,14 +1301,13 @@ function ques5_fb(){
 						<input type="button" value="決定" onclick="ques5_fb3()">\
 					</form><br>'
 		document.getElementById("diag").innerHTML=fb_text;
-		beforeXY("div_katei1");
-		makeButton("congCond1",100,240,"green",'____________がそれぞれ等しい',"");
-		beforeXY("div_katei2");
-		makeButton("congCond2",100,240,"green",'____________がそれぞれ等しい',"");
-		beforeXY("div_frompic2");
-		makeButton("congCond3",100,240,"green",'____________がそれぞれ等しい',"");
+		stLine(20,100,80,230);
+		beforeXY("div_katei3");
+		makeButton("congCond2",70,220,"green",'____________がそれぞれ等しい',"");
+		beforeXY("div_katei4");
+		makeButton("congCond3",70,220,"green",'____________がそれぞれ等しい',"");
 		beforeXY("div_congCond1");
-		makeButton("ketu2",160,330,"blue","△ACE≡△DBE","");
+		makeButton("cong2",160,290,"blue","△ABD≡△BCE","");
 		div_clear("ketu2");
 	}else{
 		diag_history=document.getElementById("diag").innerHTML;
@@ -1226,7 +1316,7 @@ function ques5_fb(){
 }
 
 function ques5_fb3(){
-	if(document.ques4_fb2_select.elements[0].value==3){
+	if(document.ques4_fb2_select.elements[0].value==2){
 		document.getElementById("diag").innerHTML='正解です！<br>しっかりと図を見て合同条件を選べています。<br>構造図に合同条件が表示されました。<br><br>これで「前向き推論」と「後ろ向き推論」が繋がりましたね。<br>なので構造図作成は終了です。終了ボタンを押して担当の人を呼びましょう。<br><p style="text-align:right"><button type="button" value="output" style="" onclick= "output()">終了</button> </p> <a id="download" target="_blank">ダウンロード（IEでは、右クリック＞対象をファイルに保存）</a>'
 		mode="finish";
 		div_clear("congCond0");
@@ -1234,8 +1324,8 @@ function ques5_fb3(){
 		div_clear("congCond2");
 		div_clear("congCond3");
 		beforeX=110;
-		beforeY=250;
-		makeButton("congCond",100,240,"green",'1組の辺とその両端の角がそれぞれ等しい',"");
+		beforeY=230;
+		makeButton("congCond",70,220,"green",'二組の辺とその間の角がそれぞれ等しい',"");
 	}else{
 		diag_history=document.getElementById("diag").innerHTML;
 		document.getElementById("diag").innerHTML='残念ながら違います。問題図、その下の合同な図形を取り出す欄も使いながら考え直してみましょう。<br><p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
@@ -1244,6 +1334,7 @@ function ques5_fb3(){
 
 //////////////qustion6【前】「このことから何か言えますか？」////////////
 
+/*
 function ques6(){
 	if(mode=="normal"){
 		question_number = 6;
@@ -1288,7 +1379,7 @@ function ques6_fb(){
 		write_log("ans","b",'','','f','');
 	}
 }
-
+*/
 
 //////////////合同になりそうな三角形を取り出す/////////////
 
@@ -1299,45 +1390,48 @@ function seppicback(){
 function takeout0(){
 	var rec1=document.seppic.elements[0].value;
 	var rec2=document.seppic.elements[1].value;
-	var boolnum=tri_cor(rec1,rec2,"ACE","DBE");
+	var boolnum=tri_cor(rec1,rec2,"ABD","BCE");
 	if(boolnum==0){
-		document.getElementById("div_seppic").innerHTML='<img src="q4_image/pic_q4_sep.jpg" alt="問題図" style="width: 330px;">'
+		document.getElementById("div_seppic").innerHTML='<img src="q5_image/pic_q5_sep.jpg" alt="問題図" style="width: 330px;">'
 		document.getElementById("button_seppic").innerHTML='<button type="button" class="button_sg" value="katei" onclick= "mark()">現在わかっているところまで印をつける</button><br>'
 		write_log("sep","f",'△'+rec1,'△'+rec2,'t','');
 	}else if(boolnum==1){
 		fb_text='△'+rec1+'と△'+rec2+'の合同について考えたのは適切です。<br>しかし、「対応順」が違っています。<input type="button" value="戻る" onclick="seppicback()">';
 		document.getElementById("button_seppic").innerHTML=fb_text;
 		write_log("sep","f",'△'+rec1,'△'+rec2,'f','');
-	}else{
-		var fb_text='残念ながらその三角形は合同ではありません。もう一度図を確認しながら打ち間違いの無いように入力しましょう。<input type="button" value="戻る" onclick="seppicback()">';
+	}else if(tri_cor(rec1,rec2,"ACD","BAE")==0){
+		var fb_text='確かに△'+rec1+'と△'+rec2+'について合同であることが言えそうです。しかし、その合同から直接結論である∠ADB=∠BECを言うことはできません。結論に直接結びつけることができる三角形の組があるので探してみましょう。<input type="button" value="戻る" onclick="seppicback()">';
 		document.getElementById("button_seppic").innerHTML=fb_text;
 		write_log("sep","f",'△'+rec1,'△'+rec2,'f','');
-
-		}
+	}else{
+		var fb_text='残念ながら△'+rec1+'と△'+rec2+'について合同を言うことはできません。結論を言うためにどの三角形の組の合同を言うのが適切か考えてみましょう。<input type="button" value="戻る" onclick="seppicback()">';
+		document.getElementById("button_seppic").innerHTML=fb_text;
+		write_log("sep","f",'△'+rec1,'△'+rec2,'f','');
+	}
 }
 
 function mark(){
-	if(frompic==1&&(ques1_left=="CE=BE"||ques1_right=="CE=BE")&&(ques1_left=="ACE=DBE"||ques1_right=="ACE=DBE")){
+	if(katei1Text&&(ques1_left=="hen"||ques1_right=="hen")&&(ques1_left=="kaku"||ques1_right=="kaku")){
 		//全揃い
-		document.getElementById("div_seppic").innerHTML='<img src="q4_image/pic_q4_sep_all.jpg" alt="問題図" style="width: 330px;">'
-	}else if((ques1_left=="CE=BE"||ques1_right=="CE=BE")&&(ques1_left=="ACE=DBE"||ques1_right=="ACE=DBE")){
-		//Aが足りない
-		document.getElementById("div_seppic").innerHTML='<img src="q4_image/pic_q4_sep_CEBECB.jpg" alt="問題図" style="width: 330px;">'
-	}else if(frompic==1&&(ques1_left=="ACE=DBE"||ques1_right=="ACE=DBE")){
-		//CE=BEが足りない
-		document.getElementById("div_seppic").innerHTML='<img src="q4_image/pic_q4_sep_CBE.jpg" alt="問題図" style="width: 330px;">'
-	}else if(frompic==1&&(ques1_left=="CE=BE"||ques1_right=="CE=BE")){
-		//ACE=DBEが足りない
-		document.getElementById("div_seppic").innerHTML='<img src="q4_image/pic_q4_sep_CEBEE.jpg" alt="問題図" style="width: 330px;">'
-	}else if(frompic==1){
-		//Eしかない
-		document.getElementById("div_seppic").innerHTML='<img src="q4_image/pic_q4_sep_E.jpg" alt="問題図" style="width: 330px;">'
-	}else if(ques1_left=="CE=BE"||ques1_right=="CE=BE"){
-		//CE=BEしかない
-		document.getElementById("div_seppic").innerHTML='<img src="q4_image/pic_q4_sep_CEBE.jpg" alt="問題図" style="width: 330px;">'
-	}else if(ques1_left=="ACE=DBE"||ques1_right=="ACE=DBE"){
-		//ACE=DBEしかない
-		document.getElementById("div_seppic").innerHTML='<img src="q4_image/pic_q4_sep_CB.jpg" alt="問題図" style="width: 330px;">'
+		document.getElementById("div_seppic").innerHTML='<img src="q5_image/pic_q5_sep_all.jpg" alt="問題図" style="width: 330px;">'
+	}else if((ques1_left=="hen"||ques1_right=="hen")&&(ques1_left=="kaku"||ques1_right=="kaku")){
+		//BD=CEが足りない
+		document.getElementById("div_seppic").innerHTML='<img src="q5_image/pic_q5_sep_ABBCBC.jpg" alt="問題図" style="width: 330px;">'
+	}else if(katei1Text&&(ques1_left=="kaku"||ques1_right=="kaku")){
+		//henが足りない
+		document.getElementById("div_seppic").innerHTML='<img src="q5_image/pic_q5_sep_BDCEBC.jpg" alt="問題図" style="width: 330px;">'
+	}else if(katei1Text&&(ques1_left=="hen"||ques1_right=="hen")){
+		//kakuが足りない
+		document.getElementById("div_seppic").innerHTML='<img src="q5_image/pic_q5_sep_BDCEABBC.jpg" alt="問題図" style="width: 330px;">'
+	}else if(katei1Text){
+		//BD=CEしかない
+		document.getElementById("div_seppic").innerHTML='<img src="q5_image/pic_q5_sep_BDCE.jpg" alt="問題図" style="width: 330px;">'
+	}else if(ques1_left=="hen"||ques1_right=="hen"){
+		//henしかない
+		document.getElementById("div_seppic").innerHTML='<img src="q5_image/pic_q5_sep_ABBC.jpg" alt="問題図" style="width: 330px;">'
+	}else if(ques1_left=="kaku"||ques1_right=="kaku"){
+		//kakuしかない
+		document.getElementById("div_seppic").innerHTML='<img src="q5_image/pic_q5_sep_BC.jpg" alt="問題図" style="width: 330px;">'
 	}else{
 
 	}

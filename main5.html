@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>三角形合同証明問題 問題5</title>
+<link rel="stylesheet" href="./style.css">
+</head>
+<body style="overflow-x: scroll;">
+<form name="student_ID">
+<p id="title" style='width:1150px; height:38px;padding: 5px;background: linear-gradient(#7fbfff,#bcddff);font-size: 1.5em;color: white;font-weight: bold;'>
+	三角形合同証明問題 問題5　　<button type="button" class='button_sg' value="start" onclick= "start()">始める</button>　<input type="tel" name="student_IDbox" placeholder="生徒IDを入力する">
+</p></form>
+<!-- 左一行 (問題文表示・問題図表示・色つけ)-->
+<div style="width: 1300px;">
+	<div style="float: left;">
+		<!--問題文表示-->
+		<div id="question" style="border: #dcdcdc solid 1px; width: 340px; margin: 5px;padding: 5px;">
+			下の図で△ABCは正三角形、D,Eはそれぞれ辺BC,AC上の点で、BD=CEである。このとき∠ADB=∠BECとなることを証明しなさい。
+		</div>
+		<!--問題図表示-->
+		<div id="pic" style="border: #dcdcdc solid 1px; width: 350px;margin: 5px;">
+		<img src="q5_image/pic_q5.jpg" alt="問題図" style="width: 345px;">
+		</div>
+		<!--合同な図の書き出し-->
+		<div style="border: #dcdcdc solid 1px; width: 340px;height: 240px;margin: 5px; padding: 5px; font-size:1.3em;">
+			<div id="div_seppic"></div>
+			<div id="button_seppic" align="center"></div>
+			<br>
+		</div>
+
+	</div>
+	<!-- 真ん中(構造図)-->
+	<div id="st_d" style="float: left; position: relative; border: #dcdcdc solid 1px; width: 425px;height: 508px;margin: 5px;">
+		<div id="div_katei" style="position: absolute; left:10px; top:10px;"><button type="button" class="button_yellow" id="katei" value="katei" onclick= "ques1()">仮定を整理する</button></div>
+		<div id="div_frompic" style="position: absolute; left:230px; top:10px;"><button type="button" class="button_yellow" id="frompic" "value="frompic" onclick= "fromPic()">図形の性質から言えること</button></div>
+		<div id="div_keturon" style="position: absolute; left:160px; top:460px;"><button type="button" class="button_blue" id="keturon" value="keturon" onclick= "ques2()">結論を整理する</button></div>
+		<div id="div_katei" style="position: absolute; left:10px; top:80px;"><button type="button" class="button_yellow" id="katei" value="katei" onclick= "ques1()">BD=CE</button></div>
+		<div id="div_frompic" style="position: absolute; left:100px; top:80px;"><button type="button" class="button_green" id="frompic" value="frompic" onclick= "fromPic()">△ABCは正三角形</button></div>
+		<div id="div_keturon" style="position: absolute; left:100px; top:150px;"><button type="button" class="button_yellow" id="keturon" value="keturon" onclick= "ques2()">AB=BC</button></div>
+		<div id="div_katei" style="position: absolute; left:230px; top:150px;"><button type="button" class="button_yellow" id="katei" value="katei" onclick= "ques1()">∠ABD=∠BCE</button></div>
+		<div id="div_frompic" style="position: absolute; left:70px; top:220px;"><button type="button" class="button_green" id="frompic" "value="frompic" onclick= "fromPic()">2組の辺とその間の角がそれぞれ等しい</button></div>
+		<div id="div_keturon" style="position: absolute; left:160px; top:290px;"><button type="button" class="button_blue" id="keturon" value="keturon" onclick= "ques2()">△ABD≡△BCE</button></div>
+		<div id="div_frompic" style="position: absolute; left:120px; top:345px;"><button type="button" class="button_green" id="frompic" value="frompic" onclick= "fromPic()">合同な図形の対応する角は等しい</button></div>
+		<div id="div_keturon" style="position: absolute; left:165px; top:400px;"><button type="button" class="button_blue" id="keturon" value="keturon" onclick= "ques2()">∠ADB=∠BEC</button></div>
+	</div>
+	<!-- 右一行(証明の記述・対話インターフェイス)-->
+	<div style="float: left">
+		<!--証明の記述-->
+		
+		<!--対話インターフェイス-->
+		<div id="diag_flame" style="width: 355px; height: 300px;margin: 5px; border: #dcdcdc solid 1px; position: relative;">
+			<img src="img/question.jpg" alt="質問" style="width: 345px;">
+			<div id="diag" style="width: 350px; height: 245px; padding: 5px; overflow-y: scroll">
+			</div>
+		</div>
+
+		<div id="hint_flame" style="width: 355px; height: 200px;margin: 5px; border: #dcdcdc solid 1px; position: relative;">
+			<img src="img/hint.jpg" alt="ヒント" style="width: 345px;">
+		</div>
+	</div>
+</div>
+<script src="move5.js"></script>
+<script type="text/javascript" src="jquery-3.2.1.min.js"></script>
+<!--
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/start/jquery-ui.css" rel="stylesheet">
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+-->
+</body>
+</html>
