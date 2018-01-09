@@ -29,10 +29,10 @@ function start(){
 			document.getElementById("button_seppic").innerHTML='<br><form name="seppic">△<input type="text" name="kaku1" size="4" value=""> ≡ △<input type="text" name="kaku1" size="4" value=""> </form><br> <button type="button" class="button_sg" value="katei" onclick= "takeout0()">合同になりそうな三角形を書き出す</button>';
 			document.getElementById("st_d").innerHTML='<canvas id="st_d_canvas" style="position: absolute; margin: 5px;" width=425px; height=510px; ></canvas>\
 		<div id="div_katei" style="position: absolute; left:10px; top:10px;"><button type="button" class="button_yellow" id="katei" value="katei" onclick= "ques1()">仮定を整理する</button></div>\
-		<div id="div_frompic" style="position: absolute; left:230px; top:10px;"><button type="button" class="button_yellow" id="frompic" value="katei" onclick= "fromPic()">図形の性質から言えること</button></div>\
+		<div id="div_frompic" style="position: absolute; left:230px; top:10px;"><button type="button" class="button_yellow" id="frompic" "value="frompic" onclick= "fromPic()">図形の性質から言えること</button></div>\
 		<div id="div_keturon" style="position: absolute; left:160px; top:460px;"><button type="button" class="button_blue" id="keturon" value="keturon" onclick= "ques2()">結論を整理する</button></div>';
 		document.getElementById("hint_flame").innerHTML='<img src="img/hint.jpg" alt="ヒント" style="width: 345px;">\
-		<div id="hint" style="width: 345px; height: 150px; overflow-y: scroll; ">\
+		<div id="hint" style="width: 390px; height: 150px; overflow-y: scroll; ">\
 				<div id="hint1" style="width: 160px; padding: 5px;  float: left; position: relative;">\
 					<a href="hint/katei.html" target="_blank" onclick="hint_katei()">仮定とは？</a><br><br>\
 					<a href="hint/tohenequal.html" target="_blank" onclick="hint_hen()"">辺の長さが等しいことを言うためには？</a><br><br>\
@@ -43,6 +43,7 @@ function start(){
 					<a href="hint/keturon.html" target="_blank onclick="hint_keturon()">結論とは？</a><br><br>\
 					<a href="hint/tokakuequal.html" target="_blank" onclick="hint_kaku()"">角の大きさが等しいことを言うためには？</a><br><br>\
 					<a href="hint/heiko.html" target="_blank" onclick="hint_heiko()"">平行について</a><br><br>\
+					<a href="hint/seisankaku.html" target="_blank" onclick="hint_seisankaku()"">正三角形について</a><br><br>\
 				</div>\
 			</div>'
 		account=document.student_ID.elements[1].value;
@@ -50,7 +51,7 @@ function start(){
 		document.getElementById("title").innerHTML='三角形合同証明問題 問題6'
 		}
 	}else{
-		document.getElementById("title").innerHTML='三角形合同証明問題 問題6　　<button type="button" class="button_sg" value="start" onclick= "start()">始める</button>　<input type="text" name="student_ID" size="30" value="生徒IDが違います。半角で正しく入れましょう。">'
+		document.getElementById("title").innerHTML='三角形合同証明問題 問題6　　<button type="button" class="button_sg" value="start" onclick= "start()">始める</button>　<input type="text" name="student_ID" size="30" placeholder="生徒IDが間違っています。">'
 	}
 }
 //ヒントを押したことをログに残す関数
@@ -66,6 +67,9 @@ function hint_tricong(){
 function hint_nitohen(){
 	write_log("hint",'','二等辺三角形','','','');
 }
+function hint_seisankaku(){
+	write_log("hint",'','正三角形','','','');
+}
 function hint_keturon(){
 	write_log("hint",'','結論とは？','','','');
 }
@@ -75,6 +79,7 @@ function hint_kaku(){
 function hint_heiko(){
 	write_log("hint",'','平行','','','');
 }
+
 
 function time(){
 	var date_obj2 = new Date();
@@ -261,8 +266,9 @@ function makeButton(name,x,y,clr,cnt,next_func){
 		var contents_text = '<button type="button" class="button_green" id="'+name+'" value="' + name +'" onclick= "'+ next_func +'"" >' + cnt +'</button>';
 	}
 	var id_text = "div_" + name;
-	div1.id = id_text;
-	div1.style = style_text;
+	div1.setAttribute("id",id_text);
+	div1.setAttribute("style",style_text);
+	console.log(style_text);
 	document.getElementById("st_d").appendChild(div1);
 	document.getElementById(id_text).innerHTML= contents_text;
 	cX=div1.clientWidth/2;
@@ -270,6 +276,7 @@ function makeButton(name,x,y,clr,cnt,next_func){
 	stLine(beforeX,beforeY,x+cX,y+cY);
 	write_log('mkbtn','',cnt,'','t','');
 }
+
 
 function backHistory(){
 	document.getElementById("diag").innerHTML=diag_history;

@@ -19,7 +19,6 @@ var start_time;
 var elapsed_time;
 var now_time;
 
-//時間を入れる実装を行う
 function start(){
 	// 現在のローカル時間が格納された、Date オブジェクトを作成する
 	console.log(document.student_ID.elements[1].value);
@@ -33,7 +32,7 @@ function start(){
 		<div id="div_frompic" style="position: absolute; left:230px; top:10px;"><button type="button" class="button_yellow" id="frompic" "value="frompic" onclick= "fromPic()">図形の性質から言えること</button></div>\
 		<div id="div_keturon" style="position: absolute; left:160px; top:460px;"><button type="button" class="button_blue" id="keturon" value="keturon" onclick= "ques2()">結論を整理する</button></div>';
 		document.getElementById("hint_flame").innerHTML='<img src="img/hint.jpg" alt="ヒント" style="width: 345px;">\
-		<div id="hint" style="width: 345px; height: 150px; overflow-y: scroll; ">\
+		<div id="hint" style="width: 390px; height: 150px; overflow-y: scroll; ">\
 				<div id="hint1" style="width: 160px; padding: 5px;  float: left; position: relative;">\
 					<a href="hint/katei.html" target="_blank" onclick="hint_katei()">仮定とは？</a><br><br>\
 					<a href="hint/tohenequal.html" target="_blank" onclick="hint_hen()"">辺の長さが等しいことを言うためには？</a><br><br>\
@@ -80,6 +79,7 @@ function hint_kaku(){
 function hint_heiko(){
 	write_log("hint",'','平行','','','');
 }
+
 
 function time(){
 	var date_obj2 = new Date();
@@ -277,8 +277,9 @@ function makeButton(name,x,y,clr,cnt,next_func){
 		var contents_text = '<button type="button" class="button_green" id="'+name+'" value="' + name +'" onclick= "'+ next_func +'"" >' + cnt +'</button>';
 	}
 	var id_text = "div_" + name;
-	div1.id = id_text;
-	div1.style = style_text;
+	div1.setAttribute("id",id_text);
+	div1.setAttribute("style",style_text);
+	console.log(style_text);
 	document.getElementById("st_d").appendChild(div1);
 	document.getElementById(id_text).innerHTML= contents_text;
 	cX=div1.clientWidth/2;
@@ -286,6 +287,7 @@ function makeButton(name,x,y,clr,cnt,next_func){
 	stLine(beforeX,beforeY,x+cX,y+cY);
 	write_log('mkbtn','',cnt,'','t','');
 }
+
 
 function backHistory(){
 	document.getElementById("diag").innerHTML=diag_history;
