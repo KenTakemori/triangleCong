@@ -152,6 +152,11 @@ function finish(){
 	div_move("△ABC≡△ADC2","10","160");
 	div_move("frompic1","200","60");
 	div_move("congCond","200","110");
+
+	if (lastid.length) {
+		document.getElementById(lastid).style.backgroundColor = lastbgcolor;
+		document.getElementById(lastid).style.borderColor = lastbdcolor;
+	}
 }
 
 function setBlobUrl(id, content) {

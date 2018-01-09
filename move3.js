@@ -161,6 +161,11 @@ function finish(){
 	div_move("katei4","160","60");
 	div_move("katei5","160","110");
 	div_move("congCond","160","160");
+
+	if (lastid.length) {
+		document.getElementById(lastid).style.backgroundColor = lastbgcolor;
+		document.getElementById(lastid).style.borderColor = lastbdcolor;
+	}
 }
 
 

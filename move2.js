@@ -155,6 +155,11 @@ function finish(){
 	div_move("ketu","10","160");
 	div_move("frompic1","160","60");
 	div_move("congCond","160","110");
+
+	if (lastid.length) {
+		document.getElementById(lastid).style.backgroundColor = lastbgcolor;
+		document.getElementById(lastid).style.borderColor = lastbdcolor;
+	}
 }
 
 
