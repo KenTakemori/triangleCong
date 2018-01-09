@@ -1307,14 +1307,14 @@ function ques5_fb(){
 						<input type="button" value="決定" onclick="ques5_fb3()">\
 					</form><br>'
 		document.getElementById("diag").innerHTML=fb_text;
-		stLine(20,100,80,230);
+		stLine(20,100,90,230);//div_katei1とcongCondを線が重ならないようにつなぐ
 		beforeXY("div_katei3");
 		makeButton("congCond2",70,220,"green",'____________がそれぞれ等しい',"");
 		beforeXY("div_katei4");
 		makeButton("congCond3",70,220,"green",'____________がそれぞれ等しい',"");
-		beforeXY("div_congCond1");
+		beforeXY("div_congCond3");
 		makeButton("cong2",160,290,"blue","△ABD≡△BCE","");
-		div_clear("ketu2");
+		div_clear("cong2");
 	}else{
 		diag_history=document.getElementById("diag").innerHTML;
 		document.getElementById("diag").innerHTML='まだ合同を言えるだけの条件を選択しきれていません。合同を言うための条件は3つは必要だったはずです。<br><p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
