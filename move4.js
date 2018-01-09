@@ -126,7 +126,7 @@ function div_move(name,x,y){
 	var style_text="position: absolute; left: "+x+"px; top:"+y+"px;";
 	if(document.getElementById(div_name)){
 		var k = document.getElementById(div_name);
-		k.style=style_text;
+		k.setAttribute("style",style_text);
 	}
 }
 
