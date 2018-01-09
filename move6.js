@@ -265,21 +265,10 @@ function makeButton(name,x,y,clr,cnt,next_func){
 	div1.style = style_text;
 	document.getElementById("st_d").appendChild(div1);
 	document.getElementById(id_text).innerHTML= contents_text;
-	div1
 	cX=div1.clientWidth/2;
 	cY=div1.clientHeight/2;
 	stLine(beforeX,beforeY,x+cX,y+cY);
-
-
-	//ログについての処理
-	var date_obj2 = new Date();
-	now_time = date_obj2.getTime();
-	elapsed_time=now_time - start_time;
-	var time_milli;
-	time_milli=elapsed_time%1000;
-	elapsed_time=elapsed_time - time_milli;
-	elapsed_time=elapsed_time/1000
-	alllog=alllog+"【ボタン作成】Time:"+elapsed_time+"秒 Button:"+name+" Contents:"+cnt+"<br>";
+	write_log('mkbtn','',cnt,'','t','');
 }
 
 function backHistory(){
