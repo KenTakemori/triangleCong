@@ -1114,7 +1114,7 @@ function ques4_fb2(){
 function ques4_fb3(){
 	if(document.ques4_fb2_select.elements[0].value==1){
 		document.getElementById("diag").innerHTML='正解です！<br>しっかりと図を見て合同条件を選べています。<br>構造図に合同条件が表示されました。<br><br>これで「前向き推論」と「後ろ向き推論」が繋がりましたね。<br>構造図作成は終了です。終了ボタンを押して担当の人を呼びましょう。<br><p style="text-align:right"><button type="button" value="output" style="" onclick= "output()">終了</button> </p> <a id="download" target="_blank">ダウンロード（右クリック＞対象をファイルに保存）</a>'
-		mode="normal";
+		mode="finish";
 		document.getElementById("div_congCond1").innerHTML='';
 		document.getElementById("div_congCond2").innerHTML='';
 		document.getElementById("div_congCond3").innerHTML='';
