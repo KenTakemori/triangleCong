@@ -44,6 +44,7 @@ function start(){
 					<a href="hint/keturon.html" target="_blank onclick="hint_keturon()">結論とは？</a><br><br>\
 					<a href="hint/tokakuequal.html" target="_blank" onclick="hint_kaku()"">角の大きさが等しいことを言うためには？</a><br><br>\
 					<a href="hint/heiko.html" target="_blank" onclick="hint_heiko()"">平行について</a><br><br>\
+					<a href="hint/seisankaku.html" target="_blank" onclick="hint_seisankaku()"">正三角形について</a><br><br>\
 				</div>\
 			</div>'
 		account=document.student_ID.elements[1].value;
@@ -66,6 +67,9 @@ function hint_tricong(){
 }
 function hint_nitohen(){
 	write_log("hint",'','二等辺三角形','','','');
+}
+function hint_seisankaku(){
+	write_log("hint",'','正三角形','','','');
 }
 function hint_keturon(){
 	write_log("hint",'','結論とは？','','','');

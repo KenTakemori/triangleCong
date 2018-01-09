@@ -29,9 +29,9 @@ function start(){
 	if(document.getElementById){
 			document.getElementById("button_seppic").innerHTML='<br><form name="seppic">△<input type="text" name="kaku1" size="4" value=""> ≡ △<input type="text" name="kaku1" size="4" value=""> </form><br> <button type="button" class="button_sg" value="katei" onclick= "takeout0()">合同になりそうな三角形を書き出す</button>';
 			document.getElementById("st_d").innerHTML='<canvas id="st_d_canvas" style="position: absolute; margin: 5px;" width=425px; height=510px; ></canvas>\
-		<div id="div_katei" style="position: absolute; left:10px; top:10px;"><button type="button" class="button_yellow" value="katei" onclick= "ques1()">仮定を整理する</button></div>\
-		<div id="div_frompic" style="position: absolute; left:230px; top:10px;"><button type="button" class="button_yellow" value="frompic" onclick= "fromPic()">図形の性質から言えること</button></div>\
-		<div id="div_keturon" style="position: absolute; left:160px; top:460px;"><button type="button" class="button_blue" value="keturon" onclick= "ques2()">結論を整理する</button></div>';
+		<div id="div_katei" style="position: absolute; left:10px; top:10px;"><button type="button" class="button_yellow" id="katei" value="katei" onclick= "ques1()">仮定を整理する</button></div>\
+		<div id="div_frompic" style="position: absolute; left:230px; top:10px;"><button type="button" class="button_yellow" id="frompic" value="frompic" onclick= "fromPic()">図形の性質から言えること</button></div>\
+		<div id="div_keturon" style="position: absolute; left:160px; top:460px;"><button type="button" class="button_blue" id="keturon" value="keturon" onclick= "ques2()">結論を整理する</button></div>';
 		document.getElementById("hint_flame").innerHTML='<img src="img/hint.jpg" alt="ヒント" style="width: 345px;">\
 		<div id="hint" style="width: 345px; height: 150px; overflow-y: scroll; ">\
 				<div id="hint1" style="width: 160px; padding: 5px;  float: left; position: relative;">\
@@ -86,6 +86,23 @@ function time(){
 	elapsed_time=elapsed_time - time_milli;
 	elapsed_time=elapsed_time/1000;
 	alllog=alllog+elapsed_time+",";
+}
+
+//押した奴が赤くなり元のやつは元の色に戻る関数
+var lastid = "";
+var lastbgcolor="";
+var lastbdcolor="";
+
+function btnclr_change(e) {
+	if (lastid.length) {
+		document.getElementById(lastid).style.backgroundColor = lastbgcolor;
+		document.getElementById(lastid).style.borderColor = lastbdcolor;
+	}
+	lastbgcolor = e.style.backgroundColor;
+	lastbdcolor = e.style.borderColor;
+	e.style.backgroundColor = "#ffdbdb";
+	e.style.border = "solid 3px red"; 
+	lastid = e.id;
 }
 
 function write_log(act,vec,inp1,inp2,tf,inp3){
@@ -247,11 +264,11 @@ function makeButton(name,x,y,clr,cnt,next_func){
 	var style_text = "position: absolute; left:" + x +"px; top:" + y + "px;";
 	//色判定
 	if(clr=="blue"){
-		var contents_text = '<button type="button" class="button_blue" value="' + name +'" onclick= "'+ next_func +'"" >' + cnt +'</button>';
+		var contents_text = '<button type="button" class="button_blue" id="'+name+'" value="' + name +'" onclick= "'+ next_func +'"" >' + cnt +'</button>';
 	}else if(clr=="yellow"){
-		var contents_text = '<button type="button" class="button_yellow" value="' + name +'" onclick= "'+ next_func +'"" >' + cnt +'</button>';
+		var contents_text = '<button type="button" class="button_yellow" id="'+name+'" value="' + name +'" onclick= "'+ next_func +'"" >' + cnt +'</button>';
 	}else{
-		var contents_text = '<button type="button" class="button_green" value="' + name +'" onclick= "'+ next_func +'"" >' + cnt +'</button>';
+		var contents_text = '<button type="button" class="button_green" id="'+name+'" value="' + name +'" onclick= "'+ next_func +'"" >' + cnt +'</button>';
 	}
 	var id_text = "div_" + name;
 	div1.id = id_text;
@@ -518,6 +535,7 @@ var frompicText="";//後で表示するためにとっておく
 
 function fromPic(){
 	if(mode=="normal"){
+		btnclr_change(document.getElementById("frompic"));
 		question_number=0;
 		beforeXY("div_frompic");
 		makeSelect("図形の性質から言えることはなんでしょうか？<br>選んだ後、根拠となることがら(理由)を聞きます。<br>")
@@ -578,6 +596,7 @@ var katei8Text="";//後で使うためにとっとく
 
 function ques1(){
 	if(mode=="normal"){
+		btnclr_change(document.getElementById("katei"));
 		question_number = 1;
 		beforeXY("div_katei");
 		makeSelect("この問題における「仮定」はなんでしょう？<br>「仮定」の意味が分からない場合は下のリンクをクリックしよう。<br>");
@@ -723,6 +742,7 @@ function ques1_fb(){
 //////////question2【後】「結論はなんですか？」////////////////////
 function ques2(){
 	if(mode=="normal"){
+		btnclr_change(document.getElementById("keturon"));
 		question_number = 2;
 		beforeXY("div_keturon");
 		makeSelect("この問題における「結論」はなんでしょう？<br>「結論」の意味が分からない場合は下のリンクをクリックしよう。<br>");
@@ -765,9 +785,10 @@ function ques2_fb(){
 	}
 }
 
-//////////question3【後】「合同が言えるのかどうか？言えないなら何が足りないか？」//////////////////ここからまだ未実装！！！！！！！！！！
+//////////question3【後】「合同が言えるのかどうか？言えないなら何が足りないか？」//////////////////
 function ques3(){
 	if(mode=="normal"){
+		btnclr_change(document.getElementById("ketu"));
 		if(ques1_count==3){
 			question_number =3;
 			var txt='これらの三角形の合同はすでに言えるのでしょうか？<br>\
@@ -790,6 +811,8 @@ function ques3(){
 		}
 		write_log("psbtn","b","ques3()",'','','');
 	}else if(mode=="backcong"){
+
+	}else{
 
 	}
 }
@@ -878,6 +901,7 @@ function ques3_fb(){
 function ques4(){
 	question_number=4;
 	if(mode=="normal"){
+		btnclr_change(document.getElementById("katei3"));
 		if(ques1_count==3&&keturonboolean==true){
 			question_number = 4;
 			beforeXY("div_katei3");
@@ -933,8 +957,11 @@ var douikaku1=false;
 var douikaku2=false;
 
 function ques4_douikaku(){
-	document.getElementById("diag").innerHTML='DE//BCなので直線DEと直線BCにおける同位角は等しくなりますね。<br>どの角とどの角が同位角にあたるでしょうか？？<br><form name="res4_douikaku">∠<input type="text" name="kaku1" size="3" value=""> = ∠<input type="text" name="kaku2" size="3" value=""> <input type="button" value="決定" onclick="ques4_douikaku_fb()"><br></p></form>'
-	beforeXY("div_katei4");
+	if(mode=="normal"){
+		btnclr_change(document.getElementById("katei4"));
+		document.getElementById("diag").innerHTML='DE//BCなので直線DEと直線BCにおける同位角は等しくなりますね。<br>どの角とどの角が同位角にあたるでしょうか？？<br><form name="res4_douikaku">∠<input type="text" name="kaku1" size="3" value=""> = ∠<input type="text" name="kaku2" size="3" value=""> <input type="button" value="決定" onclick="ques4_douikaku_fb()"><br></p></form>'
+		beforeXY("div_katei4");
+	}
 }
 
 function ques4_douikaku_fb(){
@@ -989,8 +1016,11 @@ function ques4_douikaku_fb(){
 }
 
 function ques4_sakaku(){
-	document.getElementById("diag").innerHTML='DE//BCなので直線DEと直線BCにおける錯角は等しくなりますね。<br>どの角とどの角が錯角にあたるでしょうか？？<br><form name="res4_sakaku">∠<input type="text" name="kaku1" size="3" value=""> = ∠<input type="text" name="kaku2" size="3" value=""> <input type="button" value="決定" onclick="ques4_sakaku_fb()"><br></p></form>'
-	beforeXY("div_katei5");
+	if(mode=="normal"){
+		btnclr_change(document.getElementById("katei5"));
+		document.getElementById("diag").innerHTML='DE//BCなので直線DEと直線BCにおける錯角は等しくなりますね。<br>どの角とどの角が錯角にあたるでしょうか？？<br><form name="res4_sakaku">∠<input type="text" name="kaku1" size="3" value=""> = ∠<input type="text" name="kaku2" size="3" value=""> <input type="button" value="決定" onclick="ques4_sakaku_fb()"><br></p></form>'
+		beforeXY("div_katei5");
+	}
 }
 
 var sakaku=false;
@@ -1037,6 +1067,7 @@ var select_uncor=true;//間違いの選択肢を選ぶとfalseになり、通ら
 
 function ques5_1(){
 	if(mode=="normal"){
+		btnclr_change(document.getElementById("katei1"));
 		if(keturonboolean==true && ques1_count==3){
 			question_number = 5;
 			beforeXY("div_katei1");
@@ -1067,6 +1098,7 @@ function ques5_1(){
 }
 function ques5_2(){
 	if(mode=="normal"){
+		btnclr_change(document.getElementById("katei2"));
 		if(keturonboolean==true && ques1_count==3){
 			question_number = 5;
 			beforeXY("div_katei2");
@@ -1097,6 +1129,7 @@ function ques5_2(){
 }
 
 function ques5_6(){
+	btnclr_change(document.getElementById("katei6"));
 	if(mode=="normal"){
 		if(keturonboolean==true && ques1_count==3){
 			question_number = 5;
@@ -1128,6 +1161,7 @@ function ques5_6(){
 }
 function ques5_7(){
 	if(mode=="normal"){
+		btnclr_change(document.getElementById("katei7"));
 		if(keturonboolean==true && ques1_count==3){
 			question_number = 55;
 			select_uncor=false;
@@ -1155,6 +1189,7 @@ function ques5_7(){
 	}
 }
 function ques5_8(){
+	btnclr_change(document.getElementById("katei8"));
 	if(mode=="normal"){
 		if(keturonboolean==true && ques1_count==3){
 			question_number = 55;
