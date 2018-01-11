@@ -1157,7 +1157,7 @@ function ques4_fb3(){
 	}else{
 		diag_history=document.getElementById("diag").innerHTML;
 		document.getElementById("diag").innerHTML='残念ながら違います。問題図、その下の合同な図形を取り出す欄も使いながら考え直してみましょう。<br><p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
-		write_log("ans","f","合同条件を誤ったものを選択","","f","";)
+		write_log("ans","f","合同条件を誤ったものを選択","","f","");
 	}
 }
 
