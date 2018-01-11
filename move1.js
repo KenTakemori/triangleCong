@@ -1071,7 +1071,7 @@ function ques4_fb(){
 				div_fb.id = "fb";
 				document.getElementById("diag").appendChild(div_fb);
 				document.getElementById("fb").innerHTML= fb_text;
-				write_log("ans","f","△"+rec1,"△"+rec2,'f','条件が足りない');
+				write_log("ans","f","△"+rec1,"△"+rec2,'f','条件が足りない,対応順違い');
 			}
 		}else{
 			var fb_text='残念ながら△'+rec1+'≡△'+rec2+'を言うことはできません。<br>「合同であることを使いたい」という方針そのものは正しいです。<br>対応順についても注意しながら打ち間違いの無いよう入力しましょう。';

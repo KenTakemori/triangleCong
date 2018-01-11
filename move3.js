@@ -47,7 +47,7 @@ function start(){
 				</div>\
 			</div>'
 		account=document.student_ID.elements[1].value;
-		alllog="question2,0,start,,,生徒ID:"+account+",,/"
+		alllog="question3,0,start,,,生徒ID:"+account+",,/"
 		document.getElementById("title").innerHTML='三角形合同証明問題 問題3'
 		}
 	}else{
@@ -549,7 +549,7 @@ function fromPic(){
 		question_number=0;
 		beforeXY("div_frompic");
 		makeSelect("図形の性質から言えることはなんでしょうか？<br>選んだ後、根拠となることがら(理由)を聞きます。<br>")
-		write_log("psbtn","f","frompic()",'','','');
+		write_log("psbtn","f","図形の性質から言えることは？",'','','');
 	}else if(mode=="cong"){
 
 	}else if(mode=="use_prosp"){
@@ -571,7 +571,7 @@ function fromPic_fb(){
 				div_fb.id = "fb";
 				document.getElementById("diag").appendChild(div_fb);
 				document.getElementById("fb").innerHTML= fb_text;
-				write_log("ans","f",document.form2.elements[0].value,document.form2.elements[1].value,'t','');
+				write_log("ans","f",document.form2.elements[0].value,document.form2.elements[1].value,'f','確かに言えるがそれは平行から言えること');
 		}else{
 			var fb_text='残念ながら、そのことは図の性質からは言えません。<br>図形の性質から言えることがもうなかったり、わからない場合は後ろからも考えてみましょう。'
 			var div_fb = document.createElement("div");
@@ -610,7 +610,7 @@ function ques1(){
 		question_number = 1;
 		beforeXY("div_katei");
 		makeSelect("この問題における「仮定」はなんでしょう？<br>「仮定」の意味が分からない場合は下のリンクをクリックしよう。<br>");
-		write_log("psbtn","f","ques1()",'','','');
+		write_log("psbtn","f","仮定は？",'','','');
 	}else if(mode=="cong"){
 		
 	}else if(mode=="use_prosp"){
@@ -629,18 +629,21 @@ function ques1_fb(){
 			div_fb.id = "fb";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb").innerHTML= fb_text;
+			write_log("ans","f","DはABの中点","","t","");
 		}else if(document.form13.elements[0].value=="D"||document.form13.elements[1].value=="AB"||document.form13.elements[1].value=="BA"){
 			var fb_text='惜しいです。「中点になる点」「その点によって分けられる辺」について問題文と見比べながら見直してみましょう。'
 			var div_fb = document.createElement("div");
 			div_fb.id = "fb";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb").innerHTML= fb_text;
+			write_log("ans","f","中点","どちらか違う","f","");
 		}else{
 			var fb_text='中点についての記述はありますが、入力した点や辺は両方とも間違ってしまっています。もう一度、問題文と見比べながら考えてみましょう。'
 			var div_fb = document.createElement("div");
 			div_fb.id = "fb";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb").innerHTML= fb_text;
+			write_log("ans","f","中点","どちらも違う","f","");
 		}
 	}else if(form_number==1){
 		var hen1=document.form1.elements[0].value;
@@ -661,7 +664,7 @@ function ques1_fb(){
 					if(katei3Text==""){document.getElementById("pic").innerHTML='<img src="q3_image/pic_q3_ABD.jpg" alt="問題図" style="width: 345px;">'}
 					else if(katei3Text){document.getElementById("pic").innerHTML='<img src="q3_image/pic_q3_ABDheiko.jpg" alt="問題図" style="width: 345px;">'}else{}
 				}else if(ques1_left){
-					makeButton("katei2",100,90,"yellow",hen1+'='+hen2,"ques5_2");
+					makeButton("katei2",100,90,"yellow",hen1+'='+hen2,"ques5_2()");
 					katei2Text=hen1+'='+hen2;
 					forcong++;
 					ques1_right="AD=DB"
@@ -669,7 +672,7 @@ function ques1_fb(){
 					else if(katei3Text){document.getElementById("pic").innerHTML='<img src="q3_image/pic_q3_all.jpg" alt="問題図" style="width: 345px;">'}else{}
 				}else{
 				}
-				write_log("ans","f",hen1,hen2,'t','');
+				write_log("ans","f",hen1,hen2,'t','辺が等しい');
 				ques1_count++;
 			}else{
 				alert(hen1+'='+hen2+'は入力済みです。')
@@ -697,7 +700,7 @@ function ques1_fb(){
 					else if(katei3Text){document.getElementById("pic").innerHTML='<img src="q3_image/pic_q3_all.jpg" alt="問題図" style="width: 345px;">'}else{}
 				}else{
 				}
-				write_log("ans","f",hen1,hen2,'t','');
+				write_log("ans","f",hen1,hen2,'t','辺が等しい');
 				ques1_count++;
 			}else{
 				alert(hen1+'='+hen2+'は入力済みです。')
@@ -708,7 +711,7 @@ function ques1_fb(){
 			div_fb.id = "fb";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb").innerHTML= fb_text;
-			write_log("ans","f",hen1,hen2,'f','');
+			write_log("ans","f",hen1,hen2,'f','辺が等しい');
 		}
 	}else if(form_number==7){
 		var hen1=document.form7.elements[0].value;
@@ -728,6 +731,7 @@ function ques1_fb(){
 				div_fb.id = "fb";
 				document.getElementById("diag").appendChild(div_fb);
 				document.getElementById("fb").innerHTML= fb_text;
+				write_log("ans","f",hen1,hen2,"t","平行");
 			}else{
 				alert(hen1+'//'+hen2+'は入力済みです。')
 			}
@@ -737,7 +741,7 @@ function ques1_fb(){
 			div_fb.id = "fb";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb").innerHTML= fb_text;
-			write_log("ans","f",'','','f','');
+			write_log("ans","f",hen1,hen2,"f","平行");
 		}
 	}else{
 		var fb_text='残念ながら違います。問題文と見比べてもう一度見てみましょう。「仮定」がわからないときは下のリンクをクリックして復習しましょう。'
