@@ -760,7 +760,7 @@ function ques2(){
 		question_number = 2;
 		beforeXY("div_keturon");
 		makeSelect("この問題における「結論」はなんでしょう？<br>「結論」の意味が分からない場合は下のリンクをクリックしよう。<br>");
-		write_log("psbtn","b","ques2()",'','','');
+		write_log("psbtn","b","結論は？",'','','');
 	}else if(mode=="cong"){
 		
 	}else if(mode=="use_prosp"){
@@ -787,7 +787,7 @@ function ques2_fb(){
 			div_fb.id = "fb";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb").innerHTML= fb_text;
-			write_log("ans","b",document.form23.elements[0].value,document.form23.elements[1].value,'f','');
+			write_log("ans","b",rec1,rec2,'f','');
 		}
 	}else{
 			var fb_text="残念ながらそれは結論ではありません。「結論」が何か分からない場合には下記リンクをクリックして復習をしましょう。";
@@ -819,11 +819,13 @@ function ques3(){
 			if(document.getElementById){
 				document.getElementById("diag").innerHTML=txt;
 			}
+
+			write_log("psbtn","b","合同は言えるのか？","","","");
 		}else{
 			var fb_text="まだ仮定を全て書き出せていません。まずは結論と仮定を全て書き出すところからスタートでしたね。";
 			document.getElementById("diag").innerHTML=fb_text;
+			write_log("psbtn","b","仮定を全て書き出せていない","","","");
 		}
-		write_log("psbtn","b","ques3()",'','','');
 	}else if(mode=="backcong"){
 
 	}else{
@@ -903,10 +905,14 @@ function ques3_fb(){
 		beforeXY("div_frompic2");
 		makeButton("congCond3",90,330,"green",'____________がそれぞれ等しい',"");
 		beforeXY("div_congCond1");
-		makeButton("ketu",160,400,"blue",keturon_text,"");
+		makeButton("ketu2",160,400,"blue",keturon_text,"");
+		div_clear("ketu2");
+
+		write_log("ans","b","正しい条件を選択できた","","t","");
 	}else{
 		diag_history=document.getElementById("diag").innerHTML;
 		document.getElementById("diag").innerHTML='まだ合同を言えるだけの条件を選択しきれていません。合同を言うための条件は3つは必要だったはずです。<br><p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
+		write_log("ans","b","条件を選択しきれていない","","f","");
 	}
 }
 
@@ -929,11 +935,11 @@ function ques4(){
 															</p>\
 															<p class="button_dec" ><input type="button" value="OK" onclick="ques4_fb()"></p>\
 														</form>'
-			write_log("psbtn","f","ques4()",'','','');
+			write_log("psbtn","f","平行から何が言えるか？",'','','');
 		}else{
 			var fb_text="まだ仮定や結論を明らかにできていません。まずは仮定と結論を全て書き出すところからスタートでしたね。";
 			document.getElementById("diag").innerHTML=fb_text;
-			write_log("psbtn","f","ques4()","仮定結論まだ",'','');
+			write_log("psbtn","f","仮定結論まだ","",'','');
 		}
 	}else if(mode=="cong"){
 		
@@ -956,13 +962,18 @@ function ques4_fb(){
 				//平行線の同位角・錯角
 				makeButton("katei4",190,150,"green","平行線の同位角","ques4_douikaku()");
 				makeButton("katei5",310,150,"green","平行線の錯角","ques4_sakaku()")
+
+				write_log("ans","f","平行線の同位角錯角は等しい","","t","");
 			}
 		}else if(document.res4.elements[0].checked){
-			document.getElementById("diag").innerHTML='「錯角が等しい」は正解で、平行であることを言う事ができます。<br>ですが、他にも平行を言うための条件があります。<p class="button_dec" ><input type="button" value="戻る" onclick="ques4()"></p>'
+			document.getElementById("diag").innerHTML='「錯角が等しい」は正解で、平行であることから言う事ができます。<br>ですが、他にも平行から言えることがあります。ヒントも参考にしましょう。<p class="button_dec" ><input type="button" value="戻る" onclick="ques4()"></p>'
+			write_log("ans","f","平行から何が言えるか？","同位角不足","f","");
 		}else if(document.res4.elements[4].checked){
-			document.getElementById("diag").innerHTML='「同位角が等しい」は正解で、平行であることを言う事ができます。<br>ですが、他にも平行を言うための条件があります。<p class="button_dec" ><input type="button" value="戻る" onclick="ques4()"></p>'
+			document.getElementById("diag").innerHTML='「同位角が等しい」は正解で、平行であることから言う事ができます。<br>ですが、他にも平行から言えることがあります。ヒントも参考にしましょう。<p class="button_dec" ><input type="button" value="戻る" onclick="ques4()"></p>'
+			write_log("ans","f","平行から何が言えるか？","錯角不足","f","");
 		}else{
-			document.getElementById("diag").innerHTML='残念ながら違います。下のリンクをクリックして「平行」について見てみましょう。<p class="button_dec" ><input type="button" value="戻る" onclick="ques4()"></p>'
+			document.getElementById("diag").innerHTML='残念ながら違います。ヒントも参考にして「平行」から何が言えるか思い出しましょう。<p class="button_dec" ><input type="button" value="戻る" onclick="ques4()"></p>'
+			write_log("ans","f","平行から何が言えるのか？",,"f","")
 		}
 	}
 }
@@ -975,6 +986,7 @@ function ques4_douikaku(){
 		btnclr_change(document.getElementById("katei4"));
 		document.getElementById("diag").innerHTML='DE//BCなので直線DEと直線BCにおける同位角は等しくなりますね。<br>どの角とどの角が同位角にあたるでしょうか？？<br><form name="res4_douikaku">∠<input type="text" name="kaku1" size="3" value=""> = ∠<input type="text" name="kaku2" size="3" value=""> <input type="button" value="決定" onclick="ques4_douikaku_fb()"><br></p></form>'
 		beforeXY("div_katei4");
+		write_log("psbtn","f","同位角は？","","","");
 	}
 }
 
@@ -1000,6 +1012,7 @@ function ques4_douikaku_fb(){
 			}else{
 
 			}
+			write_log("ans","f",ans1,ans2,"t","")
 		}else{
 			alert("∠"+ans1+"=∠"+ans2+"は入力済みです。")
 		}
@@ -1021,11 +1034,13 @@ function ques4_douikaku_fb(){
 			}else{
 				
 			}
+			write_log("ans","f",ans1,ans2,"t","");
 		}else{
 			alert("∠"+ans1+"=∠"+ans2+"は入力済みです。")
 		}
 	}else{
 		document.getElementById("diag").innerHTML='残念ながら違います。下のリンクをクリックして「平行について」を見てみましょう。<p class="button_dec" ><input type="button" value="戻る" onclick="ques4_douikaku()"></p>'
+		write_log("ans","f","","","f","");
 	}
 }
 
@@ -1034,6 +1049,7 @@ function ques4_sakaku(){
 		btnclr_change(document.getElementById("katei5"));
 		document.getElementById("diag").innerHTML='DE//BCなので直線DEと直線BCにおける錯角は等しくなりますね。<br>どの角とどの角が錯角にあたるでしょうか？？<br><form name="res4_sakaku">∠<input type="text" name="kaku1" size="3" value=""> = ∠<input type="text" name="kaku2" size="3" value=""> <input type="button" value="決定" onclick="ques4_sakaku_fb()"><br></p></form>'
 		beforeXY("div_katei5");
+		write_log("psbtn","f","錯角は？","","","");
 	}
 }
 
