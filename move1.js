@@ -21,7 +21,7 @@ var now_time;
 function start(){
 	// 現在のローカル時間が格納された、Date オブジェクトを作成する
 	console.log(document.student_ID.elements[1].value);
-	if(document.student_ID.elements[1].value=="123"){
+	if(document.student_ID.elements[1].value=="174"||document.student_ID.elements[1].value=="189"||document.student_ID.elements[1].value=="231"||document.student_ID.elements[1].value=="263"||document.student_ID.elements[1].value=="332"||document.student_ID.elements[1].value=="359"||document.student_ID.elements[1].value=="409"||document.student_ID.elements[1].value=="548"||document.student_ID.elements[1].value=="692"||document.student_ID.elements[1].value=="719"||document.student_ID.elements[1].value=="865"||document.student_ID.elements[1].value=="901"){
 	var date_obj1 = new Date();
 	start_time = date_obj1.getTime();
 	if(document.getElementById){
