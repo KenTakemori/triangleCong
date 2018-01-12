@@ -22,7 +22,7 @@ var now_time;
 function start(){
 	// 現在のローカル時間が格納された、Date オブジェクトを作成する
 	console.log(document.student_ID.elements[1].value);
-	if(document.student_ID.elements[1].value=="123"){
+	if(document.student_ID.elements[1].value=="174"||document.student_ID.elements[1].value=="189"||document.student_ID.elements[1].value=="231"||document.student_ID.elements[1].value=="263"||document.student_ID.elements[1].value=="332"||document.student_ID.elements[1].value=="359"||document.student_ID.elements[1].value=="409"||document.student_ID.elements[1].value=="548"||document.student_ID.elements[1].value=="692"||document.student_ID.elements[1].value=="719"||document.student_ID.elements[1].value=="865"||document.student_ID.elements[1].value=="901"||document.student_ID.elements[1].value=="952"){
 	var date_obj1 = new Date();
 	start_time = date_obj1.getTime();
 	if(document.getElementById){
@@ -166,6 +166,8 @@ function finish(){
 		document.getElementById(lastid).style.backgroundColor = lastbgcolor;
 		document.getElementById(lastid).style.borderColor = lastbdcolor;
 	}
+
+	document.getElementById("hint").innerHTML=alllog;
 }
 
 
@@ -939,7 +941,7 @@ function ques4(){
 		}else{
 			var fb_text="まだ仮定や結論を明らかにできていません。まずは仮定と結論を全て書き出すところからスタートでしたね。";
 			document.getElementById("diag").innerHTML=fb_text;
-			write_log("psbtn","f","仮定結論まだ","",'','');
+			write_log("psbtn","f","仮定or結論まだ","",'','');
 		}
 	}else if(mode=="cong"){
 		
@@ -973,7 +975,7 @@ function ques4_fb(){
 			write_log("ans","f","平行から何が言えるか？","錯角不足","f","");
 		}else{
 			document.getElementById("diag").innerHTML='残念ながら違います。ヒントも参考にして「平行」から何が言えるか思い出しましょう。<p class="button_dec" ><input type="button" value="戻る" onclick="ques4()"></p>'
-			write_log("ans","f","平行から何が言えるのか？",,"f","")
+			write_log("ans","f","平行から何が言えるのか？","","f","")
 		}
 	}
 }
@@ -1012,7 +1014,7 @@ function ques4_douikaku_fb(){
 			}else{
 
 			}
-			write_log("ans","f",ans1,ans2,"t","")
+			write_log("ans","f",ans1,ans2,"t","同位角1")
 		}else{
 			alert("∠"+ans1+"=∠"+ans2+"は入力済みです。")
 		}
@@ -1034,13 +1036,13 @@ function ques4_douikaku_fb(){
 			}else{
 				
 			}
-			write_log("ans","f",ans1,ans2,"t","");
+			write_log("ans","f",ans1,ans2,"t","同位角2");
 		}else{
 			alert("∠"+ans1+"=∠"+ans2+"は入力済みです。")
 		}
 	}else{
 		document.getElementById("diag").innerHTML='残念ながら違います。下のリンクをクリックして「平行について」を見てみましょう。<p class="button_dec" ><input type="button" value="戻る" onclick="ques4_douikaku()"></p>'
-		write_log("ans","f","","","f","");
+		write_log("ans","f","","","f","同位角");
 	}
 }
 
@@ -1076,11 +1078,13 @@ function ques4_sakaku_fb(){
 			}else{
 				
 			}
+			write_log("ans","f",ans1,ans2,"t","錯角")
 		}else{
 			alert("∠"+ans1+"=∠"+ans2+"は入力済みです。")
 		}
 	}else{
 		document.getElementById("diag").innerHTML='残念ながら違います。下のリンクをクリックして「平行について」を見てみましょう。<p class="button_dec" ><input type="button" value="戻る" onclick="ques4_douikaku()"></p>'
+	write_log("ans","f",ans1,ans2,"f","錯角")
 	}
 }
 
@@ -1105,24 +1109,35 @@ function ques5_1(){
 			k1=1;
 			k2=0;
 			k6=0;
-			write_log("psbtn","f","ques5_1()",'','','');
+			write_log("psbtn","f","katei1から何が言えるか？",'','','');
 		}else if(keturonboolean==true){
 			var fb_text="まだ仮定を全て明らかにできていません。まずは仮定と結論を全て書き出すところからスタートでしたね。";
 			document.getElementById("diag").innerHTML=fb_text;
-			write_log("psbtn","f","ques5_1()","結論まだ",'','');
+			write_log("psbtn","f","仮定を全て書き出せていない",'','','');
 		}else{
 			var fb_text="まだ結論が何か明らかにできていません。まずは仮定と結論を全て書き出すところからスタートでしたね。";
 			document.getElementById("diag").innerHTML=fb_text;
-			write_log("psbtn","f","ques5_1()","結論まだ",'','');
+			write_log("psbtn","f","結論を書き出せていない","",'','');
 		}
-	}else if(mode=="cong"||mode=="backcong"){
+	}else if(mode=="cong"){
 		if(k1==0){
 			k1=1;
 			var fb_text='●　'+katei1Text;
 			var div_fb = document.createElement("div");
-			div_fb.id = "select1";
+			div_fb.id = "fb1";
 			document.getElementById("diag").appendChild(div_fb);
-			document.getElementById("select1").innerHTML= fb_text;
+			document.getElementById("fb1").innerHTML= fb_text;
+			write_log("psbtn","f","katei1を条件要素に追加","",'','');
+		}
+	}else if(mode=="backcong"){
+		if(k1==0){
+			k1=1;
+			var fb_text='●　'+katei1Text;
+			var div_fb = document.createElement("div");
+			div_fb.id = "fb1";
+			document.getElementById("diag").appendChild(div_fb);
+			document.getElementById("fb1").innerHTML= fb_text;
+			write_log("psbtn","b","katei1を条件要素に追加","",'','');
 		}
 	}
 }
@@ -1136,24 +1151,35 @@ function ques5_2(){
 			k1=0;
 			k2=1;
 			k6=0;
-			write_log("psbtn","f","ques5_2()",'','','');
+			write_log("psbtn","f","katei2から何が言えるか？",'','','');
 		}else if(keturonboolean==true){
 			var fb_text="まだ仮定を全て明らかにできていません。まずは仮定と結論を全て書き出すところからスタートでしたね。";
 			document.getElementById("diag").innerHTML=fb_text;
-			write_log("psbtn","f","ques5_2()","結論まだ",'','');
+			write_log("psbtn","f","仮定を全て書き出せていない","",'','');
 		}else{
 			var fb_text="まだ結論が何か明らかにできていません。まずは仮定と結論を全て書き出すところからスタートでしたね。";
 			document.getElementById("diag").innerHTML=fb_text;
-			write_log("psbtn","f","ques5_2()","結論まだ",'','');
+			write_log("psbtn","f","結論を書き出せていない","",'','');
 		}
-	}else if(mode=="cong"||mode=="backcong"){
+	}else if(mode=="cong"){
 		if(k2==0){
 			k2=1;
 			var fb_text='●　'+katei2Text;
 			var div_fb = document.createElement("div");
-			div_fb.id = "select2";
+			div_fb.id = "fb2";
 			document.getElementById("diag").appendChild(div_fb);
-			document.getElementById("select2").innerHTML= fb_text;
+			document.getElementById("fb2").innerHTML= fb_text;
+			write_log("psbtn","f","katei2を条件要素に追加","",'','');
+		}
+	}else if(mode=="backcong"){
+		if(k2==0){
+			k2=1;
+			var fb_text='●　'+katei2Text;
+			var div_fb = document.createElement("div");
+			div_fb.id = "fb2";
+			document.getElementById("diag").appendChild(div_fb);
+			document.getElementById("fb2").innerHTML= fb_text;
+			write_log("psbtn","b","katei2を条件要素に追加","",'','');
 		}
 	}
 }
@@ -1168,17 +1194,17 @@ function ques5_6(){
 			k1=0;
 			k2=0;
 			k6=1;
-			write_log("psbtn","f","ques5_6()",'','','');
+			write_log("psbtn","f","katei6から何が言えるか？",'','','');
 		}else if(keturonboolean==true){
 			var fb_text="まだ仮定を全て明らかにできていません。まずは仮定と結論を全て書き出すところからスタートでしたね。";
 			document.getElementById("diag").innerHTML=fb_text;
-			write_log("psbtn","f","ques5_6()","結論まだ",'','');
+			write_log("psbtn","f","仮定を全て書き出せていない","",'','');
 		}else{
 			var fb_text="まだ結論が何か明らかにできていません。まずは仮定と結論を全て書き出すところからスタートでしたね。";
 			document.getElementById("diag").innerHTML=fb_text;
-			write_log("psbtn","f","ques5_6()","結論まだ",'','');
+			write_log("psbtn","f","結論を書き出せていない","",'','');
 		}
-	}else if(mode=="cong"||mode=="backcong"){
+	}else if(mode=="cong"){
 		if(k6==0){
 			k6=1;
 			var fb_text='●　'+katei6Text;
@@ -1186,6 +1212,17 @@ function ques5_6(){
 			div_fb.id = "select6";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("select6").innerHTML= fb_text;
+			write_log("psbtn","f","katei6を条件要素に追加","",'','');
+		}
+	}else if(mode=="backcong"){
+		if(k6==0){
+			k6=1;
+			var fb_text='●　'+katei6Text;
+			var div_fb = document.createElement("div");
+			div_fb.id = "select6";
+			document.getElementById("diag").appendChild(div_fb);
+			document.getElementById("select6").innerHTML= fb_text;
+			write_log("psbtn","b","katei6を条件要素に追加","",'','');
 		}
 	}
 }
@@ -1196,17 +1233,17 @@ function ques5_7(){
 			question_number = 55;
 			select_uncor=false;
 			makeSelect("これらから言えることはあるでしょうか？<br>図も参考にしながら考えてみましょう。<br>ない場合は「仮定」や「図の性質から言えること」などの、<br>言えること=正しいと分かっていること　が他にないか確認してみましょう。<br>")
-			write_log("psbtn","f","ques5_7()",'','','');
+			write_log("psbtn","f","katei7から何が言えるのか？",'','','');
 		}else if(keturonboolean==true){
 			var fb_text="まだ仮定を全て明らかにできていません。まずは仮定と結論を全て書き出すところからスタートでしたね。";
 			document.getElementById("diag").innerHTML=fb_text;
-			write_log("psbtn","f","ques5_7()","仮定まだ",'','');
+			write_log("psbtn","f","仮定を全て書き出せていない","",'','');
 		}else{
 			var fb_text="まだ結論が何か明らかにできていません。まずは仮定と結論を全て書き出すところからスタートでしたね。";
 			document.getElementById("diag").innerHTML=fb_text;
-			write_log("psbtn","f","ques5_7()","結論まだ",'','');
+			write_log("psbtn","f","結論を書き出せていない","",'','');
 		}
-	}else if(mode=="cong"||mode=="backcong"){
+	}else if(mode=="cong"){
 		if(k7==0){
 			k7=1;
 			var fb_text='●　'+katei7Text;
@@ -1215,6 +1252,18 @@ function ques5_7(){
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("select7").innerHTML= fb_text;
 			select_uncor=false;
+			write_log("psbtn","f","katei7を条件要素に追加","",'','');
+		}
+	}else if(mode=="backcong"){
+		if(k7==0){
+			k7=1;
+			var fb_text='●　'+katei7Text;
+			var div_fb = document.createElement("div");
+			div_fb.id = "select7";
+			document.getElementById("diag").appendChild(div_fb);
+			document.getElementById("select7").innerHTML= fb_text;
+			select_uncor=false;
+			write_log("psbtn","b","katei7を条件要素に追加","",'','');
 		}
 	}
 }
@@ -1225,17 +1274,17 @@ function ques5_8(){
 			question_number = 55;
 			select_uncor=false;
 			makeSelect("これらから言えることはあるでしょうか？<br>図も参考にしながら考えてみましょう。<br>ない場合は「仮定」や「図の性質から言えること」などの、<br>言えること=正しいと分かっていること　が他にないか確認してみましょう。<br>")
-			write_log("psbtn","f","ques5_8()",'','','');
+			write_log("psbtn","f","katei8から何が言えるのか？",'','','');
 		}else if(keturonboolean==true){
 			var fb_text="まだ仮定を全て明らかにできていません。まずは仮定と結論を全て書き出すところからスタートでしたね。";
 			document.getElementById("diag").innerHTML=fb_text;
-			write_log("psbtn","f","ques5_8()","結論まだ",'','');
+			write_log("psbtn","f","仮定を全て書き出せていない","",'','');
 		}else{
 			var fb_text="まだ結論が何か明らかにできていません。まずは仮定と結論を全て書き出すところからスタートでしたね。";
 			document.getElementById("diag").innerHTML=fb_text;
-			write_log("psbtn","f","ques5_8()","結論まだ",'','');
+			write_log("psbtn","f","結論を書き出せていない","",'','');
 		}
-	}else if(mode=="cong"||mode=="backcong"){
+	}else if(mode=="cong"){
 		if(k8==0){
 			k8=1;
 			var fb_text='●　'+katei8Text;
@@ -1244,6 +1293,18 @@ function ques5_8(){
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("select8").innerHTML= fb_text;
 			select_uncor=false;
+			write_log("psbtn","f","katei8を条件要素に追加","",'','');
+		}
+	}else if(mode=="backcong"){
+		if(k8==0){
+			k8=1;
+			var fb_text='●　'+katei8Text;
+			var div_fb = document.createElement("div");
+			div_fb.id = "select8";
+			document.getElementById("diag").appendChild(div_fb);
+			document.getElementById("select8").innerHTML= fb_text;
+			select_uncor=false;
+			write_log("psbtn","b","katei8を条件要素に追加","",'','');
 		}
 	}
 }
@@ -1271,7 +1332,7 @@ function ques5_fb(){
 				div_fb.id = "fb";
 				document.getElementById("diag").appendChild(div_fb);
 				document.getElementById("fb").innerHTML= fb_text;
-				write_log("ans","f","△"+rec1,"△"+rec2,'f','');				
+				write_log("ans","f","△"+rec1,"△"+rec2,'f','条件足りず');				
 			}
 		}else if(boolnum==1){
 			if(forcong==3){
@@ -1280,14 +1341,14 @@ function ques5_fb(){
 				div_fb.id = "fb";
 				document.getElementById("diag").appendChild(div_fb);
 				document.getElementById("fb").innerHTML= fb_text;
-				write_log("ans","f","△"+rec1,"△"+rec2,'f','');
+				write_log("ans","f","△"+rec1,"△"+rec2,'f','対応順違う');
 			}else{
 				var fb_text='△'+rec1+'と△'+rec2+'に目をつけたのはいい方向性だと思います。<br>しかし、現時点では'+forcong+'つしか条件がないので三角形の合同を言うことはできません。加えて「対応順」が違っています。<br>対応順については分からない場合は下記リンクで「合同」について確認しましょう。';
 				var div_fb = document.createElement("div");
 				div_fb.id = "fb";
 				document.getElementById("diag").appendChild(div_fb);
 				document.getElementById("fb").innerHTML= fb_text;
-				write_log("ans","f","△"+rec1,"△"+rec2,'f','');
+				write_log("ans","f","△"+rec1,"△"+rec2,'f','条件不足、対応順違い');
 			}
 		}else{
 			var fb_text='残念ながら△'+rec1+'≡△'+rec2+'を言うことはできません。<br>「合同であることを使いたい」という方針そのものは正しいです。<br>対応順についても注意しながら打ち間違いの無いよう入力しましょう。';
@@ -1316,6 +1377,7 @@ function ques5_fb_uncor(){
 	div_fb.id = "fb";
 	document.getElementById("diag").appendChild(div_fb);
 	document.getElementById("fb").innerHTML= '残念ながらその項目からそのことをいうことは出来ません。図も参考にしながら考えてみましょう。';
+	write_log("ans","f","","","f","");
 }
 
 //合同を言うのにどの条件が必要かを選んだ後の動作
@@ -1342,11 +1404,13 @@ function ques5_fb2(){
 		makeButton("congCond3",90,330,"green",'____________がそれぞれ等しい',"");
 		beforeXY("div_congCond1");
 		makeButton("ketu3",160,400,"blue",keturon_text,"");
+		write_log("ans","f","正しい条件を選択できた","","t","")
 	}else{
 		var div_fb = document.createElement("div");
 		div_fb.id = "fb";
 		document.getElementById("diag").appendChild(div_fb);
 		document.getElementById("fb").innerHTML= '間違ったものを含んでいる、もしくは条件とする選択肢が足りていません。<br>もう一度考えて、どの条件によってその合同が言えるのか考えてみましょう。<p class="right" ><input type="button" value="選択を解除" onclick="select_reset()"></p>';
+		write_log("ans","f","正しい条件を選択できていない","","f","")
 	}
 }
 
@@ -1361,15 +1425,18 @@ function ques5_fb3(){
 		beforeX=90;
 		beforeY=330;
 		makeButton("congCond",90,330,"green",'二組の辺とその間の角がそれぞれ等しい',"");
+		write_log("ans","f","合同条件を正しいものを選択","","t","");
 	}else{
 		diag_history=document.getElementById("diag").innerHTML;
 		document.getElementById("diag").innerHTML='残念ながら違います。問題図、その下の合同な図形を取り出す欄も使いながら考え直してみましょう。<br><p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
+		write_log("ans","f","合同条件を誤ったものを選択","","f","");
 	}
 }
 
 function select_reset(){
 	document.getElementById("diag").innerHTML='選択を解除しました。<br><br>その三角形の合同をいうために使う条件はどれでしょうか？<br>過不足のないようボタンを押しましょう。<br>合同条件を忘れてしまった人は下のヒントを参照しましょう。<br><p class="button_dec" ><input type="button" value="OK" onclick="ques5_fb2()"></p>'
 	k1=0;k2=0;k6=0;k7=0;k8=0;select_uncor=true;
+	write_log("reset","b","選択を解除","","","")
 }
 
 

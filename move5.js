@@ -163,6 +163,8 @@ function finish(){
 		document.getElementById(lastid).style.backgroundColor = lastbgcolor;
 		document.getElementById(lastid).style.borderColor = lastbdcolor;
 	}
+
+	document.getElementById("hint").innerHTML=alllog;
 }
 
 
