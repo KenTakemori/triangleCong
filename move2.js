@@ -175,7 +175,7 @@ function setBlobUrl(id, content) {
         console.log("window.webkitURL=" + window.webkitURL);
         
     	// 指定されたデータを保持するBlobを作成する。
-        var blob = new Blob([ content ], { "type" : "application/x-msdownload" });
+        var blob = new Blob([ content ], { "type" : "text/plain" });
 
 		// Aタグのhref属性にBlobオブジェクトを設定する。
         window.URL = window.URL || window.webkitURL;
