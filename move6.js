@@ -22,7 +22,7 @@ var now_time;
 function start(){
 	// 現在のローカル時間が格納された、Date オブジェクトを作成する
 	console.log(document.student_ID.elements[1].value);
-	if(document.student_ID.elements[1].value=="123"){
+	if(document.student_ID.elements[1].value=="174"||document.student_ID.elements[1].value=="189"||document.student_ID.elements[1].value=="231"||document.student_ID.elements[1].value=="263"||document.student_ID.elements[1].value=="332"||document.student_ID.elements[1].value=="359"||document.student_ID.elements[1].value=="409"||document.student_ID.elements[1].value=="548"||document.student_ID.elements[1].value=="692"||document.student_ID.elements[1].value=="719"||document.student_ID.elements[1].value=="865"||document.student_ID.elements[1].value=="901"||document.student_ID.elements[1].value=="952"){
 	var date_obj1 = new Date();
 	start_time = date_obj1.getTime();
 	if(document.getElementById){
@@ -126,14 +126,19 @@ function output(){
 function div_move(name,x,y){
 	var div_name="div_"+name;
 	var style_text="position: absolute; left: "+x+"px; top:"+y+"px;";
-	var k = document.getElementById(div_name);
-	k.setAttribute("style",style_text);
+	if(document.getElementById(div_name)){
+		var k = document.getElementById(div_name);
+		k.setAttribute("style",style_text);
+	}
 }
 
 function div_clear(name){
 	var div_name="div_"+name;
-	document.getElementById(div_name).innerHTML="";
+	if(document.getElementById(div_name)){
+		document.getElementById(div_name).innerHTML="";
+	}
 }
+
 
 //要素を並べる(問題ごとに作成)
 function finish(){
@@ -142,16 +147,24 @@ function finish(){
 	div_clear("katei");
 	div_clear("frompic");
 	div_clear("keturon");
+	div_clear("△ABC≡△ADC2");
 	beforeX=210;
 	beforeY=20;
 	makeButton("_katei",200,10,"green","仮定","");
 	div_move("katei1","10","10");
 	div_move("katei2","10","60");
 	div_move("frompic2","10","110")
+	div_move("cong","10","160");
+	div_move("kaku_1");
+	div_move("kaku_2");
+	div_move("AQ//BP");
 	div_move("△ABC≡△ADC","10","160");
-	div_move("△ABC≡△ADC2","10","160");
+	div_clear("△ABC≡△ADC2");
 	div_move("frompic1","200","60");
 	div_move("congCond","200","110");
+	div_move("taiokaku","200","180");
+	div_move("douikaku","200","250");
+	div_move("sakaku","200","300");
 
 	if (lastid.length) {
 		document.getElementById(lastid).style.backgroundColor = lastbgcolor;
@@ -544,6 +557,7 @@ function fromPic(){
 		beforeXY("div_frompic");
 		makeSelect("図形の性質から言えることはなんでしょうか？<br>選んだ後、その理由を聞きます。<br>")
 		btnclr_change(document.getElementById("frompic"));
+		write_log("psbtn","f","図形の性質から言えることは？",'','','');
 	}else if(mode=="cong"){
 
 	}else if(mode=="use_prosp"){
@@ -571,6 +585,7 @@ function fromPic_fb(){
 				div_fb.id = "fb";
 				document.getElementById("diag").appendChild(div_fb);
 				document.getElementById("fb").innerHTML= fb_text;
+				write_log("ans","f","∠"+document.form2.elements[0].value,"∠"+document.form2.elements[1].value,"t","");
 			}else{
 				alert('∠'+document.form2.elements[0].value+'=∠'+document.form2.elements[1].value+'は入力済みです。')
 			}
@@ -580,12 +595,14 @@ function fromPic_fb(){
 			div_fb.id = "fb";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb").innerHTML= fb_text;
+			write_log("ans","f","∠"+document.form2.elements[0].value,"∠"+document.form2.elements[1].value,"f","");
 		}else{
 			var fb_text='残念ながら、そのことは図の性質からは言えません。<br>図形の性質から言えることがもうなかったり、わからない場合は後ろからも考えてみましょう。'
 			var div_fb = document.createElement("div");
 			div_fb.id = "fb";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb").innerHTML= fb_text;
+			write_log("ans","f","∠"+document.form2.elements[0].value,"∠"+document.form2.elements[1].value,"f","");
 		}
 	}else{
 		var fb_text='残念ながら、そのことは図の性質からは言えません。<br>図形の性質から言えることがもうなかったり、わからない場合は後ろからも考えてみましょう。'
@@ -593,6 +610,7 @@ function fromPic_fb(){
 		div_fb.id = "fb";
 		document.getElementById("diag").appendChild(div_fb);
 		document.getElementById("fb").innerHTML= fb_text;
+		write_log("ans","f","","","f","");
 	}
 }
 
@@ -606,9 +624,9 @@ function fromPic_fb2(){
 		frompic=1;
 		forcong++;
 		frompicText='∠'+document.form2.elements[0].value+'=∠'+document.form2.elements[1].value
-		makeButton("frompic1",300,70,"green",'対頂角は等しい',)
+		makeButton("frompic1",300,60,"green",'対頂角は等しい',)
 		beforeXY("div_frompic1")
-		makeButton("frompic2",300,130,"yellow",frompicText,"ques7_pic()")
+		makeButton("frompic2",300,110,"yellow",frompicText,"ques7_pic()")
 		if(ques1_count==0){
 			document.getElementById("pic").innerHTML='<img src="q6_image/pic_q6_M.jpg" alt="問題図" style="width: 345px">';
 		}else if(ques1_count==2){
@@ -619,6 +637,7 @@ function fromPic_fb2(){
 			document.getElementById("pic").innerHTML='<img src="q6_image/pic_q6_MPQ.jpg" alt="問題図" style="width: 345px">';
 		}else{
 		}
+		write_log("ans","f","対頂角",'','t','')
 	}else{
 		var fb_text='残念ながら違います。図の該当する角に緑色の丸をつけました。その角がなんという角だったか思い出してみましょう。'
 		var div_fb2 = document.createElement("div");
@@ -635,6 +654,7 @@ function fromPic_fb2(){
 			document.getElementById("pic").innerHTML='<img src="q6_image/pic_q6_MPQ.jpg" alt="問題図" style="width: 345px">';
 		}else{
 		}
+		write_log("ans","f",'図形の性質',document.fromPic_select.elements[0].value,'f','');
 	}
 }
 
@@ -651,6 +671,7 @@ function ques1(){
 		beforeXY("div_katei");
 		makeSelect("この問題における「仮定」はなんでしょう？<br>「仮定」の意味が分からない場合は下のリンクをクリックしよう。<br>");
 		btnclr_change(document.getElementById("katei"));
+		write_log("psbtn","f","仮定は？",'','','');
 	}else if(mode=="cong"){
 		
 	}else if(mode=="use_prosp"){
@@ -667,18 +688,21 @@ function ques1_fb(){
 			div_fb.id = "fb";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb").innerHTML= fb_text;
+			write_log("ans","f","MがABの中点","言い換えよう",'t','');
 		}else if(document.form13.elements[0].value=="M"||document.form13.elements[1].value=="AB"||document.form13.elements[1].value=="BA"){
 			var fb_text='惜しいです。「中点になる点」「その点によって分けられる辺」について問題文と見比べながら見直してみましょう。'
 			var div_fb = document.createElement("div");
 			div_fb.id = "fb";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb").innerHTML= fb_text;
+			write_log("ans","f","Mがの中点","言い換えよう",'f','');
 		}else{
 			var fb_text='中点についての記述はありますが、入力した点や辺は両方とも間違ってしまっています。もう一度、問題文と見比べながら考えてみましょう。'
 			var div_fb = document.createElement("div");
 			div_fb.id = "fb";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb").innerHTML= fb_text;
+			rite_log("ans","f","Mがの中点","言い換えよう",'f','');
 		}
 	}else if(form_number==1){
 		var hen1=document.form1.elements[0].value;
@@ -708,6 +732,7 @@ function ques1_fb(){
 				}else{
 				}
 				ques1_count++;
+				write_log("ans","f",hen1,hen2,'t','辺');
 			}else{
 				alert(hen1+'='+hen2+'は入力済みです。')
 			}
@@ -734,6 +759,7 @@ function ques1_fb(){
 					else if(frompic==1){document.getElementById("pic").innerHTML='<img src="q6_image/pic_q6_all.jpg" alt="問題図" style="width: 345px;">'}else{}
 				}else{
 				}
+				write_log("ans","f",hen1,hen2,'t','辺');
 				ques1_count++;
 			}else{
 				alert(hen1+'='+hen2+'は入力済みです。')
@@ -744,6 +770,7 @@ function ques1_fb(){
 			div_fb.id = "fb";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb").innerHTML= fb_text;
+			write_log("ans","f",hen1,hen2,'f','辺');
 		}
 	}else{
 		var fb_text='残念ながら違います。問題文と見比べてもう一度見てみましょう。「仮定」がわからないときは下のリンクをクリックして復習しましょう。'
@@ -751,6 +778,7 @@ function ques1_fb(){
 			div_fb.id = "fb";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb").innerHTML= fb_text;
+			write_log("ans","f","","",'f','辺');
 	}
 }
 
@@ -761,6 +789,7 @@ function ques2(){
 		beforeXY("div_keturon");
 		makeSelect("この問題における「結論」はなんでしょう？<br>「結論」の意味が分からない場合は下のリンクをクリックしよう。<br>");
 		btnclr_change(document.getElementById("keturon"));
+		write_log("psbtn","b","結論は？",'','','');
 	}else if(mode=="cong"){
 		
 	}else if(mode=="use_prosp"){
@@ -770,16 +799,20 @@ function ques2(){
 
 function ques2_fb(){
 	if(form_number==7){
-		if(hen_cor(document.form7.elements[0].value,document.form7.elements[1].value,"AQ","BP")){
-			document.getElementById("diag").innerHTML="正解です！<br>「AQ//BP」を言うことが結論です．<br>左の構造図に AQ//BP が表示されました。";
-			makeButton("AQ//BP",160,410,"blue","　　AQ//BP　　","ques4()");
+		var hen1=document.form7.elements[0].value;
+		var hen2=document.form7.elements[1].value;
+		if(hen_cor(hen1,hen2,"AQ","BP")){
+			document.getElementById("diag").innerHTML="正解です！<br>「"+hen1+"//"+hen2+"」を言うことが結論です．<br>左の構造図に表示されました。";
+			makeButton("AQ//BP",160,410,"blue",hen1+"//"+hen2,"ques4()");
 			keturonboolean=true;
+			write_log("ans","b",hen1,hen2,'t','平行');
 		}else{
 			var fb_text="確かに結論は二線が平行であることですが、"+document.form7.elements[0].value+"//"+document.form7.elements[1].value+"ではありません。もしかすると、打ち間違いかもしれません。問題文と見比べてみましょう。";
 			var div_fb = document.createElement("div");
 			div_fb.id = "fb";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb").innerHTML= fb_text;
+			write_log("ans","b",hen1,hen2,'f','平行');
 		}
 	}else{
 			var fb_text="残念ながらそれは結論ではありません。「結論」が何か分からない場合には下記リンクをクリックして復習をしましょう。";
@@ -787,6 +820,7 @@ function ques2_fb(){
 			div_fb.id = "fb";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb").innerHTML= fb_text;
+			write_log("ans","b","","",'f','');
 	}
 }
 
@@ -798,24 +832,28 @@ function ques2_fb(){
 
 function ques4(){
 	if(mode=="normal"){
+		btnclr_change(document.getElementById("AQ//BP"));
 		if(ques1_count==2){
 		beforeXY("div_AQ//BP");
 			if(document.getElementById){
 				document.getElementById("diag").innerHTML='AQ//BP を言うためにはどんな事が使えそうですか？<br>(正しいものを全て選ぼう)<br><form name="res4"><p><input type="checkbox" value="0" checked="checked">錯角が等しい<input type="checkbox" value="1">平行な辺の長さが等しい <br><input type="checkbox" value="2">対頂角が等しい<input type="checkbox" value="3">三角形の一辺である <br><input type="checkbox" value="4">同位角が等しい<input type="checkbox" value="5">見た感じ平行 <br><input type="checkbox" value="6">底角が等しい</p><p class="button_dec" ><input type="button" value="OK" onclick="ques4_fb()"></p></form>'
+				write_log("psbtn","b","AQ//BPを言うためには？","","","");
 			}else{}
 		}else{
 			var fb_text="まだ仮定を全て書き出せていません。まずは結論と仮定を全て書き出すところからスタートでしたね。";
 			document.getElementById("diag").innerHTML=fb_text;
+			write_log("psbtn","b","仮定を全て書き出せていない","",'','');
 		}
-		btnclr_change(document.getElementById("AQ//BP"));
 	}else if(mode=="cong"){
 		diag_history=document.getElementById("diag").innerHTML;
 		document.getElementById("diag").innerHTML='これは結論です。<br>「後ろ向き推論」によって書いた構造図(青)を「前向き推論」の中で使うことはできません。<br>「正しいこと」で作られている「前向き推論」に、「まだ正しいかは分からないこと」で作られている「後ろ向き推論」を混ぜてはいけません。<br>前向き推論,後ろ向き推論がよく分からない人は下記リンクをクリックして復習しましょう。<br> <p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
+		write_log("psbtn","f","合同の条件要素に結論を選択してしまった","","f","");
 	}else if(mode=="use_prosp"){
 		//間違いFBを記述
 	}else if(mode="backcong"){
 		diag_history=document.getElementById("diag").innerHTML;
 		document.getElementById("diag").innerHTML='これは結論です。<br>「合同がすでに言えている」を選んで、その条件を選んでいるはずです。「すでに言えている」ということは前向き推論によって言えたことを選ぶことになるはずです。<br> <p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
+		write_log("psbtn","b","合同の条件要素に結論を選択してしまった","","f","");
 	}
 }
 
@@ -825,18 +863,22 @@ function ques4_fb(){
 		if(document.res4.elements[0].checked&&document.res4.elements[4].checked){
 			if(document.res4.elements[1].checked ||document.res4.elements[2].checked ||document.res4.elements[3].checked ||document.res4.elements[5].checked ||document.res4.elements[6].checked){
 				document.getElementById("diag").innerHTML='正解も含んでいるのでが、平行であると言えないものも含んでしまっています。もう一度考えてみましょう。<p class="button_dec" ><input type="button" value="戻る" onclick="ques4()"></p>';
+				write_log("ans","b","平行を言うための要素以外も含んでいる","","f","");
 			}else{
 				document.getElementById("diag").innerHTML="正解です！<br>平行を言うためには同位角が等しい・錯角が等しい が使えましたよね！<br>左の構造図に平行であること(AQ//BP)を言うための条件が表示されました。"
 				//「同位角が等しい」と「錯角が等しい」のボタンを作成
 				makeButton("douikaku",100,360,"green","同位角が等しい","ques5_douikaku()");
 				makeButton("sakaku",220,360,"green","錯角が等しい","ques5_sakaku()")
+				write_log("ans","b","平行を言うための要素を選べた","","t","");
 			}
 		}else if(document.res4.elements[0].checked){
 			document.getElementById("diag").innerHTML='「錯角が等しい」は正解で、平行であることを言う事ができます。<br>ですが、他にも平行を言うための条件があります。<p class="button_dec" ><input type="button" value="戻る" onclick="ques4()"></p>'
+			write_log("ans","b","同意角が等しいが入っていない","","f","");
 		}else if(document.res4.elements[4].checked){
 			document.getElementById("diag").innerHTML='「同位角が等しい」は正解で、平行であることを言う事ができます。<br>ですが、他にも平行を言うための条件があります。<p class="button_dec" ><input type="button" value="戻る" onclick="ques4()"></p>'
 		}else{
 			document.getElementById("diag").innerHTML='残念ながら違います。下のリンクをクリックして「平行」について見てみましょう。<p class="button_dec" ><input type="button" value="戻る" onclick="ques4()"></p>'
+			write_log("ans","b","錯角が等しいが入っていない","","f","");
 		}
 	}
 }
@@ -850,6 +892,7 @@ function ques5_sakaku(){
 		beforeXY("div_sakaku");
 		document.getElementById("diag").innerHTML='ではこの「錯角」は今回の問題ではどの部分にあたるでしょうか？<br>(半角大文字アルファベットで入力してください)<br><form name="res5"><p><select><option value="錯角">錯角</option></select>∠<input type="text" name="kaku1" size="10" value="">=∠<input type="text" name="kaku2" size="10" value=""><br></p></form><p style="position: absolute;right: 130px;bottom: 5px"><input type="button" value="決定" onclick="ques5_conti()"></p><p class="button_dec" ><input type="button" value="もうないので次に進む" onclick="ques5_fini()"></p>'
 		btnclr_change(document.getElementById("sakaku"));
+		write_log("psbtn","b","錯角はどれ？","","","");
 	}else if(mode=="cong"){
 		
 	}else if(mode=="use_prosp"){
@@ -863,6 +906,7 @@ function ques5_douikaku(){
 	if(mode=="normal"){
 		document.getElementById("diag").innerHTML='ではこの「同位角」は今回の問題ではどの部分にあたるでしょうか？<br>(半角大文字アルファベットで入力してください)<br><form name="res5"><p><select><option value="同位角">同位角</option></select>∠<input type="text" name="kaku1" size="10" value="">=∠<input type="text" name="kaku2" size="10" value=""><br></p></form><p style="position: absolute;right: 130px;bottom: 5px"><input type="button" value="決定" onclick="ques5_conti()"></p><p class="button_dec" ><input type="button" value="もうないので次に進む" onclick="ques5_fini()"></p>'
 		btnclr_change(document.getElementById("douikaku"));
+		write_log("psbtn","b","同位角はどれ？","","","");
 	}else if(mode=="cong"){
 		
 	}else if(mode=="use_prosp"){
@@ -874,6 +918,7 @@ function ques5_douikaku(){
 
 function ques5(){
 	document.getElementById("diag").innerHTML='ではこの「同位角」「錯角」は今回の問題ではどの部分にあたるでしょうか？<br>(半角大文字アルファベットで入力してください)<br><form name="res5"><p><select><option value="同位角">同位角</option><option value="錯角">錯角</option></select>∠<input type="text" name="kaku1" size="10" value="">=∠<input type="text" name="kaku2" size="10" value=""><br></p></form><p style="position: absolute;right: 130px;bottom: 5px"><input type="button" value="決定" onclick="ques5_conti()"></p><p class="button_dec" ><input type="button" value="もうないので次に進む" onclick="ques5_fini()"></p>'
+
 }
 
 //先に書いた方を左に表示し、それによってそれ以上部の構造図の書き方に変化が出るので先に書いた方をleft_kaku,後に書いた方をright_kakuにBもしくはAを入れる事で今後の分岐を作る
@@ -941,6 +986,7 @@ function ques5_conti(){
 				makeButton("kaku_2",315,310,"blue",txt1,"ques6_before2()");
 			}else{
 			}
+			write_log("ans","b","∠"+document.res5.elements[1].value,"∠"+document.res5.elements[2].value,"t","錯角");
 			var fb_text='正解です！構造図に錯角が表示されました。<br>他にもあ錯角が場合はもう一度「錯角」のボタンを押して答えましょう。<br>ない場合は「もうないので次に進む」のボタンを押しましょう。<br>'
 			var div_fb = document.createElement("div");
 			div_fb.id = "fb";
@@ -949,21 +995,26 @@ function ques5_conti(){
 			ques5_count++;
 		}else{
 			uncorrect_ques5()
+			write_log("ans","b","∠"+document.res5.elements[1].value,"∠"+document.res5.elements[2].value,"f","錯角");
 		}
 	}else{
 		uncorrect_ques5()
+		write_log("ans","b","∠"+document.res5.elements[1].value,"∠"+document.res5.elements[2].value,"f","同位角");
 	}
 }
 
 function ques5_fini(){
 	if(ques5_count==2){
 		document.getElementById("diag").innerHTML='そうですね！あなたが答えた通り、今回の問題ではその二つが「錯角」にあたります。あなたの回答が左の構造図に表示されたと思います。<br>次に考えていく要素をクリックして構造図の作成を続けましょう。'
+		write_log("psbtn","b","錯角全て出した","次に進もう","t","");
 	}else if(ques5_count==1){
 		diag_history=document.getElementById("diag").innerHTML;
 		document.getElementById("diag").innerHTML='実は他にも同位角か錯角があります。<br>考えるときは、今後必要になるかもしれないので考えられるものは全てあげるようにしましょう。<p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
+		write_log("psbtn","b","錯角全て出せていない","","f","");
 	}else{
 		diag_history=document.getElementById("diag").innerHTML;
 		document.getElementById("diag").innerHTML='まだ、解答が済んでいません。<br>「錯角」「同位角」についてわからない場合は下のリンクをクリックして復習してから解いてみましょう。<p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
+		write_log("psbtn","b","錯角全て出せていない","","f","");
 	}
 }
 //////////question6「これらの角(錯角の奴ら)が等しいということを言うためにはどんなことを利用しますか？」(後ろ向き推論)///////////////
@@ -971,12 +1022,14 @@ function ques6_before1(){
 	beforeXY("div_kaku_1");
 	ques6();
 	btnclr_change(document.getElementById("kaku_1"));
+	write_log("psbtn","b","この角が等しいを言うためには？","錯角1","","")
 }
 
 function ques6_before2(){
 	beforeXY("div_kaku_2");
 	ques6();
 	btnclr_change(document.getElementById("kaku_2"));
+	write_log("psbtn","b","この角が等しいを言うためには？","錯角2","","")
 }	
 
 
@@ -986,6 +1039,7 @@ function ques6(){
 		if(ques5_count<=1){
 			diag_history=document.getElementById("diag").innerHTML;
 			document.getElementById("diag").innerHTML='実は他にも同位角か錯角があります。<br>考えるときは、今後必要になるかもしれないので考えられるものは全てあげるようにしましょう。<p class="button_dec" ><input type="button" value="戻る" onclick="diag_history()"></p>'
+			write_log("psbtn","b","他にも錯角あり","","","");
 		}else{
 			if(congboolean==false){
 				makeSelect('これらの角が等しいということを言うために何を利用できそうですか？<br>問題図、合同な図形を取り出した欄も参考にしながら考えてみましょう。')
@@ -994,18 +1048,24 @@ function ques6(){
 			}
 		}
 	}else if(mode=="cong"){
+		write_log("psbtn","f","合同を言うために後ろ向き推論の結果使えない","錯角1,2","f","");
 		diag_history=document.getElementById("diag").innerHTML;
 		document.getElementById("diag").innerHTML='「前向き推論」の中で、「後ろ向き推論」によって書いた要素(青)を使うことはできません。<br>「正しいこと」で作られている「前向き推論」に、「まだ正しいかは分からないこと」で作られている「後ろ向き推論」を混ぜてはいけません。<br>前向き推論,後ろ向き推論がよく分からない人は下記リンクをクリックして復習しましょう。<br> <p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
 	}else if(mode=="use_prosp"){
+		write_log("psbtn","b","後ろ向き推論と前向き推論繋ぐのに後ろ向きの要素選んだ","錯角1,2","f","");
 		diag_history=document.getElementById("diag").innerHTML;
 		document.getElementById("diag").innerHTML='その事柄からこれら角度が等しいことは言えません。<p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
 	}else if(mode=="backcong"){
+		write_log("psbtn","b","合同が言えているを選んだのに後ろ向きの要素を選んだ","錯角1,2","f","");
 		diag_history=document.getElementById("diag").innerHTML;
 		document.getElementById("diag").innerHTML='「合同がすでに言えている」を選んで、その条件を選んでいるはずです。「すでに言えている」ということは前向き推論によって言えたことを選ぶことになるはずです。色で言うと黄色のボタンになります。<br> <p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
 	}else if(mode=="use_back"){
-		document.getElementById("diag").innerHTML='そうですね！合同な図形の対応する角は等しいですね！<br>さてこれで、仮定側からの前向き推論と結論からの後ろ向き推論が繋がりました。<br>時間に余裕があれば証明を記述しましょう。'
+		document.getElementById("diag").innerHTML='そうですね！合同な図形の対応する角は等しいですね！<br>さてこれで、仮定側からの前向き推論と結論からの後ろ向き推論が繋がりました。終了ボタンを押して担当の人を呼びましょう。<br><p style="text-align:right"><button type="button" value="output" style="" onclick= "output()">終了</button> </p> <a id="download" target="_blank">ダウンロード（IEでは、右クリック＞対象をファイルに保存）</a>'
+		makeButton("taiokaku",120,260,"green","合同な図形の対応する角は等しい","");
+		beforeXY("div_taiokaku");
 		stLine(beforeX+20,beforeY+10,160+20,260+10);
 		mode="finish";
+		write_log("psbtn","f","後ろ向き推論と繋げた","終了","t","");
 	}
 }
 
@@ -1018,7 +1078,7 @@ function ques6_2(){
 	div_fb.id = "fb";
 	document.getElementById("diag").appendChild(div_fb);
 	document.getElementById("fb").innerHTML= fb_text;
-	console.log('前向き推論の結果を使って角度が等しいを言う時')
+	write_log("psbtn","b","前向き推論の結果を使って角度が等しいを言う","","","")
 }
 
 function ques6_2_fb(){
@@ -1027,8 +1087,9 @@ function ques6_2_fb(){
 
 //前向き推論で言えているのにフォームでの入力を選択した時→うまくいけば図の完成
 function ques6_3(){
-	makeSelect("")
+	makeSelect("どんなことからこのことが言えるのか入力しましょう。")
 	console.log('前向き推論で言えているのにフォームでの入力を選択した時')
+	write_log("psbtn","b","前向き推論で言えているのにフォームでの入力を選択した時","","","");
 }
 
 function ques6_3_fb(){
@@ -1037,9 +1098,13 @@ function ques6_3_fb(){
 		var rec2=document.form23.elements[1].value;
 		var boolnum=tri_cor(rec1,rec2,"AMQ","BMP");
 		if(boolnum==0){
-			var congtext='そうですね！<br>△'+rec1+'≡△'+rec2+'であることからこれらの角が等しいことが言えますね！さてこれで、仮定側からの前向き推論と結論からの後ろ向き推論が繋がりました。<br>次は右上の記述欄に証明を記述しましょう。'
+			var congtext='そうですね！<br>△'+rec1+'≡△'+rec2+'であることからこれらの角が等しいことが言えますね！さてこれで、仮定側からの前向き推論と結論からの後ろ向き推論が繋がりました。<br>なので構造図作成は終了です。終了ボタンを押して担当の人を呼びましょう。<br><p style="text-align:right"><button type="button" value="output" style="" onclick= "output()">終了</button> </p> <a id="download" target="_blank">ダウンロード（IEでは、右クリック＞対象をファイルに保存）</a>'
 			document.getElementById("diag").innerHTML=congtext;
-			stLine(160+40,230+10,beforeX+40,beforeY+10)
+			makeButton("taiokaku",120,260,"green","合同な図形の対応する角は等しい","");
+		beforeXY("div_taiokaku");
+		stLine(beforeX+20,beforeY+10,160+20,260+10);
+			write_log("ans","b","△"+rec1,"△"+rec2,"t","フォームで前向き推論と繋がった")
+			mode="finish"
 		}else if(boolnum==1){
 			diag_history=document.getElementById("diag").innerHTML;
 			var fb_text='△'+rec1+'と△'+rec2+'の合同からこれらの角が等しいことが言えると考えたのは適切です。<br>しかし、「対応順」が違っています。<br>対応順については分からない場合は下記リンクで「合同」について確認しましょう。<p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>';
@@ -1047,6 +1112,7 @@ function ques6_3_fb(){
 			div_fb.id = "fb";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb").innerHTML= fb_text;
+			write_log("ans","b","△"+rec1,"△"+rec2,"f","フォームで前向き推論と繋がろうとしたが対応順違い")
 		}else{
 			diag_history=document.getElementById("diag").innerHTML;
 			var fb_text='前向き推論で「既に分かっていること」をもう一度確認し、対応順についても注意しながら打ち間違いの無いよう入力しましょう。<p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>';
@@ -1054,6 +1120,7 @@ function ques6_3_fb(){
 			div_fb.id = "fb";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb").innerHTML= fb_text;
+			write_log("ans","b","△"+rec1,"△"+rec2,"t","フォームで前向き推論と繋がろうとしたが間違い")
 		}
 	}else{
 		diag_history=document.getElementById("diag").innerHTML;
@@ -1062,6 +1129,7 @@ function ques6_3_fb(){
 		div_fb.id = "fb";
 		document.getElementById("diag").appendChild(div_fb);
 		document.getElementById("fb").innerHTML= fb_text;
+		write_log("ans","b","","","t","フォームで前向き推論と繋がろうとしたが間違い")
 	}
 }
 
@@ -1074,7 +1142,10 @@ function ques6_fb(){
 		if(boolnum==0){
 			var congtext='そうですね！<br>もし△'+rec1+'≡△'+rec2+'が言えたらこれらの角度が同じことが言えそうですね！<br>構造図に表示されました。'
 			document.getElementById("diag").innerHTML=congtext;
-			makeButton("cong",160,260,"blue",'△'+rec1+'≡△'+rec2,"ques8()");
+			makeButton("taiokaku",120,260,"green","合同な図形の対応する角は等しい","");
+			beforeXY("div_taiokaku");
+			makeButton("cong",160,210,"blue",'△'+rec1+'≡△'+rec2,"ques8()");
+			write_log("ans","b","△"+rec1,"△"+rec2,"t","合同が言えたら角度等しい言える")
 		}else if(boolnum==1){
 			diag_history=document.getElementById("diag").innerHTML;
 			var fb_text='△'+rec1+'と△'+rec2+'に目をつけたのはいい方向性だと思います。<br>しかし、「対応順」が違っています。<br>対応順については分からない場合は下記リンクで「合同」について確認しましょう。<p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>';
@@ -1082,6 +1153,7 @@ function ques6_fb(){
 			div_fb.id = "fb";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb").innerHTML= fb_text;
+			write_log("ans","b","△"+rec1,"△"+rec2,"f","合同が言えたら角度等しい言えるけど対応順違い")
 		}else{
 			diag_history=document.getElementById("diag").innerHTML;
 			var fb_text='残念ながら△'+rec1+'≡△'+rec2+'から，これらのことを言うとこは出来ません．<br>「合同であることを使いたい」という方針そのものは正しいです。<br>対応順についても注意しながら打ち間違いの無いよう入力しましょう。<p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>';
@@ -1089,6 +1161,7 @@ function ques6_fb(){
 			div_fb.id = "fb";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb").innerHTML= fb_text;
+			write_log("ans","b","△"+rec1,"△"+rec2,"f","合同じゃないorその合同からは角度等しい言えない")
 		}
 	}else{
 		diag_history=document.getElementById("diag").innerHTML;
@@ -1097,6 +1170,7 @@ function ques6_fb(){
 		div_fb.id = "fb";
 		document.getElementById("diag").appendChild(div_fb);
 		document.getElementById("fb").innerHTML= fb_text;
+		write_log("ans","b","","","f","それから角度等しい言えない")
 	}
 }
 
@@ -1110,17 +1184,19 @@ var fp=0;
 function ques7_1(){
 	if(mode=="normal"){
 		if(keturonboolean==true){
-		question_number = 7;
-		beforeXY("div_katei1");
-		btnclr_change(document.getElementById("katei1"));
-		makeSelect("これらから言えることはあるでしょうか？<br>図も参考にしながら考えてみましょう。<br>ない場合は「仮定」や「図の性質から言えること」などの、<br>言えること=正しいと分かっていること　が他にないか確認してみましょう。<br>")
-		k1=1;
-		k2=0;
-		fp=0;
-	}else{
-		var fb_text="まだ仮定を全て書き出せていません。まずは結論と仮定を全て書き出すところからスタートでしたね。";
+			question_number = 7;
+			beforeXY("div_katei1");
+			btnclr_change(document.getElementById("katei1"));
+			makeSelect("これらから言えることはあるでしょうか？<br>図も参考にしながら考えてみましょう。<br>ない場合は「仮定」や「図の性質から言えること」などの、<br>言えること=正しいと分かっていること　が他にないか確認してみましょう。<br>")
+			k1=1;
+			k2=0;
+			fp=0;
+			write_log("psbtn","f","katei1から何が言えるか？",'','','');
+		}else{
+			var fb_text="まだ仮定を全て書き出せていません。まずは結論と仮定を全て書き出すところからスタートでしたね。";
 			document.getElementById("diag").innerHTML=fb_text;
-	}
+			write_log("psbtn","f","仮定を全て書き出せていない","",'','');
+		}
 	}else if(mode=="cong"){
 		if(k1==0){
 			k1=1;
@@ -1129,10 +1205,12 @@ function ques7_1(){
 			div_fb.id = "fb1";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb1").innerHTML= fb_text;
+			write_log("psbtn","f","katei1を条件要素に追加","",'','');
 		}
 	}else if(mode=="use_prosp"){
 		diag_history=document.getElementById("diag").innerHTML;
 		document.getElementById("diag").innerHTML='このことから直接、これらの角が等しいことは言えません。戻るボタンを押してから角度が等しいことを言える、直接的なボタンを選びましょう。<p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
+		write_log("psbtn","b","角を等しいことを直接は言えない","","f","")
 	}else if(mode=="backcong"){
 		if(k1==0){
 			k1=1;
@@ -1141,6 +1219,7 @@ function ques7_1(){
 			div_fb.id = "fb1";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb1").innerHTML= fb_text;
+			write_log("psbtn","b","katei1を条件要素に追加","",'','');
 		}
 	}
 }
@@ -1148,17 +1227,19 @@ function ques7_1(){
 function ques7_2(){
 	if(mode=="normal"){
 		if(keturonboolean==true){
-		question_number = 7;
-		beforeXY("div_katei2");
-		btnclr_change(document.getElementById("katei2"));
-		makeSelect("これらから言えることはあるでしょうか？<br>図も参考にしながら考えてみましょう。<br>ない場合は「仮定」や「図の性質から言えること」などの、<br>言えること=正しいと分かっていること　が他にないか確認してみましょう。<br>")
-		k1=0;
-		k2=1;
-		fp=0;
+			question_number = 7;
+			beforeXY("div_katei2");
+			btnclr_change(document.getElementById("katei2"));
+			makeSelect("これらから言えることはあるでしょうか？<br>図も参考にしながら考えてみましょう。<br>ない場合は「仮定」や「図の性質から言えること」などの、<br>言えること=正しいと分かっていること　が他にないか確認してみましょう。<br>")
+			k1=0;
+			k2=1;
+			fp=0;
+			write_log("psbtn","f","katei2から何が言えるか？",'','','');
 		}else{
-		var fb_text="まだ仮定を全て書き出せていません。まずは結論と仮定を全て書き出すところからスタートでしたね。";
+			var fb_text="まだ仮定を全て書き出せていません。まずは結論と仮定を全て書き出すところからスタートでしたね。";
 			document.getElementById("diag").innerHTML=fb_text;
-	}
+			write_log("psbtn","f","仮定を全て書き出せていない","",'','');
+		}
 	}else if(mode=="cong"){
 		if(k2==0){
 			k2=1;
@@ -1167,11 +1248,12 @@ function ques7_2(){
 			div_fb.id = "fb2";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb2").innerHTML= fb_text;
+			write_log("psbtn","f","katei2を条件要素に追加","",'','');
 		}
 	}else if(mode=="use_prosp"){
 		diag_history=document.getElementById("diag").innerHTML;
 		document.getElementById("diag").innerHTML='このことから直接、これらの角が等しいことは言えません。戻るボタンを押してから角度が等しいことを言える、直接的なボタンを選びましょう。<p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
-			
+		write_log("psbtn","b","角を等しいことを直接は言えない","","f","")	
 	}else if(mode=="backcong"){
 		if(k2==0){
 			k2=1;
@@ -1180,6 +1262,7 @@ function ques7_2(){
 			div_fb.id = "fb2";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb2").innerHTML= fb_text;
+			write_log("psbtn","b","katei3を条件要素に追加","",'','');
 		}
 	}
 }
@@ -1187,17 +1270,19 @@ function ques7_2(){
 function ques7_pic(){
 	if(mode=="normal"){
 		if(keturonboolean==true){
-		question_number = 7;
-		beforeXY("div_frompic2");
-		btnclr_change(document.getElementById("frompic2"));
-		makeSelect("これらから言えることはあるでしょうか？<br>図も参考にしながら考えてみましょう。<br>ない場合は「仮定」や「図の性質から言えること」などの、<br>言えること=正しいと分かっていること　が他にないか確認してみましょう。<br>")
-		k1=0;
-		k2=0;
-		fp=1;
+			question_number = 7;
+			beforeXY("div_frompic2");
+			btnclr_change(document.getElementById("frompic2"));
+			makeSelect("これらから言えることはあるでしょうか？<br>図も参考にしながら考えてみましょう。<br>ない場合は「仮定」や「図の性質から言えること」などの、<br>言えること=正しいと分かっていること　が他にないか確認してみましょう。<br>")
+			k1=0;
+			k2=0;
+			fp=1;
+			write_log("psbtn","f","frompicから何が言えるか？",'','','');
 		}else{
-		var fb_text="まだ仮定を全て書き出せていません。まずは結論と仮定を全て書き出すところからスタートでしたね。";
+			var fb_text="まだ仮定を全て書き出せていません。まずは結論と仮定を全て書き出すところからスタートでしたね。";
 			document.getElementById("diag").innerHTML=fb_text;
-	}
+			write_log("psbtn","f","仮定を全て書き出せていない","",'','');
+		}
 	}else if(mode=="cong"){
 		if(fp==0){
 			fp=1;
@@ -1206,10 +1291,12 @@ function ques7_pic(){
 			div_fb.id = "fb3";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb3").innerHTML= fb_text;
+			write_log("psbtn","f","frompicを条件要素に追加","",'','');
 		}
 	}else if(mode=="use_prosp"){
 		diag_history=document.getElementById("diag").innerHTML;
 		document.getElementById("diag").innerHTML='このことから直接、これらの角が等しいことは言えません。戻るボタンを押してから角度が等しいことを言える、直接的なボタンを選びましょう。<p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
+		write_log("psbtn","b","角を等しいことを直接は言えない","","f","")
 	}else if(mode=="backcong"){
 		if(fp==0){
 			fp=1;
@@ -1218,6 +1305,7 @@ function ques7_pic(){
 			div_fb.id = "fb3";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb3").innerHTML= fb_text;
+			write_log("psbtn","b","frompicを条件要素に追加","",'','');
 		}
 	}
 }
@@ -1235,16 +1323,17 @@ function ques7_fb(){
 				document.getElementById("diag").innerHTML=congtext;
 				forcong=4;
 				mode="cong";
-				congboolean=true;
-				makeButton("congCond0",150,180,"green",'____________がそれぞれ等しい',"");
+				makeButton("congCond0",150,160,"green",'____________がそれぞれ等しい',"");
 				beforeXY("div_congCond0");
-				makeButton("cong",160,260,"yellow",'△'+rec1+'≡△'+rec2,"ques9()");
+				makeButton("cong",160,230,"yellow",'△'+rec1+'≡△'+rec2,"ques9()");
+				write_log("ans","f",'△'+rec1,'△'+rec2,"t","合同")
 			}else{
 				var fb_text='△'+rec1+'≡△'+rec2+'を言いたいのはいい方向性だと思います。<br>しかし、現時点では'+forcong+'つしか条件がないので三角形の合同を言うことはできません。'
 				var div_fb = document.createElement("div");
 				div_fb.id = "fb";
 				document.getElementById("diag").appendChild(div_fb);
 				document.getElementById("fb").innerHTML= fb_text;
+				write_log("ans","f",'△'+rec1,'△'+rec2,"f","条件足りず");
 			}
 		}else if(boolnum==1){
 			if(forcong==3){
@@ -1253,12 +1342,14 @@ function ques7_fb(){
 				div_fb.id = "fb";
 				document.getElementById("diag").appendChild(div_fb);
 				document.getElementById("fb").innerHTML= fb_text;
+				write_log("ans","f",'△'+rec1,'△'+rec2,"f","対応順違い");
 			}else{
 				var fb_text='△'+rec1+'と△'+rec2+'に目をつけたのはいい方向性だと思います。<br>しかし、現時点では'+forcong+'つしか条件がないので三角形の合同を言うことはできません。加えて「対応順」が違っています。<br>対応順については分からない場合は下記リンクで「合同」について確認しましょう。';
 				var div_fb = document.createElement("div");
 				div_fb.id = "fb";
 				document.getElementById("diag").appendChild(div_fb);
 				document.getElementById("fb").innerHTML= fb_text;
+				write_log("ans","f",'△'+rec1,'△'+rec2,"f","条件足りず");
 			}
 		}else{
 			var fb_text='残念ながら△'+rec1+'≡△'+rec2+'を言うことはできません。<br>「合同であることを使いたい」という方針そのものは正しいです。<br>対応順についても注意しながら打ち間違いの無いよう入力しましょう。';
@@ -1266,6 +1357,7 @@ function ques7_fb(){
 			div_fb.id = "fb";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb").innerHTML= fb_text;
+			write_log("ans","f",'△'+rec1,'△'+rec2,"f","合同言えない");
 		}
 	}else{
 		if(forcong==3){
@@ -1277,6 +1369,7 @@ function ques7_fb(){
 		div_fb.id = "fb";
 		document.getElementById("diag").appendChild(div_fb);
 		document.getElementById("fb").innerHTML= fb_text;
+		write_log("ans","f",'','',"f","言えない");
 	}
 }
 
@@ -1296,93 +1389,108 @@ function ques7_fb2(){
 					</form><br>'
 		document.getElementById("diag").innerHTML=fb_text;
 		beforeXY("div_katei1");
-		makeButton("congCond1",150,180,"green",'____________がそれぞれ等しい',"");
+		makeButton("congCond1",150,160,"green",'____________がそれぞれ等しい',"");
 		beforeXY("div_katei2")
-		makeButton("congCond2",150,180,"green",'____________がそれぞれ等しい',"");
+		makeButton("congCond2",150,160,"green",'____________がそれぞれ等しい',"");
 		beforeXY("div_frompic2")
-		makeButton("congCond3",150,180,"green",'____________がそれぞれ等しい',"");
+		makeButton("congCond3",150,160,"green",'____________がそれぞれ等しい',"");
+		div_clear("congCond2")
+		div_clear("congCond3")
+		makeButton("cong7",160,210,"blue",'△'+rec1+'≡△'+rec2,"ques8()");
+		div_clear("cong7")
+		write_log("ans","f","正しい条件を選択できた","","t","")
 	}else if(k<=2){
 		diag_history=document.getElementById("diag").innerHTML;
 		var fb_text='まだ現時点では，'+toString(k)+'つしか合同を言うための条件が指定されていません。<br>どの合同条件も３つの条件を必要としたはずです。<br>条件と照らし合わせながらもう一度考えてみましょう。<br><p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
 		document.getElementById("diag").innerHTML=fb_text;
+		write_log("ans","f","正しい条件を選択できていない","","f","")
 	}
 }
 
 //合同条件を選んだ後の動作
 function ques7_fb3(){
 	if(document.ques7_fb2_select.elements[0].value==2){
-		document.getElementById("diag").innerHTML='正解です！<br>しっかりと図を見て合同条件を選べています。<br>構造図に合同条件が表示されました。'
-		mode="normal";
-		document.getElementById("div_congCond0").innerHTML='';
-		document.getElementById("div_congCond1").innerHTML='';
-		document.getElementById("div_congCond2").innerHTML='';
-		document.getElementById("div_congCond3").innerHTML='';
-		beforeX=80;
-		beforeY=180;
-		makeButton("congCond",80,180,"green",'二組の辺とその間の角がそれぞれ等しい',"");
+		document.getElementById("diag").innerHTML='正解です！<br>しっかりと図を見て合同条件を選べています。<br>構造図に合同条件が表示されました。<br><br>これで「前向き推論」と「後ろ向き推論」が繋がりましたね。<br>なので構造図作成は終了です。終了ボタンを押して担当の人を呼びましょう。<br><p style="text-align:right"><button type="button" value="output" style="" onclick= "output()">終了</button> </p> <a id="download" target="_blank">ダウンロード（IEでは、右クリック＞対象をファイルに保存）</a>'
+		mode="finish";
+		div_clear("congCond0");
+		div_clear("congCond1");
+		div_clear("congCond2");
+		div_clear("congCond3");
+		beforeX=160;
+		beforeY=170;
+		makeButton("congCond",150,160,"green",'二組の辺とその間の角がそれぞれ等しい',"");
+		write_log("ans","b","合同条件を正しいものを選択","","t","");
 	}else{
 		diag_history=document.getElementById("diag").innerHTML;
 		document.getElementById("diag").innerHTML='残念ながら違います。問題図、その下の合同な図形を取り出す欄も使いながら考え直してみましょう。<br><p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
+		write_log("ans","b","合同条件を誤ったものを選択","","t","");
 	}
 }
-/////////////////question8 後ろ向き推論で来ている合同な三角形ボタンを押した時の動作　合同が現時点で言えるのかを検討して，言えれば結びつけ，言えなければどこを言いたいか？→言えるのか？を考えさせる
+
+
+///////後ろ向きできている合同を押した時
 function ques8(){
 	if(mode=="normal"){
-	document.getElementById("diag").innerHTML='現時点でこの三角形の合同は言えるのでしょうか？現状を踏まえてどのような操作をするか選択しましょう。\
-												<form name="ques8_select">\
-													<select name="thing">\
-														<option value="1">言えるので「言える根拠」を選ぶ</option>\
-														<option value="2">言えないので前向き推論を進める</option>\
-														<option value="4">分からない</option>\
-														<option value="5">諦める</option>\
-													</select>\
-												<input type="button" value="決定" onclick="ques8_fb()">\
-											</form><br>'
-	btnclr_change(document.getElementById("cong"));
+		btnclr_change(document.getElementById("cong"));
+		if(ques1_count==2){
+			question_number =8;
+			var txt='これらの三角形の合同はすでに言えるのでしょうか？<br>\
+					使えるのは前向き推論で「正しいこと」と言えていることです。<br>\
+					右の合同な三角形を取り出す機能も使いながら考えてみましょう。<br><br>\
+						<form name="ques5_select">\
+								<select name="thing">\
+									<option value="1">言えるので「言える根拠」を選ぶ</option>\
+									<option value="2">言えないので前向き推論を進める</option>\
+									<option value="3">分からない</option>\
+								</select>\
+								<input type="button" value="決定" onclick="ques8_2()">\
+							</form><br>'
+			if(document.getElementById){
+				document.getElementById("diag").innerHTML=txt;
+			}
+			write_log("psbtn","b","合同は言えるのか？","","","");
+		}else{
+			var fb_text="まだ仮定を全て書き出せていません。まずは結論と仮定を全て書き出すところからスタートでしたね。";
+			document.getElementById("diag").innerHTML=fb_text;
+			write_log("psbtn","b","仮定を全て書き出せていない","","","");
+		}
+	}else if(mode=="backcong"){
+
+	}
 }
-}
-function ques8_fb(){
-	var ans=document.ques8_select.elements[0].value
-	if(ans=="1"){
-		if(ques1_count==2 && frompic==1){
+
+function ques8_2(){
+	var answer=document.ques5_select.elements[0].value
+	if(answer==1){//言えるって答えた
+		if(forcong==3){
 			//現に言えているのでモードを変更して選択
 			mode="backcong";
-			var fb_text='合同を言うための条件となるボタンを押しましょう。押すと下に表示されます。全て押し終わったらOKのボタンを押しましょう。<p class="button_dec" ><input type="button" value="OK" onclick="ques8_fb2()"></p>';
+			var fb_text='合同を言うための条件となるボタンを押しましょう。押すと下に表示されます。全て押し終わったらOKのボタンを押しましょう。<p class="button_dec" ><input type="button" value="OK" onclick="ques8_fb()"></p>';
 			var div_fb = document.createElement("div");
 			div_fb.id = "fb";
 			document.getElementById("diag").appendChild(div_fb);
 			document.getElementById("fb").innerHTML= fb_text;
 			k1=0;k2=0;fp=0;
+			write_log("ans","b","合同言える",'','t','');
 		}else{
 			//言えると回答したが現段階ではまだ言えていないので、前向き推論を促す
 			diag_history=document.getElementById("diag").innerHTML;
 			document.getElementById("diag").innerHTML='この三角形の合同が言えると回答しましたが、本当にそうでしょうか。<br>残念ながら現時点では条件が足りません。「前向き推論を進めてみる」か「あと何が必要か考える」ことをしてみましょう。<p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
+			write_log("ans","b","合同言える",'','f','');
 		}
-	}else if(ans=="2"){
-		if(ques1_count==2 && frompic==1){
+	}else if(answer==2){
+		if(forcong==3){
 			//もう言えるのに「言えない」と回答した時
 			diag_history=document.getElementById("diag").innerHTML;
 			document.getElementById("diag").innerHTML='本当にまだこの三角形の合同は言えないでしょうか。<br>左の「合同になりそうな三角形を取り出す」機能も使いながら合同が言えているかを考えてみましょう。<br><p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
+			write_log("ans","b","合同言えない",'','f','');
 		}else{
 			//言えないと回答して言えない時
 			document.getElementById("diag").innerHTML='そうですね。現時点では条件が足りないのでこの三角形の合同は言うことができません。よく現状が把握できています。<br>前向き推論を進めましょう。'
+			write_log("ans","b","合同言えない",'','t','');
 		}
-	}/* ここは余裕があったら実装。合同を言うためにはあとはどんな条件が必要になるのか。
-	else if(ans=="3"){
-		if(ques1_count==2 && frompic==1){
-			//だが既に全部わかっている
-			diag_history=document.getElementById("diag").innerHTML;
-			document.getElementById("diag").innerHTML='本当にまだこの三角形の合同は言えないでしょうか。<br>左の「合同になりそうな三角形を取り出す」機能も使いながら合同が本当に言えていないかを考えてみましょう。<br><p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
-		}else if(ques1_count==1 && frompic==1){
-			//仮定が一つ足りない
-			makeSelect('そうですね。現時点では条件が足りないのでこの三角形の合同は言うことができません。よく現状が把握できています。<br> どんなことが言えたら')
-		}else if(ques1_count==2){
-			//frompicがない
-		}
-		
-	}*/
-	else if(ans=="4"){
-		if(ques1_count==2 && frompic==1){
+	}else if(answer==3){
+		if(forcong==3){
 			//だが既に全部わかっている
 			diag_history=document.getElementById("diag").innerHTML;
 			document.getElementById("diag").innerHTML='実はもう合同を言うための条件は揃っています。<br>左の「合同になりそうな三角形を取り出す」機能も使いながら合同が言えているかを考えてみましょう。<br><p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
@@ -1398,23 +1506,61 @@ function ques8_fb(){
 			diag_history=document.getElementById("diag").innerHTML;
 			document.getElementById("diag").innerHTML='現時点では条件が足りません。前向き推論で言えるところがないか考えてみましょう。<br>「仮定」「図形の性質から言えること」で言えていないことがあります。<br>左の「合同になりそうな三角形を取り出す」機能も使いながら合同が言えているかを考えてみましょう。<br><p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'			
 		}
-		
-	}else if(ans=="5"){
-		if(ques1_count==2 && frompic==1){
-			//だが既に全部わかっている
-			diag_history=document.getElementById("diag").innerHTML;
-			document.getElementById("diag").innerHTML='なぜ諦めるのでしょう...？前向き推論、後ろ向き推論、どちらもしっかりと進められています。左の「合同になりそうな三角形を取り出す」機能も使いながら考えてみましょう。<br><p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
-		}else if(ques1_count==1 && frompic==1){
-			//過程が一つ足りない
-			diag_history=document.getElementById("diag").innerHTML;
-			document.getElementById("diag").innerHTML='諦めるのはまだ早いです。<br>あなたは後ろ向き推論をしっかり進めて来れています。現時点では合同を言うための条件が一つ足りていない状態です。仮定を全て洗い出せているか確認してみましょう。<br><p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
-		}else if(ques1_count==2){
-			//frompicがない
-			diag_history=document.getElementById("diag").innerHTML;
-			document.getElementById("diag").innerHTML='諦めるのはまだ早いです。<br>あなたは後ろ向き推論をしっかり進めて来れています。現時点では合同を言うための条件が一つ足りていない状態です。仮定だけでなく「図形の性質から言えること」についても考えてみましょう。<br><p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
-		}
+	write_log("ans","b","合同言えるかわからない",'','','');
 	}
 }
+
+function ques8_fb(){
+	var k=k1+k2+fp;
+	if(k==3){
+		var fb_text='その通りです！正しいものを選択できています。構造図の線が実際につながったと思います。<br>\
+					ではこの合同に使った「合同条件」はどれでしょう？<br><br>\
+					<form name="ques7_fb2_select">\
+						<select name="thing">\
+							<option value="1">三組の辺がそれぞれ等しい</option>\
+							<option value="2">二組の辺とその間の角がそれぞれ等しい</option>\
+							<option value="3">一組の辺とその両端の角がそれぞれ等しい</option>\
+						</select>\
+						<input type="button" value="決定" onclick="ques8_fb3()">\
+					</form><br>'
+		document.getElementById("diag").innerHTML=fb_text;
+		beforeXY("div_katei1");
+		makeButton("congCond1",150,160,"green",'____________がそれぞれ等しい',"");
+		beforeXY("div_katei2")
+		makeButton("congCond2",150,160,"green",'____________がそれぞれ等しい',"");
+		beforeXY("div_frompic2")
+		makeButton("congCond3",150,160,"green",'____________がそれぞれ等しい',"");
+		write_log("ans","f","正しい条件を選択できた","","t","")
+	}else if(k<=2){
+		diag_history=document.getElementById("diag").innerHTML;
+		var fb_text='まだ現時点では，'+toString(k)+'つしか合同を言うための条件が指定されていません。<br>どの合同条件も３つの条件を必要としたはずです。<br>条件と照らし合わせながらもう一度考えてみましょう。<br><p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
+		document.getElementById("diag").innerHTML=fb_text;
+		write_log("ans","f","正しい条件を選択できていない","","f","")
+	}
+}
+
+function ques8_fb3(){
+	if(document.ques7_fb2_select.elements[0].value==2){
+		document.getElementById("diag").innerHTML='正解です！<br>しっかりと図を見て合同条件を選べています。<br>構造図に合同条件が表示されました。<br><br>これで「前向き推論」と「後ろ向き推論」が繋がりましたね。<br>なので構造図作成は終了です。終了ボタンを押して担当の人を呼びましょう。<br><p style="text-align:right"><button type="button" value="output" style="" onclick= "output()">終了</button> </p> <a id="download" target="_blank">ダウンロード（IEでは、右クリック＞対象をファイルに保存）</a>'
+		mode="finish";
+		div_clear("congCond0");
+		div_clear("congCond1");
+		div_clear("congCond2");
+		div_clear("congCond3");
+		beforeX=110;
+		beforeY=230;
+		makeButton("congCond",150,160,"green",'二組の辺とその間の角がそれぞれ等しい',"");
+		write_log("ans","b","合同条件を正しいものを選択","","t","");
+	}else{
+		diag_history=document.getElementById("diag").innerHTML;
+		document.getElementById("diag").innerHTML='残念ながら違います。問題図、その下の合同な図形を取り出す欄も使いながら考え直してみましょう。<br><p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
+		write_log("ans","b","合同条件を誤ったものを選択","","t","");
+	}
+}
+
+
+
+
 
 //言えてる時にOKを押した時の動作
 function ques8_fb2(){
@@ -1431,15 +1577,17 @@ function ques8_fb2(){
 					</form><br>'
 		document.getElementById("diag").innerHTML=fb_text;
 		beforeXY("div_katei1");
-		makeButton("congCond0",150,180,"green",'____________がそれぞれ等しい',""); //ques7に合わせてエラーを吐かないため
-		makeButton("congCond1",150,180,"green",'____________がそれぞれ等しい',"");
+		makeButton("congCond0",150,160,"green",'____________がそれぞれ等しい',""); //ques7に合わせてエラーを吐かないため
+		makeButton("congCond1",150,160,"green",'____________がそれぞれ等しい',"");
 		beforeXY("div_katei2")
-		makeButton("congCond2",150,180,"green",'____________がそれぞれ等しい',"");
+		makeButton("congCond2",150,160,"green",'____________がそれぞれ等しい',"");
 		before("div_frompic2")
-		makeButton("congCond3",150,180,"green",'____________がそれぞれ等しい',"");
+		makeButton("congCond3",150,160,"green",'____________がそれぞれ等しい',"");
+		write_log("ans","b","正しい条件を選択できた","","t","");
 	}else{
 		diag_history=document.getElementById("diag").innerHTML;
 		document.getElementById("diag").innerHTML='まだ合同を言えるだけの条件を選択しきれていません。合同を言うための条件は3つは必要だったはずです。<br><p class="button_dec" ><input type="button" value="戻る" onclick="backHistory()"></p>'
+		write_log("ans","b","条件を選択しきれていない","","f","");
 	}
 }
 
@@ -1448,14 +1596,19 @@ function ques9(){
 	if(mode=="normal"){
 		if(ques5_count==2){
 			document.getElementById("diag").innerHTML='この三角形の合同を利用して何か言えることはありますか？<br>後ろ向き推論と繋がる場合には「後ろ向き推論と結びつける」のボタンを押しましょう。<br><p class="button_dec" ><input type="button" value="後ろ向き推論と結びつける" onclick="ques9_fb()"></p>'
+			write_log("psbtn","f","合同を利用して何か言えるか","","","")
 		}else{
 			document.getElementById("diag").innerHTML='合同な三角形の対応する辺や角は等しいことが分かります。<br>現時点ではこれを使うのか、また使うとすればどこに使うのかが分からないので後ろ向き推論を進めましょう。'
+			write_log("psbtn","f","合同言えるけど先には進めない","","","")
 		}
 		btnclr_change(document.getElementById("cong"));
 	}else if(mode=="use_prosp"){
-		document.getElementById("diag").innerHTML='そうですね！合同な図形の対応する角は等しいですね！<br>さてこれで、仮定側からの前向き推論と結論からの後ろ向き推論が繋がりました。<br>時間に余裕があれば証明を記述しましょう。'
-		stLine(beforeX+40,beforeY+10,160+40,230+10);
+		document.getElementById("diag").innerHTML='そうですね！合同な図形の対応する角は等しいですね！<br>さてこれで、仮定側からの前向き推論と結論からの後ろ向き推論が繋がりました。終了ボタンを押して担当の人を呼びましょう。<br><p style="text-align:right"><button type="button" value="output" style="" onclick= "output()">終了</button> </p> <a id="download" target="_blank">ダウンロード（IEでは、右クリック＞対象をファイルに保存）</a>'
+		makeButton("taiokaku",120,260,"green","合同な図形の対応する角は等しい","");
+		beforeXY("div_taiokaku");
+		stLine(beforeX+40,beforeY+10,160+40,260+10);
 		mode="finish";
+		write_log("psbtn","b","前からの合同と結びついた","","t","");
 	}else if(mode=="backcong"){
 
 	}
@@ -1469,6 +1622,7 @@ function ques9_fb(){
 	div_fb.id = "fb";
 	document.getElementById("diag").appendChild(div_fb);
 	document.getElementById("fb").innerHTML= fb_text;
+	write_log("psbtn","f","後ろ向きと結びつける","","","");
 }
 
 //////////////合同になりそうな三角形を取り出す/////////////
@@ -1483,14 +1637,17 @@ function takeout0(){
 	var boolnum=tri_cor(rec1,rec2,"AMQ","BMP");
 	if(boolnum==0){
 		document.getElementById("div_seppic").innerHTML='<img src="q6_image/pic_q6_sep.jpg" alt="問題図" style="width: 330px;">'
-		document.getElementById("button_seppic").innerHTML='<button type="button" class="button_yellow" value="katei" onclick= "mark()">現在わかっているところまで印をつける</button><br>'
+		document.getElementById("button_seppic").innerHTML='<button type="button" class="button_sg" value="katei" onclick= "mark()">現在わかっているところまで印をつける</button><br>'
+		write_log("sep","f",'△'+rec1,'△'+rec2,'t','');	
 	}else if(boolnum==1){
 		fb_text='△'+rec1+'と△'+rec2+'の合同について考えたのは適切です。<br>しかし、「対応順」が違っています。<input type="button" value="戻る" onclick="seppicback()">';
 		document.getElementById("button_seppic").innerHTML=fb_text;
+		write_log("sep","f",'△'+rec1,'△'+rec2,'f','');
 	}else{
 		var fb_text='残念ながらその三角形は合同ではありません。もう一度図を確認しながら打ち間違いの無いように入力しましょう。<input type="button" value="戻る" onclick="seppicback()">';
 		document.getElementById("button_seppic").innerHTML=fb_text;
-		}
+		write_log("sep","f",'△'+rec1,'△'+rec2,'f','');
+	}
 }
 
 function mark(){
@@ -1518,4 +1675,5 @@ function mark(){
 	}else{
 
 	}
+	write_log("mark","f",'','','','');
 }
